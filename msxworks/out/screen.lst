@@ -1,0 +1,1271 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.6.0 #16555 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module screen
+                                      6 	
+                                      7 	.optsdcc -mz80 sdcccall(1)
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _DOS_InterSlotCall
+                                     12 	.globl _DOS_CharOutput
+                                     13 	.globl _g_ScrBlink
+                                     14 	.globl _DOS_TPAUpperAddr
+                                     15 	.globl _g_SLTSL
+                                     16 	.globl _g_GRPACY
+                                     17 	.globl _g_GRPACX
+                                     18 	.globl _g_LOGOPR
+                                     19 	.globl _g_CMASK
+                                     20 	.globl _g_CLOC
+                                     21 	.globl _g_FNKSTR
+                                     22 	.globl _g_GETPNT
+                                     23 	.globl _g_PUTPNT
+                                     24 	.globl _g_ATRBYT
+                                     25 	.globl _g_BDRCLR
+                                     26 	.globl _g_BAKCLR
+                                     27 	.globl _g_FORCLR
+                                     28 	.globl _g_CSRX
+                                     29 	.globl _g_CSRY
+                                     30 	.globl _g_CLIKSW
+                                     31 	.globl _g_MLTPAT
+                                     32 	.globl _g_MLTATR
+                                     33 	.globl _g_MLTCGP
+                                     34 	.globl _g_MLTCOL
+                                     35 	.globl _g_MLTNAM
+                                     36 	.globl _g_GRPPAT
+                                     37 	.globl _g_GRPATR
+                                     38 	.globl _g_GRPCGP
+                                     39 	.globl _g_GRPCOL
+                                     40 	.globl _g_GRPNAM
+                                     41 	.globl _g_T32PAT
+                                     42 	.globl _g_T32ATR
+                                     43 	.globl _g_T32CGP
+                                     44 	.globl _g_T32COL
+                                     45 	.globl _g_T32NAM
+                                     46 	.globl _g_TXTPAT
+                                     47 	.globl _g_TXTATR
+                                     48 	.globl _g_TXTCGP
+                                     49 	.globl _g_TXTCOL
+                                     50 	.globl _g_TXTNAM
+                                     51 	.globl _g_CLMLST
+                                     52 	.globl _g_CRTCNT
+                                     53 	.globl _g_LINLEN
+                                     54 	.globl _g_LINL32
+                                     55 	.globl _g_LINL40
+                                     56 	.globl _g_BDOS
+                                     57 	.globl _g_MASTER
+                                     58 	.globl _g_RAMAD3
+                                     59 	.globl _g_RAMAD2
+                                     60 	.globl _g_RAMAD1
+                                     61 	.globl _g_RAMAD0
+                                     62 	.globl _g_BREAKV
+                                     63 	.globl _g_DISKVE
+                                     64 	.globl _g_KANJTABLE
+                                     65 	.globl _g_STRSRC
+                                     66 	.globl _g_SUBRID
+                                     67 	.globl _g_CHAR_16
+                                     68 	.globl _g_MSXMID
+                                     69 	.globl _g_MSXVER
+                                     70 	.globl _g_ROMVersion
+                                     71 	.globl _g_BASRVN
+                                     72 	.globl _g_VDP_DW
+                                     73 	.globl _g_VDP_DR
+                                     74 	.globl _g_CGTABL
+                                     75 	.globl _g_SVFFFD
+                                     76 	.globl _g_RG27SAV
+                                     77 	.globl _g_RG26SAV
+                                     78 	.globl _g_RG25SAV
+                                     79 	.globl _g_SVFFF8
+                                     80 	.globl _g_MINROM
+                                     81 	.globl _g_RG23SAV
+                                     82 	.globl _g_RG22SAV
+                                     83 	.globl _g_RG21SAV
+                                     84 	.globl _g_RG20SAV
+                                     85 	.globl _g_RG19SAV
+                                     86 	.globl _g_RG18SAV
+                                     87 	.globl _g_RG17SAV
+                                     88 	.globl _g_RG16SAV
+                                     89 	.globl _g_RG15SAV
+                                     90 	.globl _g_RG14SAV
+                                     91 	.globl _g_RG13SAV
+                                     92 	.globl _g_RG12SAV
+                                     93 	.globl _g_RG11SAV
+                                     94 	.globl _g_RG10SAV
+                                     95 	.globl _g_RG09SAV
+                                     96 	.globl _g_RG08SAV
+                                     97 	.globl _g_PROCNM
+                                     98 	.globl _g_SLTWRK
+                                     99 	.globl _g_SLTATR
+                                    100 	.globl _g_SLTTBL
+                                    101 	.globl _g_EXPTBL
+                                    102 	.globl _g_MNROM
+                                    103 	.globl _g_DRWANG
+                                    104 	.globl _g_DRWSCL
+                                    105 	.globl _g_DRWFLG
+                                    106 	.globl _g_GYPOS
+                                    107 	.globl _g_GXPOS
+                                    108 	.globl _g_BRDATR
+                                    109 	.globl _g_CASPRV
+                                    110 	.globl _g_OLDSCR
+                                    111 	.globl _g_SCRMOD
+                                    112 	.globl _g_FLBMEM
+                                    113 	.globl _g_KANAMD
+                                    114 	.globl _g_KANAST
+                                    115 	.globl _g_CAPST
+                                    116 	.globl _g_CSTYLE
+                                    117 	.globl _g_CSRSW
+                                    118 	.globl _g_INSFLG
+                                    119 	.globl _g_ESCCNT
+                                    120 	.globl _g_GRPHED
+                                    121 	.globl _g_WINWID
+                                    122 	.globl _g_LOWLIM
+                                    123 	.globl _g_INTCNT
+                                    124 	.globl _g_INTVAL
+                                    125 	.globl _g_JIFFY
+                                    126 	.globl _g_PADX
+                                    127 	.globl _g_PADY
+                                    128 	.globl _g_INTFLG
+                                    129 	.globl _g_RTYCNT
+                                    130 	.globl _g_TRPTBL
+                                    131 	.globl _g_HIMEM
+                                    132 	.globl _g_BOTTOM
+                                    133 	.globl _g_PATWRK
+                                    134 	.globl _g_LINWRK
+                                    135 	.globl _g_KEYBUF
+                                    136 	.globl _g_NEWKEY
+                                    137 	.globl _g_OLDKEY
+                                    138 	.globl _g_CLIKFL
+                                    139 	.globl _g_ONGSBF
+                                    140 	.globl _g_FNKFLG
+                                    141 	.globl _g_FNKSWI
+                                    142 	.globl _g_CODSAV
+                                    143 	.globl _g_FSTPOS
+                                    144 	.globl _g_LINTTB
+                                    145 	.globl _g_BASROM
+                                    146 	.globl _g_ENSTOP
+                                    147 	.globl _g_VCBC
+                                    148 	.globl _g_VCBB
+                                    149 	.globl _g_VCBA
+                                    150 	.globl _g_PLYCNT
+                                    151 	.globl _g_MUSICF
+                                    152 	.globl _g_QUEUEN
+                                    153 	.globl _g_MCLPTR
+                                    154 	.globl _g_MCLLEN
+                                    155 	.globl _g_SAVVOL
+                                    156 	.globl _g_VOICEN
+                                    157 	.globl _g_SAVSP
+                                    158 	.globl _g_PRSCNT
+                                    159 	.globl _g_LSTMOD
+                                    160 	.globl _g_LSTCOM
+                                    161 	.globl _g_COMMSK
+                                    162 	.globl _g_ESTBLS
+                                    163 	.globl _g_FLAGS
+                                    164 	.globl _g_ERRORS
+                                    165 	.globl _g_DATCNT
+                                    166 	.globl _g_DEVNUM
+                                    167 	.globl _g_OLDINT
+                                    168 	.globl _g_OLDSTT
+                                    169 	.globl _g_MEXBIh
+                                    170 	.globl _g_RSIQLN
+                                    171 	.globl _g_RSFCB
+                                    172 	.globl _g_TOCNT
+                                    173 	.globl _g_RSTMP
+                                    174 	.globl _g_YSAVE
+                                    175 	.globl _g_XSAVE
+                                    176 	.globl _g_NORUSE
+                                    177 	.globl _g_MODE
+                                    178 	.globl _g_ROMA
+                                    179 	.globl _g_CHRCNT
+                                    180 	.globl _g_EXBRSA
+                                    181 	.globl _g_AVCSAV
+                                    182 	.globl _g_ACPAGE
+                                    183 	.globl _g_DPPAGE
+                                    184 	.globl _g_RS2IQ
+                                    185 	.globl _g_VOICCQ
+                                    186 	.globl _g_VOICBQ
+                                    187 	.globl _g_VOICAQ
+                                    188 	.globl _g_QUEBAK
+                                    189 	.globl _g_QUETAB
+                                    190 	.globl _g_ASPCT2
+                                    191 	.globl _g_ASPCT1
+                                    192 	.globl _g_HEADER
+                                    193 	.globl _g_HIGH
+                                    194 	.globl _g_LOW
+                                    195 	.globl _g_CS240
+                                    196 	.globl _g_CS120
+                                    197 	.globl _g_REPCNT
+                                    198 	.globl _g_SCNCNT
+                                    199 	.globl _g_FRCNEW
+                                    200 	.globl _g_QUEUES
+                                    201 	.globl _g_MINUPD
+                                    202 	.globl _g_MAXUPD
+                                    203 	.globl _g_TRGFLG
+                                    204 	.globl _g_STATFL
+                                    205 	.globl _g_RG7SAV
+                                    206 	.globl _g_RG6SAV
+                                    207 	.globl _g_RG5SAV
+                                    208 	.globl _g_RG4SAV
+                                    209 	.globl _g_RG3SAV
+                                    210 	.globl _g_RG2SAV
+                                    211 	.globl _g_RG1SAV
+                                    212 	.globl _g_RG0SAV
+                                    213 	.globl _g_CNSDFG
+                                    214 	.globl _g_USRTAB
+                                    215 	.globl _g_CLPRIM
+                                    216 	.globl _g_WRPRIM
+                                    217 	.globl _g_RDPRIM
+                                    218 	.globl _Scr_SetReg
+                                    219 	.globl _Scr_SetWriteAddr
+                                    220 	.globl _Scr_Locate
+                                    221 	.globl _Scr_PutChar
+                                    222 	.globl _Scr_Puts
+                                    223 	.globl _Scr_Write
+                                    224 	.globl _Scr_Fill
+                                    225 	.globl _Scr_ClearBlink
+                                    226 	.globl _Scr_SetBlink
+                                    227 	.globl _Scr_DrawWindow
+                                    228 	.globl _Scr_DrawSeparator
+                                    229 	.globl _Scr_Clear
+                                    230 	.globl _Scr_Init
+                                    231 	.globl _Scr_Restore
+                                    232 ;--------------------------------------------------------
+                                    233 ; special function registers
+                                    234 ;--------------------------------------------------------
+                         000000A0   235 _g_PSG_RegPort	=	0x00a0
+                         000000A1   236 _g_PSG_DataPort	=	0x00a1
+                         000000A2   237 _g_PSG_StatPort	=	0x00a2
+                         00000010   238 _g_PSG_Ext_RegPort	=	0x0010
+                         00000011   239 _g_PSG_Ext_DataPort	=	0x0011
+                         00000012   240 _g_PSG_Ext_StatPort	=	0x0012
+                         00000090   241 _g_Printer_ControlPort	=	0x0090
+                         00000091   242 _g_Printer_DataPort	=	0x0091
+                         0000007C   243 _g_MSXMusic_IndexPort	=	0x007c
+                         0000007D   244 _g_MSXMusic_DataPort	=	0x007d
+                         00000098   245 _g_VDP_DataPort	=	0x0098
+                         00000099   246 _g_VDP_RegPort	=	0x0099
+                         00000099   247 _g_VDP_AddrPort	=	0x0099
+                         00000099   248 _g_VDP_StatPort	=	0x0099
+                         0000009A   249 _g_VDP_PalPort	=	0x009a
+                         0000009B   250 _g_VDP_IRegPort	=	0x009b
+                         000000A8   251 _g_PortPrimarySlot	=	0x00a8
+                         000000A9   252 _g_PortReadKeyboard	=	0x00a9
+                         000000AA   253 _g_PortAccessKeyboard	=	0x00aa
+                         000000AB   254 _g_PortControl	=	0x00ab
+                         000000B4   255 _g_RTC_AddrPort	=	0x00b4
+                         000000B5   256 _g_RTC_DataPort	=	0x00b5
+                         000000C0   257 _g_MSXAudio_IndexPort	=	0x00c0
+                         000000C1   258 _g_MSXAudio_DataPort	=	0x00c1
+                         000000C2   259 _g_MSXAudio_IndexPort2	=	0x00c2
+                         000000C3   260 _g_MSXAudio_DataPort2	=	0x00c3
+                         000000D8   261 _g_Kanji_Level1LowPort	=	0x00d8
+                         000000D9   262 _g_Kanji_Level1HighPort	=	0x00d9
+                         000000DA   263 _g_Kanji_Level2LowPort	=	0x00da
+                         000000DB   264 _g_Kanji_Level2HighPort	=	0x00db
+                         000000E6   265 _g_TimerLowPort	=	0x00e6
+                         000000E7   266 _g_TimerHighPort	=	0x00e7
+                                    267 ;--------------------------------------------------------
+                                    268 ; ram data
+                                    269 ;--------------------------------------------------------
+                                    270 	.area _DATA
+                         0000F3AE   271 _g_LINL40	=	0xf3ae
+                         0000F3AF   272 _g_LINL32	=	0xf3af
+                         0000F3B0   273 _g_LINLEN	=	0xf3b0
+                         0000F3B1   274 _g_CRTCNT	=	0xf3b1
+                         0000F3B2   275 _g_CLMLST	=	0xf3b2
+                         0000F3B3   276 _g_TXTNAM	=	0xf3b3
+                         0000F3B5   277 _g_TXTCOL	=	0xf3b5
+                         0000F3B7   278 _g_TXTCGP	=	0xf3b7
+                         0000F3B9   279 _g_TXTATR	=	0xf3b9
+                         0000F3BB   280 _g_TXTPAT	=	0xf3bb
+                         0000F3BD   281 _g_T32NAM	=	0xf3bd
+                         0000F3BF   282 _g_T32COL	=	0xf3bf
+                         0000F3C1   283 _g_T32CGP	=	0xf3c1
+                         0000F3C3   284 _g_T32ATR	=	0xf3c3
+                         0000F3C5   285 _g_T32PAT	=	0xf3c5
+                         0000F3C7   286 _g_GRPNAM	=	0xf3c7
+                         0000F3C9   287 _g_GRPCOL	=	0xf3c9
+                         0000F3CB   288 _g_GRPCGP	=	0xf3cb
+                         0000F3CD   289 _g_GRPATR	=	0xf3cd
+                         0000F3CF   290 _g_GRPPAT	=	0xf3cf
+                         0000F3D1   291 _g_MLTNAM	=	0xf3d1
+                         0000F3D3   292 _g_MLTCOL	=	0xf3d3
+                         0000F3D5   293 _g_MLTCGP	=	0xf3d5
+                         0000F3D7   294 _g_MLTATR	=	0xf3d7
+                         0000F3D9   295 _g_MLTPAT	=	0xf3d9
+                         0000F3DB   296 _g_CLIKSW	=	0xf3db
+                         0000F3DC   297 _g_CSRY	=	0xf3dc
+                         0000F3DD   298 _g_CSRX	=	0xf3dd
+                         0000F3E9   299 _g_FORCLR	=	0xf3e9
+                         0000F3EA   300 _g_BAKCLR	=	0xf3ea
+                         0000F3EB   301 _g_BDRCLR	=	0xf3eb
+                         0000F3F2   302 _g_ATRBYT	=	0xf3f2
+                         0000F3F8   303 _g_PUTPNT	=	0xf3f8
+                         0000F3FA   304 _g_GETPNT	=	0xf3fa
+                         0000F87F   305 _g_FNKSTR	=	0xf87f
+                         0000F92A   306 _g_CLOC	=	0xf92a
+                         0000F92C   307 _g_CMASK	=	0xf92c
+                         0000FB02   308 _g_LOGOPR	=	0xfb02
+                         0000FCB7   309 _g_GRPACX	=	0xfcb7
+                         0000FCB9   310 _g_GRPACY	=	0xfcb9
+                         0000FFFF   311 _g_SLTSL	=	0xffff
+                         00000006   312 _DOS_TPAUpperAddr	=	0x0006
+    00000000                        313 _g_ScrBlink::
+    00000000                        314 	.ds 240
+    000000F0                        315 _s_SavLINL40:
+    000000F0                        316 	.ds 1
+    000000F1                        317 _s_SavFORCLR:
+    000000F1                        318 	.ds 1
+    000000F2                        319 _s_SavBAKCLR:
+    000000F2                        320 	.ds 1
+    000000F3                        321 _s_SavBDRCLR:
+    000000F3                        322 	.ds 1
+    000000F4                        323 _s_SavRG12:
+    000000F4                        324 	.ds 1
+                                    325 ;--------------------------------------------------------
+                                    326 ; ram data
+                                    327 ;--------------------------------------------------------
+                                    328 	.area _INITIALIZED
+                                    329 ;--------------------------------------------------------
+                                    330 ; absolute ram data
+                                    331 ;--------------------------------------------------------
+                                    332 	.area _DABS (ABS)
+                                    333 	.area _DABS (ABS)
+                                    334 ;--------------------------------------------------------
+                                    335 ; global & static initialisations
+                                    336 ;--------------------------------------------------------
+                                    337 	.area _HOME
+                                    338 	.area _GSINIT
+                                    339 	.area _GSFINAL
+                                    340 	.area _GSINIT
+                                    341 ;--------------------------------------------------------
+                                    342 ; Home
+                                    343 ;--------------------------------------------------------
+                                    344 	.area _HOME
+                                    345 	.area _HOME
+                                    346 ;--------------------------------------------------------
+                                    347 ; code
+                                    348 ;--------------------------------------------------------
+                                    349 	.area _CODE
+                                    350 ;./screen.c:37: void Scr_SetReg(u8 reg, u8 val) __NAKED
+                                    351 ;	---------------------------------
+                                    352 ; Function Scr_SetReg
+                                    353 ; ---------------------------------
+    00000000                        354 _Scr_SetReg::
+                                    355 ;./screen.c:52: __endasm;
+    00000000 47               [ 4]  356 	ld b, a
+    00000001 7D               [ 4]  357 	ld a, l
+    00000002 F3               [ 4]  358 	di
+    00000003 D3 99            [11]  359 	out (0x99), a
+    00000005 78               [ 4]  360 	ld a, b
+    00000006 F6 80            [ 7]  361 	or #0x80
+    00000008 FB               [ 4]  362 	ei
+    00000009 D3 99            [11]  363 	out (0x99), a
+    0000000B C9               [10]  364 	ret
+                                    365 ;./screen.c:53: }
+                                    366 ;./screen.c:57: void Scr_SetWriteAddr(u16 addr) __NAKED
+                                    367 ;	---------------------------------
+                                    368 ; Function Scr_SetWriteAddr
+                                    369 ; ---------------------------------
+    0000000C                        370 _Scr_SetWriteAddr::
+                                    371 ;./screen.c:71: __endasm;
+    0000000C 7D               [ 4]  372 	ld a, l
+    0000000D F3               [ 4]  373 	di
+    0000000E D3 99            [11]  374 	out (0x99), a
+    00000010 7C               [ 4]  375 	ld a, h
+    00000011 E6 3F            [ 7]  376 	and #0x3F
+    00000013 F6 40            [ 7]  377 	or #0x40
+    00000015 FB               [ 4]  378 	ei
+    00000016 D3 99            [11]  379 	out (0x99), a
+    00000018 C9               [10]  380 	ret
+                                    381 ;./screen.c:72: }
+                                    382 ;./screen.c:76: void Scr_Locate(u8 x, u8 y) __NAKED
+                                    383 ;	---------------------------------
+                                    384 ; Function Scr_Locate
+                                    385 ; ---------------------------------
+    00000019                        386 _Scr_Locate::
+                                    387 ;./screen.c:96: __endasm;
+    00000019 5F               [ 4]  388 	ld e, a
+    0000001A 16 00            [ 7]  389 	ld d, #0
+    0000001C 62               [ 4]  390 	ld h, d
+    0000001D 29               [11]  391 	add hl, hl
+    0000001E 29               [11]  392 	add hl, hl
+    0000001F 29               [11]  393 	add hl, hl
+    00000020 29               [11]  394 	add hl, hl
+    00000021 44               [ 4]  395 	ld b, h
+    00000022 4D               [ 4]  396 	ld c, l
+    00000023 29               [11]  397 	add hl, hl
+    00000024 29               [11]  398 	add hl, hl
+    00000025 09               [11]  399 	add hl, bc
+    00000026 19               [11]  400 	add hl, de
+    00000027 C3r0Cr00         [10]  401 	jp _Scr_SetWriteAddr
+                                    402 ;./screen.c:97: }
+                                    403 ;./screen.c:101: void Scr_PutChar(c8 chr) __NAKED
+                                    404 ;	---------------------------------
+                                    405 ; Function Scr_PutChar
+                                    406 ; ---------------------------------
+    0000002A                        407 _Scr_PutChar::
+                                    408 ;./screen.c:108: __endasm;
+    0000002A D3 98            [11]  409 	out (0x98), a
+    0000002C C9               [10]  410 	ret
+                                    411 ;./screen.c:109: }
+                                    412 ;./screen.c:113: void Scr_Puts(const c8* str) __NAKED
+                                    413 ;	---------------------------------
+                                    414 ; Function Scr_Puts
+                                    415 ; ---------------------------------
+    0000002D                        416 _Scr_Puts::
+                                    417 ;./screen.c:130: __endasm;
+    0000002D                        418 scr_puts_loop:
+    0000002D 7E               [ 7]  419 	ld a, (hl)
+    0000002E B7               [ 4]  420 	or a
+    0000002F C8               [11]  421 	ret z
+    00000030 D3 98            [11]  422 	out (0x98), a
+    00000032 23               [ 6]  423 	inc hl
+    00000033 7E               [ 7]  424 	ld a, (hl)
+    00000034 B7               [ 4]  425 	or a
+    00000035 C8               [11]  426 	ret z
+    00000036 D3 98            [11]  427 	out (0x98), a
+    00000038 23               [ 6]  428 	inc hl
+    00000039 C3r2Dr00         [10]  429 	jp scr_puts_loop
+                                    430 ;./screen.c:131: }
+                                    431 ;./screen.c:137: void Scr_Write(const void* src, u16 len) __NAKED
+                                    432 ;	---------------------------------
+                                    433 ; Function Scr_Write
+                                    434 ; ---------------------------------
+    0000003C                        435 _Scr_Write::
+                                    436 ;./screen.c:158: __endasm;
+    0000003C 0E 98            [ 7]  437 	ld c, #0x98
+    0000003E 43               [ 4]  438 	ld b, e
+    0000003F 04               [ 4]  439 	inc b
+    00000040 05               [ 4]  440 	dec b
+    00000041 28 02            [12]  441 	jr z, scr_write_blocks
+    00000043 ED B3            [21]  442 	otir
+    00000045                        443 scr_write_blocks:
+    00000045 7A               [ 4]  444 	ld a, d
+    00000046 B7               [ 4]  445 	or a
+    00000047 C8               [11]  446 	ret z
+    00000048                        447 scr_write_loop:
+    00000048 ED B3            [21]  448 	otir
+    0000004A 15               [ 4]  449 	dec d
+    0000004B 20 FB            [12]  450 	jr nz, scr_write_loop
+    0000004D C9               [10]  451 	ret
+                                    452 ;./screen.c:159: }
+                                    453 ;./screen.c:166: void Scr_Fill(u8 chr, u16 len) __NAKED
+                                    454 ;	---------------------------------
+                                    455 ; Function Scr_Fill
+                                    456 ; ---------------------------------
+    0000004E                        457 _Scr_Fill::
+                                    458 ;./screen.c:223: __endasm;
+    0000004E 4F               [ 4]  459 	ld c, a
+    0000004F 7B               [ 4]  460 	ld a, e
+    00000050 E6 07            [ 7]  461 	and #0x07
+    00000052 47               [ 4]  462 	ld b, a
+    00000053 CB 3A            [ 8]  463 	srl d
+    00000055 CB 1B            [ 8]  464 	rr e
+    00000057 CB 3A            [ 8]  465 	srl d
+    00000059 CB 1B            [ 8]  466 	rr e
+    0000005B CB 3A            [ 8]  467 	srl d
+    0000005D CB 1B            [ 8]  468 	rr e
+    0000005F 79               [ 4]  469 	ld a, c
+    00000060 04               [ 4]  470 	inc b
+    00000061 05               [ 4]  471 	dec b
+    00000062 28 04            [12]  472 	jr z, scr_fill_blocks
+    00000064                        473 scr_fill_rest:
+    00000064 D3 98            [11]  474 	out (0x98), a
+    00000066 10 FC            [13]  475 	djnz scr_fill_rest
+    00000068                        476 scr_fill_blocks:
+    00000068 7A               [ 4]  477 	ld a, d
+    00000069 B3               [ 4]  478 	or e
+    0000006A C8               [11]  479 	ret z
+    0000006B 79               [ 4]  480 	ld a, c
+    0000006C                        481 scr_fill_loop:
+    0000006C D3 98            [11]  482 	out (0x98), a
+    0000006E 00               [ 4]  483 	nop
+    0000006F 00               [ 4]  484 	nop
+    00000070 D3 98            [11]  485 	out (0x98), a
+    00000072 00               [ 4]  486 	nop
+    00000073 00               [ 4]  487 	nop
+    00000074 D3 98            [11]  488 	out (0x98), a
+    00000076 00               [ 4]  489 	nop
+    00000077 00               [ 4]  490 	nop
+    00000078 D3 98            [11]  491 	out (0x98), a
+    0000007A 00               [ 4]  492 	nop
+    0000007B 00               [ 4]  493 	nop
+    0000007C D3 98            [11]  494 	out (0x98), a
+    0000007E 00               [ 4]  495 	nop
+    0000007F 00               [ 4]  496 	nop
+    00000080 D3 98            [11]  497 	out (0x98), a
+    00000082 00               [ 4]  498 	nop
+    00000083 00               [ 4]  499 	nop
+    00000084 D3 98            [11]  500 	out (0x98), a
+    00000086 00               [ 4]  501 	nop
+    00000087 00               [ 4]  502 	nop
+    00000088 D3 98            [11]  503 	out (0x98), a
+    0000008A 1B               [ 6]  504 	dec de
+    0000008B 7A               [ 4]  505 	ld a, d
+    0000008C B3               [ 4]  506 	or e
+    0000008D 79               [ 4]  507 	ld a, c
+    0000008E C2r6Cr00         [10]  508 	jp nz, scr_fill_loop
+    00000091 C9               [10]  509 	ret
+                                    510 ;./screen.c:224: }
+                                    511 ;./screen.c:232: void Scr_ClearBlink()
+                                    512 ;	---------------------------------
+                                    513 ; Function Scr_ClearBlink
+                                    514 ; ---------------------------------
+    00000092                        515 _Scr_ClearBlink::
+                                    516 ;./screen.c:234: for (u8 i = 0; i < SCR_BLINK_SIZE; ++i)
+    00000092 0E 00            [ 7]  517 	ld	c, #0x00
+    00000094                        518 00103$:
+    00000094 79               [ 4]  519 	ld	a, c
+    00000095 D6 F0            [ 7]  520 	sub	a, #0xf0
+    00000097 30 0B            [12]  521 	jr	nc, 00101$
+                                    522 ;./screen.c:235: g_ScrBlink[i] = 0;
+    00000099 21r00r00         [10]  523 	ld	hl, #_g_ScrBlink
+    0000009C 06 00            [ 7]  524 	ld	b, #0x00
+    0000009E 09               [11]  525 	add	hl, bc
+    0000009F 36 00            [10]  526 	ld	(hl), #0x00
+                                    527 ;./screen.c:234: for (u8 i = 0; i < SCR_BLINK_SIZE; ++i)
+    000000A1 0C               [ 4]  528 	inc	c
+    000000A2 18 F0            [12]  529 	jr	00103$
+    000000A4                        530 00101$:
+                                    531 ;./screen.c:236: Scr_SetWriteAddr(SCR_BLINK_ADDR);
+    000000A4 21 00 08         [10]  532 	ld	hl, #0x0800
+    000000A7 CDr0Cr00         [17]  533 	call	_Scr_SetWriteAddr
+                                    534 ;./screen.c:237: Scr_Fill(0, SCR_BLINK_SIZE);
+    000000AA 11 F0 00         [10]  535 	ld	de, #0x00f0
+    000000AD AF               [ 4]  536 	xor	a, a
+                                    537 ;./screen.c:238: }
+    000000AE C3r4Er00         [10]  538 	jp	_Scr_Fill
+                         0000F380   539 _g_RDPRIM	=	0xf380
+                         0000F385   540 _g_WRPRIM	=	0xf385
+                         0000F38C   541 _g_CLPRIM	=	0xf38c
+                         0000F39A   542 _g_USRTAB	=	0xf39a
+                         0000F3DE   543 _g_CNSDFG	=	0xf3de
+                         0000F3DF   544 _g_RG0SAV	=	0xf3df
+                         0000F3E0   545 _g_RG1SAV	=	0xf3e0
+                         0000F3E1   546 _g_RG2SAV	=	0xf3e1
+                         0000F3E2   547 _g_RG3SAV	=	0xf3e2
+                         0000F3E3   548 _g_RG4SAV	=	0xf3e3
+                         0000F3E4   549 _g_RG5SAV	=	0xf3e4
+                         0000F3E5   550 _g_RG6SAV	=	0xf3e5
+                         0000F3E6   551 _g_RG7SAV	=	0xf3e6
+                         0000F3E7   552 _g_STATFL	=	0xf3e7
+                         0000F3E8   553 _g_TRGFLG	=	0xf3e8
+                         0000F3EC   554 _g_MAXUPD	=	0xf3ec
+                         0000F3EF   555 _g_MINUPD	=	0xf3ef
+                         0000F3F3   556 _g_QUEUES	=	0xf3f3
+                         0000F3F5   557 _g_FRCNEW	=	0xf3f5
+                         0000F3F6   558 _g_SCNCNT	=	0xf3f6
+                         0000F3F7   559 _g_REPCNT	=	0xf3f7
+                         0000F3FC   560 _g_CS120	=	0xf3fc
+                         0000F401   561 _g_CS240	=	0xf401
+                         0000F406   562 _g_LOW	=	0xf406
+                         0000F408   563 _g_HIGH	=	0xf408
+                         0000F40A   564 _g_HEADER	=	0xf40a
+                         0000F40B   565 _g_ASPCT1	=	0xf40b
+                         0000F40D   566 _g_ASPCT2	=	0xf40d
+                         0000F959   567 _g_QUETAB	=	0xf959
+                         0000F971   568 _g_QUEBAK	=	0xf971
+                         0000F975   569 _g_VOICAQ	=	0xf975
+                         0000F9F5   570 _g_VOICBQ	=	0xf9f5
+                         0000FA75   571 _g_VOICCQ	=	0xfa75
+                         0000FAF5   572 _g_RS2IQ	=	0xfaf5
+                         0000FAF5   573 _g_DPPAGE	=	0xfaf5
+                         0000FAF6   574 _g_ACPAGE	=	0xfaf6
+                         0000FAF7   575 _g_AVCSAV	=	0xfaf7
+                         0000FAF8   576 _g_EXBRSA	=	0xfaf8
+                         0000FAF9   577 _g_CHRCNT	=	0xfaf9
+                         0000FAFA   578 _g_ROMA	=	0xfafa
+                         0000FAFC   579 _g_MODE	=	0xfafc
+                         0000FAFD   580 _g_NORUSE	=	0xfafd
+                         0000FAFE   581 _g_XSAVE	=	0xfafe
+                         0000FB00   582 _g_YSAVE	=	0xfb00
+                         0000FB03   583 _g_RSTMP	=	0xfb03
+                         0000FB03   584 _g_TOCNT	=	0xfb03
+                         0000FB04   585 _g_RSFCB	=	0xfb04
+                         0000FB06   586 _g_RSIQLN	=	0xfb06
+                         0000FB07   587 _g_MEXBIh	=	0xfb07
+                         0000FB0C   588 _g_OLDSTT	=	0xfb0c
+                         0000FB0C   589 _g_OLDINT	=	0xfb0c
+                         0000FB16   590 _g_DEVNUM	=	0xfb16
+                         0000FB17   591 _g_DATCNT	=	0xfb17
+                         0000FB1A   592 _g_ERRORS	=	0xfb1a
+                         0000FB1B   593 _g_FLAGS	=	0xfb1b
+                         0000FB1C   594 _g_ESTBLS	=	0xfb1c
+                         0000FB1D   595 _g_COMMSK	=	0xfb1d
+                         0000FB1E   596 _g_LSTCOM	=	0xfb1e
+                         0000FB1F   597 _g_LSTMOD	=	0xfb1f
+                         0000FB35   598 _g_PRSCNT	=	0xfb35
+                         0000FB36   599 _g_SAVSP	=	0xfb36
+                         0000FB38   600 _g_VOICEN	=	0xfb38
+                         0000FB39   601 _g_SAVVOL	=	0xfb39
+                         0000FB3B   602 _g_MCLLEN	=	0xfb3b
+                         0000FB3C   603 _g_MCLPTR	=	0xfb3c
+                         0000FB3E   604 _g_QUEUEN	=	0xfb3e
+                         0000FB3F   605 _g_MUSICF	=	0xfb3f
+                         0000FB40   606 _g_PLYCNT	=	0xfb40
+                         0000FB41   607 _g_VCBA	=	0xfb41
+                         0000FB66   608 _g_VCBB	=	0xfb66
+                         0000FB8B   609 _g_VCBC	=	0xfb8b
+                         0000FBB0   610 _g_ENSTOP	=	0xfbb0
+                         0000FBB1   611 _g_BASROM	=	0xfbb1
+                         0000FBB2   612 _g_LINTTB	=	0xfbb2
+                         0000FBCA   613 _g_FSTPOS	=	0xfbca
+                         0000FBCC   614 _g_CODSAV	=	0xfbcc
+                         0000FBCD   615 _g_FNKSWI	=	0xfbcd
+                         0000FBCE   616 _g_FNKFLG	=	0xfbce
+                         0000FBD8   617 _g_ONGSBF	=	0xfbd8
+                         0000FBD9   618 _g_CLIKFL	=	0xfbd9
+                         0000FBDA   619 _g_OLDKEY	=	0xfbda
+                         0000FBE5   620 _g_NEWKEY	=	0xfbe5
+                         0000FBF0   621 _g_KEYBUF	=	0xfbf0
+                         0000FC18   622 _g_LINWRK	=	0xfc18
+                         0000FC40   623 _g_PATWRK	=	0xfc40
+                         0000FC48   624 _g_BOTTOM	=	0xfc48
+                         0000FC4A   625 _g_HIMEM	=	0xfc4a
+                         0000FC4C   626 _g_TRPTBL	=	0xfc4c
+                         0000FC9A   627 _g_RTYCNT	=	0xfc9a
+                         0000FC9B   628 _g_INTFLG	=	0xfc9b
+                         0000FC9C   629 _g_PADY	=	0xfc9c
+                         0000FC9D   630 _g_PADX	=	0xfc9d
+                         0000FC9E   631 _g_JIFFY	=	0xfc9e
+                         0000FCA0   632 _g_INTVAL	=	0xfca0
+                         0000FCA2   633 _g_INTCNT	=	0xfca2
+                         0000FCA4   634 _g_LOWLIM	=	0xfca4
+                         0000FCA5   635 _g_WINWID	=	0xfca5
+                         0000FCA6   636 _g_GRPHED	=	0xfca6
+                         0000FCA7   637 _g_ESCCNT	=	0xfca7
+                         0000FCA8   638 _g_INSFLG	=	0xfca8
+                         0000FCA9   639 _g_CSRSW	=	0xfca9
+                         0000FCAA   640 _g_CSTYLE	=	0xfcaa
+                         0000FCAB   641 _g_CAPST	=	0xfcab
+                         0000FCAC   642 _g_KANAST	=	0xfcac
+                         0000FCAD   643 _g_KANAMD	=	0xfcad
+                         0000FCAE   644 _g_FLBMEM	=	0xfcae
+                         0000FCAF   645 _g_SCRMOD	=	0xfcaf
+                         0000FCB0   646 _g_OLDSCR	=	0xfcb0
+                         0000FCB1   647 _g_CASPRV	=	0xfcb1
+                         0000FCB2   648 _g_BRDATR	=	0xfcb2
+                         0000FCB3   649 _g_GXPOS	=	0xfcb3
+                         0000FCB5   650 _g_GYPOS	=	0xfcb5
+                         0000FCBB   651 _g_DRWFLG	=	0xfcbb
+                         0000FCBC   652 _g_DRWSCL	=	0xfcbc
+                         0000FCBD   653 _g_DRWANG	=	0xfcbd
+                         0000FCC1   654 _g_MNROM	=	0xfcc1
+                         0000FCC1   655 _g_EXPTBL	=	0xfcc1
+                         0000FCC5   656 _g_SLTTBL	=	0xfcc5
+                         0000FCC9   657 _g_SLTATR	=	0xfcc9
+                         0000FD09   658 _g_SLTWRK	=	0xfd09
+                         0000FD89   659 _g_PROCNM	=	0xfd89
+                         0000FFE7   660 _g_RG08SAV	=	0xffe7
+                         0000FFE8   661 _g_RG09SAV	=	0xffe8
+                         0000FFE9   662 _g_RG10SAV	=	0xffe9
+                         0000FFEA   663 _g_RG11SAV	=	0xffea
+                         0000FFEB   664 _g_RG12SAV	=	0xffeb
+                         0000FFEC   665 _g_RG13SAV	=	0xffec
+                         0000FFED   666 _g_RG14SAV	=	0xffed
+                         0000FFEE   667 _g_RG15SAV	=	0xffee
+                         0000FFEF   668 _g_RG16SAV	=	0xffef
+                         0000FFF0   669 _g_RG17SAV	=	0xfff0
+                         0000FFF1   670 _g_RG18SAV	=	0xfff1
+                         0000FFF2   671 _g_RG19SAV	=	0xfff2
+                         0000FFF3   672 _g_RG20SAV	=	0xfff3
+                         0000FFF4   673 _g_RG21SAV	=	0xfff4
+                         0000FFF5   674 _g_RG22SAV	=	0xfff5
+                         0000FFF6   675 _g_RG23SAV	=	0xfff6
+                         0000FFF7   676 _g_MINROM	=	0xfff7
+                         0000FFF8   677 _g_SVFFF8	=	0xfff8
+                         0000FFFA   678 _g_RG25SAV	=	0xfffa
+                         0000FFFB   679 _g_RG26SAV	=	0xfffb
+                         0000FFFC   680 _g_RG27SAV	=	0xfffc
+                         0000FFFD   681 _g_SVFFFD	=	0xfffd
+                         00000004   682 _g_CGTABL	=	0x0004
+                         00000006   683 _g_VDP_DR	=	0x0006
+                         00000007   684 _g_VDP_DW	=	0x0007
+                         0000002B   685 _g_BASRVN	=	0x002b
+                         0000002B   686 _g_ROMVersion	=	0x002b
+                         0000002D   687 _g_MSXVER	=	0x002d
+                         0000002E   688 _g_MSXMID	=	0x002e
+                         00000034   689 _g_CHAR_16	=	0x0034
+    000000B1                        690 ___str_0:
+    000000B1 0A                     691 	.db 0x0a
+    000000B2 0D                     692 	.db 0x0d
+    000000B3 24                     693 	.ascii "$"
+    000000B4 00                     694 	.db 0x00
+                         00000000   695 _g_SUBRID	=	0x0000
+                         00000002   696 _g_STRSRC	=	0x0002
+                         0000F30F   697 _g_KANJTABLE	=	0xf30f
+                         0000F323   698 _g_DISKVE	=	0xf323
+                         0000F325   699 _g_BREAKV	=	0xf325
+                         0000F341   700 _g_RAMAD0	=	0xf341
+                         0000F342   701 _g_RAMAD1	=	0xf342
+                         0000F343   702 _g_RAMAD2	=	0xf343
+                         0000F344   703 _g_RAMAD3	=	0xf344
+                         0000F348   704 _g_MASTER	=	0xf348
+                         0000F37D   705 _g_BDOS	=	0xf37d
+                                    706 ;./screen.c:243: void Scr_SetBlink(u8 x, u8 y, u16 len, bool on)
+                                    707 ;	---------------------------------
+                                    708 ; Function Scr_SetBlink
+                                    709 ; ---------------------------------
+    000000B5                        710 _Scr_SetBlink::
+    000000B5 DD E5            [15]  711 	push	ix
+    000000B7 DD 21 00 00      [14]  712 	ld	ix,	#0
+    000000BB DD 39            [15]  713 	add	ix, sp
+    000000BD F5               [11]  714 	push	af
+    000000BE F5               [11]  715 	push	af
+    000000BF F5               [11]  716 	push	af
+    000000C0 3B               [ 6]  717 	dec	sp
+    000000C1 4F               [ 4]  718 	ld	c, a
+    000000C2 5D               [ 4]  719 	ld	e, l
+                                    720 ;./screen.c:245: u16 pos = (u16)y * SCR_WIDTH + x;
+    000000C3 16 00            [ 7]  721 	ld	d, #0x00
+    000000C5 6B               [ 4]  722 	ld	l, e
+    000000C6 62               [ 4]  723 	ld	h, d
+    000000C7 29               [11]  724 	add	hl, hl
+    000000C8 29               [11]  725 	add	hl, hl
+    000000C9 19               [11]  726 	add	hl, de
+    000000CA 29               [11]  727 	add	hl, hl
+    000000CB 29               [11]  728 	add	hl, hl
+    000000CC 29               [11]  729 	add	hl, hl
+    000000CD 29               [11]  730 	add	hl, hl
+    000000CE 06 00            [ 7]  731 	ld	b, #0x00
+    000000D0 09               [11]  732 	add	hl, bc
+    000000D1 4D               [ 4]  733 	ld	c, l
+    000000D2 44               [ 4]  734 	ld	b, h
+                                    735 ;./screen.c:246: u16 end = pos + len;
+    000000D3 DD 6E 04         [19]  736 	ld	l, 4 (ix)
+    000000D6 DD 66 05         [19]  737 	ld	h, 5 (ix)
+    000000D9 09               [11]  738 	add	hl, bc
+    000000DA E3               [19]  739 	ex	(sp), hl
+                                    740 ;./screen.c:247: if (end > SCR_WIDTH * SCR_HEIGHT)
+    000000DB D1               [10]  741 	pop	de
+    000000DC D5               [11]  742 	push	de
+    000000DD 3E 80            [ 7]  743 	ld	a, #0x80
+    000000DF BB               [ 4]  744 	cp	a, e
+    000000E0 3E 07            [ 7]  745 	ld	a, #0x07
+    000000E2 9A               [ 4]  746 	sbc	a, d
+    000000E3 30 04            [12]  747 	jr	nc, 00102$
+                                    748 ;./screen.c:248: end = SCR_WIDTH * SCR_HEIGHT;
+    000000E5 21 80 07         [10]  749 	ld	hl, #0x0780
+    000000E8 E3               [19]  750 	ex	(sp), hl
+    000000E9                        751 00102$:
+                                    752 ;./screen.c:249: if (pos >= end)
+    000000E9 79               [ 4]  753 	ld	a, c
+    000000EA DD 96 F9         [19]  754 	sub	a, -7 (ix)
+    000000ED 78               [ 4]  755 	ld	a, b
+    000000EE DD 9E FA         [19]  756 	sbc	a, -6 (ix)
+                                    757 ;./screen.c:250: return;
+    000000F1 D2rC6r01         [10]  758 	jp	nc, 00115$
+                                    759 ;./screen.c:252: u8 first = pos >> 3;
+    000000F4 59               [ 4]  760 	ld	e, c
+    000000F5 78               [ 4]  761 	ld	a, b
+    000000F6 2E 03            [ 7]  762 	ld	l, #0x03
+    000000F8                        763 00183$:
+    000000F8 CB 3F            [ 8]  764 	srl	a
+    000000FA CB 1B            [ 8]  765 	rr	e
+    000000FC 2D               [ 4]  766 	dec	l
+    000000FD 20 F9            [12]  767 	jr	nz, 00183$
+                                    768 ;./screen.c:253: u8 last = (end - 1) >> 3;
+    000000FF E1               [10]  769 	pop	hl
+    00000100 E5               [11]  770 	push	hl
+    00000101 2B               [ 6]  771 	dec	hl
+    00000102 3E 03            [ 7]  772 	ld	a, #0x03
+    00000104                        773 00184$:
+    00000104 CB 3C            [ 8]  774 	srl	h
+    00000106 CB 1D            [ 8]  775 	rr	l
+    00000108 3D               [ 4]  776 	dec	a
+    00000109 20 F9            [12]  777 	jr	nz, 00184$
+    0000010B DD 75 FB         [19]  778 	ld	-5 (ix), l
+                                    779 ;./screen.c:254: while (pos < end)
+    0000010E                        780 00112$:
+    0000010E 79               [ 4]  781 	ld	a, c
+    0000010F DD 96 F9         [19]  782 	sub	a, -7 (ix)
+    00000112 78               [ 4]  783 	ld	a, b
+    00000113 DD 9E FA         [19]  784 	sbc	a, -6 (ix)
+    00000116 D2rA5r01         [10]  785 	jp	nc, 00114$
+                                    786 ;./screen.c:256: u8* ptr = &g_ScrBlink[pos >> 3];
+    00000119 79               [ 4]  787 	ld	a, c
+    0000011A 50               [ 4]  788 	ld	d, b
+    0000011B 2E 03            [ 7]  789 	ld	l, #0x03
+    0000011D                        790 00185$:
+    0000011D CB 3A            [ 8]  791 	srl	d
+    0000011F CB 1F            [ 8]  792 	rr	a
+    00000121 2D               [ 4]  793 	dec	l
+    00000122 20 F9            [12]  794 	jr	nz, 00185$
+    00000124 C6r00            [ 7]  795 	add	a, #<(_g_ScrBlink)
+    00000126 6F               [ 4]  796 	ld	l, a
+    00000127 7A               [ 4]  797 	ld	a, d
+    00000128 CEs00            [ 7]  798 	adc	a, #>(_g_ScrBlink)
+    0000012A DD 75 FC         [19]  799 	ld	-4 (ix), l
+    0000012D DD 77 FD         [19]  800 	ld	-3 (ix), a
+                                    801 ;./screen.c:257: u8 bit = pos & 0x07;
+    00000130 79               [ 4]  802 	ld	a, c
+    00000131 E6 07            [ 7]  803 	and	a, #0x07
+    00000133 DD 77 FF         [19]  804 	ld	-1 (ix), a
+                                    805 ;./screen.c:258: if ((bit == 0) && (end - pos >= 8))
+    00000136 B7               [ 4]  806 	or	a, a
+    00000137 20 28            [12]  807 	jr	nz, 00109$
+    00000139 E1               [10]  808 	pop	hl
+    0000013A E5               [11]  809 	push	hl
+    0000013B BF               [ 4]  810 	cp	a, a
+    0000013C ED 42            [15]  811 	sbc	hl, bc
+    0000013E 7D               [ 4]  812 	ld	a, l
+    0000013F D6 08            [ 7]  813 	sub	a, #0x08
+    00000141 7C               [ 4]  814 	ld	a, h
+    00000142 DE 00            [ 7]  815 	sbc	a, #0x00
+    00000144 38 1B            [12]  816 	jr	c, 00109$
+                                    817 ;./screen.c:260: *ptr = on ? 0xFF : 0x00;
+    00000146 DD 6E FC         [19]  818 	ld	l, -4 (ix)
+    00000149 DD 66 FD         [19]  819 	ld	h, -3 (ix)
+    0000014C DD 7E 06         [19]  820 	ld	a, 6 (ix)
+    0000014F B7               [ 4]  821 	or	a, a
+    00000150 28 04            [12]  822 	jr	z, 00117$
+    00000152 16 FF            [ 7]  823 	ld	d, #0xff
+    00000154 18 02            [12]  824 	jr	00118$
+    00000156                        825 00117$:
+    00000156 16 00            [ 7]  826 	ld	d, #0x00
+    00000158                        827 00118$:
+    00000158 72               [ 7]  828 	ld	(hl), d
+                                    829 ;./screen.c:261: pos += 8;
+    00000159 21 08 00         [10]  830 	ld	hl, #0x0008
+    0000015C 09               [11]  831 	add	hl, bc
+    0000015D 4D               [ 4]  832 	ld	c, l
+    0000015E 44               [ 4]  833 	ld	b, h
+    0000015F 18 AD            [12]  834 	jr	00112$
+    00000161                        835 00109$:
+                                    836 ;./screen.c:265: u8 mask = 0x80 >> bit;
+    00000161 DD 7E FF         [19]  837 	ld	a, -1 (ix)
+    00000164 21 80 00         [10]  838 	ld	hl, #0x0080
+    00000167 3C               [ 4]  839 	inc	a
+    00000168 18 04            [12]  840 	jr	00187$
+    0000016A                        841 00186$:
+    0000016A CB 2C            [ 8]  842 	sra	h
+    0000016C CB 1D            [ 8]  843 	rr	l
+    0000016E                        844 00187$:
+    0000016E 3D               [ 4]  845 	dec	a
+    0000016F 20 F9            [12]  846 	jr	nz, 00186$
+    00000171 DD 75 FE         [19]  847 	ld	-2 (ix), l
+                                    848 ;./screen.c:267: *ptr |= mask;
+    00000174 DD 6E FC         [19]  849 	ld	l, -4 (ix)
+    00000177 DD 66 FD         [19]  850 	ld	h, -3 (ix)
+    0000017A 7E               [ 7]  851 	ld	a, (hl)
+    0000017B DD 77 FF         [19]  852 	ld	-1 (ix), a
+                                    853 ;./screen.c:266: if (on)
+    0000017E DD 7E 06         [19]  854 	ld	a, 6 (ix)
+    00000181 B7               [ 4]  855 	or	a, a
+    00000182 28 0F            [12]  856 	jr	z, 00106$
+                                    857 ;./screen.c:267: *ptr |= mask;
+    00000184 DD 7E FF         [19]  858 	ld	a, -1 (ix)
+    00000187 DD B6 FE         [19]  859 	or	a, -2 (ix)
+    0000018A DD 6E FC         [19]  860 	ld	l, -4 (ix)
+    0000018D DD 66 FD         [19]  861 	ld	h, -3 (ix)
+    00000190 77               [ 7]  862 	ld	(hl), a
+    00000191 18 0E            [12]  863 	jr	00107$
+    00000193                        864 00106$:
+                                    865 ;./screen.c:269: *ptr &= ~mask;
+    00000193 DD 7E FE         [19]  866 	ld	a, -2 (ix)
+    00000196 2F               [ 4]  867 	cpl
+    00000197 DD A6 FF         [19]  868 	and	a, -1 (ix)
+    0000019A DD 6E FC         [19]  869 	ld	l, -4 (ix)
+    0000019D DD 66 FD         [19]  870 	ld	h, -3 (ix)
+    000001A0 77               [ 7]  871 	ld	(hl), a
+    000001A1                        872 00107$:
+                                    873 ;./screen.c:270: pos++;
+    000001A1 03               [ 6]  874 	inc	bc
+    000001A2 C3r0Er01         [10]  875 	jp	00112$
+    000001A5                        876 00114$:
+                                    877 ;./screen.c:274: Scr_SetWriteAddr(SCR_BLINK_ADDR + first);
+    000001A5 4B               [ 4]  878 	ld	c, e
+    000001A6 06 00            [ 7]  879 	ld	b, #0x00
+    000001A8 21 00 08         [10]  880 	ld	hl, #0x0800
+    000001AB 09               [11]  881 	add	hl, bc
+    000001AC C5               [11]  882 	push	bc
+    000001AD D5               [11]  883 	push	de
+    000001AE CDr0Cr00         [17]  884 	call	_Scr_SetWriteAddr
+    000001B1 D1               [10]  885 	pop	de
+    000001B2 C1               [10]  886 	pop	bc
+                                    887 ;./screen.c:275: Scr_Write(&g_ScrBlink[first], last - first + 1);
+    000001B3 DD 7E FB         [19]  888 	ld	a, -5 (ix)
+    000001B6 91               [ 4]  889 	sub	a, c
+    000001B7 4F               [ 4]  890 	ld	c, a
+    000001B8 9F               [ 4]  891 	sbc	a, a
+    000001B9 47               [ 4]  892 	ld	b, a
+    000001BA 03               [ 6]  893 	inc	bc
+    000001BB 21r00r00         [10]  894 	ld	hl, #_g_ScrBlink
+    000001BE 16 00            [ 7]  895 	ld	d, #0x00
+    000001C0 19               [11]  896 	add	hl, de
+    000001C1 59               [ 4]  897 	ld	e, c
+    000001C2 50               [ 4]  898 	ld	d, b
+    000001C3 CDr3Cr00         [17]  899 	call	_Scr_Write
+    000001C6                        900 00115$:
+                                    901 ;./screen.c:276: }
+    000001C6 DD F9            [10]  902 	ld	sp, ix
+    000001C8 DD E1            [14]  903 	pop	ix
+    000001CA E1               [10]  904 	pop	hl
+    000001CB F1               [10]  905 	pop	af
+    000001CC 33               [ 6]  906 	inc	sp
+    000001CD E9               [ 4]  907 	jp	(hl)
+                                    908 ;./screen.c:284: static void DrawWinLine(u8 x, u8 y, u8 w, c8 left, c8 fill, c8 right)
+                                    909 ;	---------------------------------
+                                    910 ; Function DrawWinLine
+                                    911 ; ---------------------------------
+    000001CE                        912 _DrawWinLine:
+                                    913 ;./screen.c:286: Scr_Locate(x, y);
+    000001CE CDr19r00         [17]  914 	call	_Scr_Locate
+                                    915 ;./screen.c:287: Scr_PutChar(left);
+    000001D1 21 03 00         [10]  916 	ld	hl, #3
+    000001D4 39               [11]  917 	add	hl, sp
+    000001D5 7E               [ 7]  918 	ld	a, (hl)
+    000001D6 CDr2Ar00         [17]  919 	call	_Scr_PutChar
+                                    920 ;./screen.c:288: Scr_Fill(fill, w - 2);
+    000001D9 FD 21 02 00      [14]  921 	ld	iy, #2
+    000001DD FD 39            [15]  922 	add	iy, sp
+    000001DF FD 5E 00         [19]  923 	ld	e, 0 (iy)
+    000001E2 16 00            [ 7]  924 	ld	d, #0x00
+    000001E4 1B               [ 6]  925 	dec	de
+    000001E5 1B               [ 6]  926 	dec	de
+    000001E6 FD 7E 02         [19]  927 	ld	a, 2 (iy)
+    000001E9 CDr4Er00         [17]  928 	call	_Scr_Fill
+                                    929 ;./screen.c:289: Scr_PutChar(right);
+    000001EC 21 05 00         [10]  930 	ld	hl, #5
+    000001EF 39               [11]  931 	add	hl, sp
+    000001F0 7E               [ 7]  932 	ld	a, (hl)
+    000001F1 CDr2Ar00         [17]  933 	call	_Scr_PutChar
+                                    934 ;./screen.c:290: }
+    000001F4 E1               [10]  935 	pop	hl
+    000001F5 F1               [10]  936 	pop	af
+    000001F6 F1               [10]  937 	pop	af
+    000001F7 E9               [ 4]  938 	jp	(hl)
+                                    939 ;./screen.c:294: void Scr_DrawWindow(u8 x, u8 y, u8 w, u8 h, const c8* title)
+                                    940 ;	---------------------------------
+                                    941 ; Function Scr_DrawWindow
+                                    942 ; ---------------------------------
+    000001F8                        943 _Scr_DrawWindow::
+    000001F8 DD E5            [15]  944 	push	ix
+    000001FA DD 21 00 00      [14]  945 	ld	ix,	#0
+    000001FE DD 39            [15]  946 	add	ix, sp
+    00000200 F5               [11]  947 	push	af
+    00000201 4F               [ 4]  948 	ld	c, a
+    00000202 45               [ 4]  949 	ld	b, l
+                                    950 ;./screen.c:296: u8 last = y + h - 1;
+    00000203 78               [ 4]  951 	ld	a, b
+    00000204 DD 86 05         [19]  952 	add	a, 5 (ix)
+    00000207 5F               [ 4]  953 	ld	e, a
+    00000208 1D               [ 4]  954 	dec	e
+                                    955 ;./screen.c:297: DrawWinLine(x, y, w, SCR_CHR_TOPLEFT, SCR_CHR_HLINE, SCR_CHR_TOPRIGHT);
+    00000209 C5               [11]  956 	push	bc
+    0000020A D5               [11]  957 	push	de
+    0000020B 21 17 19         [10]  958 	ld	hl, #0x1917
+    0000020E E5               [11]  959 	push	hl
+    0000020F 26 18            [ 7]  960 	ld	h, #0x18
+    00000211 DD 6E 04         [19]  961 	ld	l, 4 (ix)
+    00000214 E5               [11]  962 	push	hl
+    00000215 68               [ 4]  963 	ld	l, b
+    00000216 79               [ 4]  964 	ld	a, c
+    00000217 CDrCEr01         [17]  965 	call	_DrawWinLine
+    0000021A D1               [10]  966 	pop	de
+    0000021B C1               [10]  967 	pop	bc
+                                    968 ;./screen.c:298: for (u8 i = y + 1; i < last; ++i)
+    0000021C 50               [ 4]  969 	ld	d, b
+    0000021D 14               [ 4]  970 	inc	d
+    0000021E                        971 00109$:
+    0000021E 7A               [ 4]  972 	ld	a, d
+    0000021F 93               [ 4]  973 	sub	a, e
+    00000220 30 16            [12]  974 	jr	nc, 00101$
+                                    975 ;./screen.c:299: DrawWinLine(x, i, w, SCR_CHR_VLINE, ' ', SCR_CHR_VLINE);
+    00000222 C5               [11]  976 	push	bc
+    00000223 D5               [11]  977 	push	de
+    00000224 21 20 16         [10]  978 	ld	hl, #0x1620
+    00000227 E5               [11]  979 	push	hl
+    00000228 26 16            [ 7]  980 	ld	h, #0x16
+    0000022A DD 6E 04         [19]  981 	ld	l, 4 (ix)
+    0000022D E5               [11]  982 	push	hl
+    0000022E 6A               [ 4]  983 	ld	l, d
+    0000022F 79               [ 4]  984 	ld	a, c
+    00000230 CDrCEr01         [17]  985 	call	_DrawWinLine
+    00000233 D1               [10]  986 	pop	de
+    00000234 C1               [10]  987 	pop	bc
+                                    988 ;./screen.c:298: for (u8 i = y + 1; i < last; ++i)
+    00000235 14               [ 4]  989 	inc	d
+    00000236 18 E6            [12]  990 	jr	00109$
+    00000238                        991 00101$:
+                                    992 ;./screen.c:300: DrawWinLine(x, last, w, SCR_CHR_BOTLEFT, SCR_CHR_HLINE, SCR_CHR_BOTRIGHT);
+    00000238 C5               [11]  993 	push	bc
+    00000239 D5               [11]  994 	push	de
+    0000023A 21 17 1B         [10]  995 	ld	hl, #0x1b17
+    0000023D E5               [11]  996 	push	hl
+    0000023E 26 1A            [ 7]  997 	ld	h, #0x1a
+    00000240 DD 6E 04         [19]  998 	ld	l, 4 (ix)
+    00000243 E5               [11]  999 	push	hl
+    00000244 6B               [ 4] 1000 	ld	l, e
+    00000245 79               [ 4] 1001 	ld	a, c
+    00000246 CDrCEr01         [17] 1002 	call	_DrawWinLine
+    00000249 D1               [10] 1003 	pop	de
+    0000024A C1               [10] 1004 	pop	bc
+                                   1005 ;./screen.c:302: for (u8 i = y; i <= last; ++i)
+    0000024B 50               [ 4] 1006 	ld	d, b
+    0000024C                       1007 00112$:
+    0000024C 7B               [ 4] 1008 	ld	a, e
+    0000024D 92               [ 4] 1009 	sub	a, d
+    0000024E 38 16            [12] 1010 	jr	c, 00102$
+                                   1011 ;./screen.c:303: Scr_SetBlink(x, i, w, TRUE);
+    00000250 DD 6E 04         [19] 1012 	ld	l, 4 (ix)
+    00000253 26 00            [ 7] 1013 	ld	h, #0x00
+    00000255 C5               [11] 1014 	push	bc
+    00000256 D5               [11] 1015 	push	de
+    00000257 3E 01            [ 7] 1016 	ld	a, #0x01
+    00000259 F5               [11] 1017 	push	af
+    0000025A 33               [ 6] 1018 	inc	sp
+    0000025B E5               [11] 1019 	push	hl
+    0000025C 6A               [ 4] 1020 	ld	l, d
+    0000025D 79               [ 4] 1021 	ld	a, c
+    0000025E CDrB5r00         [17] 1022 	call	_Scr_SetBlink
+    00000261 D1               [10] 1023 	pop	de
+    00000262 C1               [10] 1024 	pop	bc
+                                   1025 ;./screen.c:302: for (u8 i = y; i <= last; ++i)
+    00000263 14               [ 4] 1026 	inc	d
+    00000264 18 E6            [12] 1027 	jr	00112$
+    00000266                       1028 00102$:
+                                   1029 ;./screen.c:305: if (title)
+    00000266 DD 7E 07         [19] 1030 	ld	a, 7 (ix)
+    00000269 DD B6 06         [19] 1031 	or	a, 6 (ix)
+    0000026C 28 4E            [12] 1032 	jr	z, 00114$
+                                   1033 ;./screen.c:308: while (title[len])
+    0000026E 1E 00            [ 7] 1034 	ld	e, #0x00
+    00000270                       1035 00103$:
+    00000270 DD 6E 06         [19] 1036 	ld	l, 6 (ix)
+    00000273 DD 66 07         [19] 1037 	ld	h, 7 (ix)
+    00000276 16 00            [ 7] 1038 	ld	d, #0x00
+    00000278 19               [11] 1039 	add	hl, de
+    00000279 7E               [ 7] 1040 	ld	a, (hl)
+    0000027A B7               [ 4] 1041 	or	a, a
+    0000027B 28 03            [12] 1042 	jr	z, 00105$
+                                   1043 ;./screen.c:309: len++;
+    0000027D 1C               [ 4] 1044 	inc	e
+    0000027E 18 F0            [12] 1045 	jr	00103$
+    00000280                       1046 00105$:
+                                   1047 ;./screen.c:310: Scr_Locate(x + (w - len - 2) / 2, y);
+    00000280 DD 7E 04         [19] 1048 	ld	a, 4 (ix)
+    00000283 93               [ 4] 1049 	sub	a, e
+    00000284 5F               [ 4] 1050 	ld	e, a
+    00000285 9F               [ 4] 1051 	sbc	a, a
+    00000286 57               [ 4] 1052 	ld	d, a
+    00000287 7B               [ 4] 1053 	ld	a, e
+    00000288 C6 FE            [ 7] 1054 	add	a, #0xfe
+    0000028A DD 77 FE         [19] 1055 	ld	-2 (ix), a
+    0000028D 7A               [ 4] 1056 	ld	a, d
+    0000028E CE FF            [ 7] 1057 	adc	a, #0xff
+    00000290 DD 77 FF         [19] 1058 	ld	-1 (ix), a
+    00000293 E1               [10] 1059 	pop	hl
+    00000294 E5               [11] 1060 	push	hl
+    00000295 DD CB FF 7E      [20] 1061 	bit	7, -1 (ix)
+    00000299 28 04            [12] 1062 	jr	z, 00116$
+    0000029B 21 FF FF         [10] 1063 	ld	hl, #0xffff
+    0000029E 19               [11] 1064 	add	hl, de
+    0000029F                       1065 00116$:
+    0000029F CB 2C            [ 8] 1066 	sra	h
+    000002A1 CB 1D            [ 8] 1067 	rr	l
+    000002A3 7D               [ 4] 1068 	ld	a, l
+    000002A4 81               [ 4] 1069 	add	a, c
+    000002A5 68               [ 4] 1070 	ld	l, b
+    000002A6 CDr19r00         [17] 1071 	call	_Scr_Locate
+                                   1072 ;./screen.c:311: Scr_PutChar(' ');
+    000002A9 3E 20            [ 7] 1073 	ld	a, #0x20
+    000002AB CDr2Ar00         [17] 1074 	call	_Scr_PutChar
+                                   1075 ;./screen.c:312: Scr_Puts(title);
+    000002AE DD 6E 06         [19] 1076 	ld	l, 6 (ix)
+    000002B1 DD 66 07         [19] 1077 	ld	h, 7 (ix)
+    000002B4 CDr2Dr00         [17] 1078 	call	_Scr_Puts
+                                   1079 ;./screen.c:313: Scr_PutChar(' ');
+    000002B7 3E 20            [ 7] 1080 	ld	a, #0x20
+    000002B9 CDr2Ar00         [17] 1081 	call	_Scr_PutChar
+    000002BC                       1082 00114$:
+                                   1083 ;./screen.c:315: }
+    000002BC F1               [10] 1084 	pop	af
+    000002BD DD E1            [14] 1085 	pop	ix
+    000002BF E1               [10] 1086 	pop	hl
+    000002C0 F1               [10] 1087 	pop	af
+    000002C1 F1               [10] 1088 	pop	af
+    000002C2 E9               [ 4] 1089 	jp	(hl)
+                                   1090 ;./screen.c:319: void Scr_DrawSeparator(u8 x, u8 y, u8 w)
+                                   1091 ;	---------------------------------
+                                   1092 ; Function Scr_DrawSeparator
+                                   1093 ; ---------------------------------
+    000002C3                       1094 _Scr_DrawSeparator::
+                                   1095 ;./screen.c:321: DrawWinLine(x, y, w, SCR_CHR_TEELEFT, SCR_CHR_HLINE, SCR_CHR_TEERIGHT);
+    000002C3 26 13            [ 7] 1096 	ld	h, #0x13
+    000002C5 E5               [11] 1097 	push	hl
+    000002C6 33               [ 6] 1098 	inc	sp
+    000002C7 26 17            [ 7] 1099 	ld	h, #0x17
+    000002C9 E5               [11] 1100 	push	hl
+    000002CA 33               [ 6] 1101 	inc	sp
+    000002CB 26 14            [ 7] 1102 	ld	h, #0x14
+    000002CD E5               [11] 1103 	push	hl
+    000002CE 33               [ 6] 1104 	inc	sp
+    000002CF FD 21 05 00      [14] 1105 	ld	iy, #5
+    000002D3 FD 39            [15] 1106 	add	iy, sp
+    000002D5 FD 66 00         [19] 1107 	ld	h, 0 (iy)
+    000002D8 E5               [11] 1108 	push	hl
+    000002D9 33               [ 6] 1109 	inc	sp
+    000002DA CDrCEr01         [17] 1110 	call	_DrawWinLine
+                                   1111 ;./screen.c:322: }
+    000002DD E1               [10] 1112 	pop	hl
+    000002DE 33               [ 6] 1113 	inc	sp
+    000002DF E9               [ 4] 1114 	jp	(hl)
+                                   1115 ;./screen.c:330: void Scr_Clear()
+                                   1116 ;	---------------------------------
+                                   1117 ; Function Scr_Clear
+                                   1118 ; ---------------------------------
+    000002E0                       1119 _Scr_Clear::
+                                   1120 ;./screen.c:332: Scr_SetWriteAddr(SCR_NAME_ADDR);
+    000002E0 21 00 00         [10] 1121 	ld	hl, #0x0000
+    000002E3 CDr0Cr00         [17] 1122 	call	_Scr_SetWriteAddr
+                                   1123 ;./screen.c:333: Scr_Fill(' ', SCR_WIDTH * SCR_HEIGHT);
+    000002E6 11 80 07         [10] 1124 	ld	de, #0x0780
+    000002E9 3E 20            [ 7] 1125 	ld	a, #0x20
+    000002EB CDr4Er00         [17] 1126 	call	_Scr_Fill
+                                   1127 ;./screen.c:334: Scr_ClearBlink();
+                                   1128 ;./screen.c:335: }
+    000002EE C3r92r00         [10] 1129 	jp	_Scr_ClearBlink
+                                   1130 ;./screen.c:339: static void SetRegMirror(u8 reg, u8 val)
+                                   1131 ;	---------------------------------
+                                   1132 ; Function SetRegMirror
+                                   1133 ; ---------------------------------
+    000002F1                       1134 _SetRegMirror:
+    000002F1 67               [ 4] 1135 	ld	h, a
+                                   1136 ;./screen.c:341: Scr_SetReg(reg, val);
+    000002F2 E5               [11] 1137 	push	hl
+    000002F3 7C               [ 4] 1138 	ld	a, h
+    000002F4 CDr00r00         [17] 1139 	call	_Scr_SetReg
+    000002F7 E1               [10] 1140 	pop	hl
+                                   1141 ;./screen.c:342: Poke(reg == 12 ? M_RG12SAV : M_RG13SAV, val);
+    000002F8 4D               [ 4] 1142 	ld	c, l
+    000002F9 7C               [ 4] 1143 	ld	a, h
+    000002FA D6 0C            [ 7] 1144 	sub	a, #0x0c
+    000002FC 20 05            [12] 1145 	jr	nz, 00104$
+    000002FE 21 EB FF         [10] 1146 	ld	hl, #0xffeb
+    00000301 18 03            [12] 1147 	jr	00105$
+    00000303                       1148 00104$:
+    00000303 21 EC FF         [10] 1149 	ld	hl, #0xffec
+    00000306                       1150 00105$:
+                                   1151 ;E:\msxworks\MSXgl\engine/src/system.h:101: inline void Poke(u16 addr, u8 val) { *(u8*)addr = val; }
+    00000306 71               [ 7] 1152 	ld	(hl), c
+                                   1153 ;./screen.c:342: Poke(reg == 12 ? M_RG12SAV : M_RG13SAV, val);
+                                   1154 ;./screen.c:343: }
+    00000307 C9               [10] 1155 	ret
+                                   1156 ;./screen.c:347: static void ConsoleCursor(c8 cmd)
+                                   1157 ;	---------------------------------
+                                   1158 ; Function ConsoleCursor
+                                   1159 ; ---------------------------------
+    00000308                       1160 _ConsoleCursor:
+    00000308 4F               [ 4] 1161 	ld	c, a
+                                   1162 ;./screen.c:349: DOS_CharOutput(0x1B);
+    00000309 C5               [11] 1163 	push	bc
+    0000030A 3E 1B            [ 7] 1164 	ld	a, #0x1b
+    0000030C CDr00r00         [17] 1165 	call	_DOS_CharOutput
+    0000030F C1               [10] 1166 	pop	bc
+                                   1167 ;./screen.c:350: DOS_CharOutput(cmd);
+    00000310 79               [ 4] 1168 	ld	a, c
+    00000311 CDr00r00         [17] 1169 	call	_DOS_CharOutput
+                                   1170 ;./screen.c:351: DOS_CharOutput('5');
+    00000314 3E 35            [ 7] 1171 	ld	a, #0x35
+                                   1172 ;./screen.c:352: }
+    00000316 C3r00r00         [10] 1173 	jp	_DOS_CharOutput
+                                   1174 ;./screen.c:357: void Scr_Init()
+                                   1175 ;	---------------------------------
+                                   1176 ; Function Scr_Init
+                                   1177 ; ---------------------------------
+    00000319                       1178 _Scr_Init::
+                                   1179 ;./screen.c:359: s_SavLINL40 = g_LINL40;
+    00000319 3A AE F3         [13] 1180 	ld	a, (_g_LINL40+0)
+    0000031C 32rF0r00         [13] 1181 	ld	(#_s_SavLINL40), a
+                                   1182 ;./screen.c:360: s_SavFORCLR = g_FORCLR;
+    0000031F 3A E9 F3         [13] 1183 	ld	a, (_g_FORCLR+0)
+    00000322 32rF1r00         [13] 1184 	ld	(#_s_SavFORCLR), a
+                                   1185 ;./screen.c:361: s_SavBAKCLR = g_BAKCLR;
+    00000325 3A EA F3         [13] 1186 	ld	a, (_g_BAKCLR+0)
+    00000328 32rF2r00         [13] 1187 	ld	(#_s_SavBAKCLR), a
+                                   1188 ;./screen.c:362: s_SavBDRCLR = g_BDRCLR;
+    0000032B 3A EB F3         [13] 1189 	ld	a, (_g_BDRCLR+0)
+    0000032E 32rF3r00         [13] 1190 	ld	(#_s_SavBDRCLR), a
+                                   1191 ;E:\msxworks\MSXgl\engine/src/system.h:119: inline u8 Peek(u16 addr) { return *(u8*)addr; }
+    00000331 3A EB FF         [13] 1192 	ld	a, (#0xffeb)
+    00000334 32rF4r00         [13] 1193 	ld	(#_s_SavRG12), a
+                                   1194 ;./screen.c:365: g_LINL40 = SCR_WIDTH;
+    00000337 21 AE F3         [10] 1195 	ld	hl, #_g_LINL40
+    0000033A 36 50            [10] 1196 	ld	(hl), #0x50
+                                   1197 ;./screen.c:366: g_FORCLR = SCR_TEXT_COLOR;
+    0000033C 21 E9 F3         [10] 1198 	ld	hl, #_g_FORCLR
+    0000033F 36 0F            [10] 1199 	ld	(hl), #0x0f
+                                   1200 ;./screen.c:367: g_BAKCLR = SCR_BACK_COLOR;
+    00000341 21 EA F3         [10] 1201 	ld	hl, #_g_BAKCLR
+    00000344 36 04            [10] 1202 	ld	(hl), #0x04
+                                   1203 ;./screen.c:368: g_BDRCLR = SCR_BACK_COLOR;
+    00000346 21 EB F3         [10] 1204 	ld	hl, #_g_BDRCLR
+    00000349 36 04            [10] 1205 	ld	(hl), #0x04
+                                   1206 ;E:\msxworks\MSXgl\engine/src/system.h:119: inline u8 Peek(u16 addr) { return *(u8*)addr; }
+    0000034B 3A C1 FC         [13] 1207 	ld	a, (#0xfcc1)
+                                   1208 ;./screen.c:369: DOS_InterSlotCall(Peek(M_EXPTBL), R_INITXT);
+    0000034E 11 6C 00         [10] 1209 	ld	de, #0x006c
+    00000351 CDr00r00         [17] 1210 	call	_DOS_InterSlotCall
+                                   1211 ;./screen.c:370: ConsoleCursor('x'); // hide the BIOS cursor (also drawn while waiting for a key)
+    00000354 3E 78            [ 7] 1212 	ld	a, #0x78
+    00000356 CDr08r03         [17] 1213 	call	_ConsoleCursor
+                                   1214 ;./screen.c:372: Scr_SetReg(14, 0);
+    00000359 2E 00            [ 7] 1215 	ld	l, #0x00
+    0000035B 3E 0E            [ 7] 1216 	ld	a, #0x0e
+    0000035D CDr00r00         [17] 1217 	call	_Scr_SetReg
+                                   1218 ;E:\msxworks\MSXgl\engine/src/system.h:101: inline void Poke(u16 addr, u8 val) { *(u8*)addr = val; }
+    00000360 21 ED FF         [10] 1219 	ld	hl, #0xffed
+    00000363 36 00            [10] 1220 	ld	(hl), #0x00
+                                   1221 ;./screen.c:374: Scr_Clear();
+    00000365 CDrE0r02         [17] 1222 	call	_Scr_Clear
+                                   1223 ;./screen.c:375: SetRegMirror(12, (SCR_ALT_TEXT_COLOR << 4) | SCR_ALT_BACK_COLOR);
+    00000368 2E 1E            [ 7] 1224 	ld	l, #0x1e
+    0000036A 3E 0C            [ 7] 1225 	ld	a, #0x0c
+    0000036C CDrF1r02         [17] 1226 	call	_SetRegMirror
+                                   1227 ;./screen.c:376: SetRegMirror(13, SCR_BLINK_STEADY);
+    0000036F 2E F0            [ 7] 1228 	ld	l, #0xf0
+    00000371 3E 0D            [ 7] 1229 	ld	a, #0x0d
+                                   1230 ;./screen.c:377: }
+    00000373 C3rF1r02         [10] 1231 	jp	_SetRegMirror
+                                   1232 ;./screen.c:381: void Scr_Restore()
+                                   1233 ;	---------------------------------
+                                   1234 ; Function Scr_Restore
+                                   1235 ; ---------------------------------
+    00000376                       1236 _Scr_Restore::
+                                   1237 ;./screen.c:383: Scr_ClearBlink();
+    00000376 CDr92r00         [17] 1238 	call	_Scr_ClearBlink
+                                   1239 ;./screen.c:384: SetRegMirror(13, SCR_BLINK_OFF);
+    00000379 2E 00            [ 7] 1240 	ld	l, #0x00
+    0000037B 3E 0D            [ 7] 1241 	ld	a, #0x0d
+    0000037D CDrF1r02         [17] 1242 	call	_SetRegMirror
+                                   1243 ;./screen.c:385: SetRegMirror(12, s_SavRG12);
+    00000380 3ArF4r00         [13] 1244 	ld	a, (_s_SavRG12)
+    00000383 6F               [ 4] 1245 	ld	l, a
+    00000384 3E 0C            [ 7] 1246 	ld	a, #0x0c
+    00000386 CDrF1r02         [17] 1247 	call	_SetRegMirror
+                                   1248 ;./screen.c:387: g_LINL40 = s_SavLINL40;
+    00000389 3ArF0r00         [13] 1249 	ld	a, (_s_SavLINL40+0)
+    0000038C 32 AE F3         [13] 1250 	ld	(#_g_LINL40), a
+                                   1251 ;./screen.c:388: g_FORCLR = s_SavFORCLR;
+    0000038F 3ArF1r00         [13] 1252 	ld	a, (_s_SavFORCLR+0)
+    00000392 32 E9 F3         [13] 1253 	ld	(#_g_FORCLR), a
+                                   1254 ;./screen.c:389: g_BAKCLR = s_SavBAKCLR;
+    00000395 3ArF2r00         [13] 1255 	ld	a, (_s_SavBAKCLR+0)
+    00000398 32 EA F3         [13] 1256 	ld	(#_g_BAKCLR), a
+                                   1257 ;./screen.c:390: g_BDRCLR = s_SavBDRCLR;
+    0000039B 3ArF3r00         [13] 1258 	ld	a, (_s_SavBDRCLR+0)
+    0000039E 32 EB F3         [13] 1259 	ld	(#_g_BDRCLR), a
+                                   1260 ;E:\msxworks\MSXgl\engine/src/system.h:119: inline u8 Peek(u16 addr) { return *(u8*)addr; }
+    000003A1 3A C1 FC         [13] 1261 	ld	a, (#0xfcc1)
+                                   1262 ;./screen.c:391: DOS_InterSlotCall(Peek(M_EXPTBL), R_INITXT);
+    000003A4 11 6C 00         [10] 1263 	ld	de, #0x006c
+    000003A7 CDr00r00         [17] 1264 	call	_DOS_InterSlotCall
+                                   1265 ;./screen.c:392: ConsoleCursor('y');
+    000003AA 3E 79            [ 7] 1266 	ld	a, #0x79
+                                   1267 ;./screen.c:393: }
+    000003AC C3r08r03         [10] 1268 	jp	_ConsoleCursor
+                                   1269 	.area _CODE
+                                   1270 	.area _INITIALIZER
+                                   1271 	.area _CABS (ABS)

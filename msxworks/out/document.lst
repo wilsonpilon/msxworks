@@ -1,0 +1,1866 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.6.0 #16555 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module document
+                                      6 	
+                                      7 	.optsdcc -mz80 sdcccall(1)
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _DOSMapper_GetPage2
+                                     12 	.globl _DOSMapper_SetPage2
+                                     13 	.globl _DOSMapper_Free
+                                     14 	.globl _DOSMapper_Alloc
+                                     15 	.globl _Sys_GetPageSlot
+                                     16 	.globl _g_DocumentLength
+                                     17 	.globl _g_DocumentCapacity
+                                     18 	.globl _DOS_TPAUpperAddr
+                                     19 	.globl _g_SLTSL
+                                     20 	.globl _g_GRPACY
+                                     21 	.globl _g_GRPACX
+                                     22 	.globl _g_LOGOPR
+                                     23 	.globl _g_CMASK
+                                     24 	.globl _g_CLOC
+                                     25 	.globl _g_FNKSTR
+                                     26 	.globl _g_GETPNT
+                                     27 	.globl _g_PUTPNT
+                                     28 	.globl _g_ATRBYT
+                                     29 	.globl _g_BDRCLR
+                                     30 	.globl _g_BAKCLR
+                                     31 	.globl _g_FORCLR
+                                     32 	.globl _g_CSRX
+                                     33 	.globl _g_CSRY
+                                     34 	.globl _g_CLIKSW
+                                     35 	.globl _g_MLTPAT
+                                     36 	.globl _g_MLTATR
+                                     37 	.globl _g_MLTCGP
+                                     38 	.globl _g_MLTCOL
+                                     39 	.globl _g_MLTNAM
+                                     40 	.globl _g_GRPPAT
+                                     41 	.globl _g_GRPATR
+                                     42 	.globl _g_GRPCGP
+                                     43 	.globl _g_GRPCOL
+                                     44 	.globl _g_GRPNAM
+                                     45 	.globl _g_T32PAT
+                                     46 	.globl _g_T32ATR
+                                     47 	.globl _g_T32CGP
+                                     48 	.globl _g_T32COL
+                                     49 	.globl _g_T32NAM
+                                     50 	.globl _g_TXTPAT
+                                     51 	.globl _g_TXTATR
+                                     52 	.globl _g_TXTCGP
+                                     53 	.globl _g_TXTCOL
+                                     54 	.globl _g_TXTNAM
+                                     55 	.globl _g_CLMLST
+                                     56 	.globl _g_CRTCNT
+                                     57 	.globl _g_LINLEN
+                                     58 	.globl _g_LINL32
+                                     59 	.globl _g_LINL40
+                                     60 	.globl _g_BDOS
+                                     61 	.globl _g_MASTER
+                                     62 	.globl _g_RAMAD3
+                                     63 	.globl _g_RAMAD2
+                                     64 	.globl _g_RAMAD1
+                                     65 	.globl _g_RAMAD0
+                                     66 	.globl _g_BREAKV
+                                     67 	.globl _g_DISKVE
+                                     68 	.globl _g_KANJTABLE
+                                     69 	.globl _g_STRSRC
+                                     70 	.globl _g_SUBRID
+                                     71 	.globl _g_CHAR_16
+                                     72 	.globl _g_MSXMID
+                                     73 	.globl _g_MSXVER
+                                     74 	.globl _g_ROMVersion
+                                     75 	.globl _g_BASRVN
+                                     76 	.globl _g_VDP_DW
+                                     77 	.globl _g_VDP_DR
+                                     78 	.globl _g_CGTABL
+                                     79 	.globl _g_SVFFFD
+                                     80 	.globl _g_RG27SAV
+                                     81 	.globl _g_RG26SAV
+                                     82 	.globl _g_RG25SAV
+                                     83 	.globl _g_SVFFF8
+                                     84 	.globl _g_MINROM
+                                     85 	.globl _g_RG23SAV
+                                     86 	.globl _g_RG22SAV
+                                     87 	.globl _g_RG21SAV
+                                     88 	.globl _g_RG20SAV
+                                     89 	.globl _g_RG19SAV
+                                     90 	.globl _g_RG18SAV
+                                     91 	.globl _g_RG17SAV
+                                     92 	.globl _g_RG16SAV
+                                     93 	.globl _g_RG15SAV
+                                     94 	.globl _g_RG14SAV
+                                     95 	.globl _g_RG13SAV
+                                     96 	.globl _g_RG12SAV
+                                     97 	.globl _g_RG11SAV
+                                     98 	.globl _g_RG10SAV
+                                     99 	.globl _g_RG09SAV
+                                    100 	.globl _g_RG08SAV
+                                    101 	.globl _g_PROCNM
+                                    102 	.globl _g_SLTWRK
+                                    103 	.globl _g_SLTATR
+                                    104 	.globl _g_SLTTBL
+                                    105 	.globl _g_EXPTBL
+                                    106 	.globl _g_MNROM
+                                    107 	.globl _g_DRWANG
+                                    108 	.globl _g_DRWSCL
+                                    109 	.globl _g_DRWFLG
+                                    110 	.globl _g_GYPOS
+                                    111 	.globl _g_GXPOS
+                                    112 	.globl _g_BRDATR
+                                    113 	.globl _g_CASPRV
+                                    114 	.globl _g_OLDSCR
+                                    115 	.globl _g_SCRMOD
+                                    116 	.globl _g_FLBMEM
+                                    117 	.globl _g_KANAMD
+                                    118 	.globl _g_KANAST
+                                    119 	.globl _g_CAPST
+                                    120 	.globl _g_CSTYLE
+                                    121 	.globl _g_CSRSW
+                                    122 	.globl _g_INSFLG
+                                    123 	.globl _g_ESCCNT
+                                    124 	.globl _g_GRPHED
+                                    125 	.globl _g_WINWID
+                                    126 	.globl _g_LOWLIM
+                                    127 	.globl _g_INTCNT
+                                    128 	.globl _g_INTVAL
+                                    129 	.globl _g_JIFFY
+                                    130 	.globl _g_PADX
+                                    131 	.globl _g_PADY
+                                    132 	.globl _g_INTFLG
+                                    133 	.globl _g_RTYCNT
+                                    134 	.globl _g_TRPTBL
+                                    135 	.globl _g_HIMEM
+                                    136 	.globl _g_BOTTOM
+                                    137 	.globl _g_PATWRK
+                                    138 	.globl _g_LINWRK
+                                    139 	.globl _g_KEYBUF
+                                    140 	.globl _g_NEWKEY
+                                    141 	.globl _g_OLDKEY
+                                    142 	.globl _g_CLIKFL
+                                    143 	.globl _g_ONGSBF
+                                    144 	.globl _g_FNKFLG
+                                    145 	.globl _g_FNKSWI
+                                    146 	.globl _g_CODSAV
+                                    147 	.globl _g_FSTPOS
+                                    148 	.globl _g_LINTTB
+                                    149 	.globl _g_BASROM
+                                    150 	.globl _g_ENSTOP
+                                    151 	.globl _g_VCBC
+                                    152 	.globl _g_VCBB
+                                    153 	.globl _g_VCBA
+                                    154 	.globl _g_PLYCNT
+                                    155 	.globl _g_MUSICF
+                                    156 	.globl _g_QUEUEN
+                                    157 	.globl _g_MCLPTR
+                                    158 	.globl _g_MCLLEN
+                                    159 	.globl _g_SAVVOL
+                                    160 	.globl _g_VOICEN
+                                    161 	.globl _g_SAVSP
+                                    162 	.globl _g_PRSCNT
+                                    163 	.globl _g_LSTMOD
+                                    164 	.globl _g_LSTCOM
+                                    165 	.globl _g_COMMSK
+                                    166 	.globl _g_ESTBLS
+                                    167 	.globl _g_FLAGS
+                                    168 	.globl _g_ERRORS
+                                    169 	.globl _g_DATCNT
+                                    170 	.globl _g_DEVNUM
+                                    171 	.globl _g_OLDINT
+                                    172 	.globl _g_OLDSTT
+                                    173 	.globl _g_MEXBIh
+                                    174 	.globl _g_RSIQLN
+                                    175 	.globl _g_RSFCB
+                                    176 	.globl _g_TOCNT
+                                    177 	.globl _g_RSTMP
+                                    178 	.globl _g_YSAVE
+                                    179 	.globl _g_XSAVE
+                                    180 	.globl _g_NORUSE
+                                    181 	.globl _g_MODE
+                                    182 	.globl _g_ROMA
+                                    183 	.globl _g_CHRCNT
+                                    184 	.globl _g_EXBRSA
+                                    185 	.globl _g_AVCSAV
+                                    186 	.globl _g_ACPAGE
+                                    187 	.globl _g_DPPAGE
+                                    188 	.globl _g_RS2IQ
+                                    189 	.globl _g_VOICCQ
+                                    190 	.globl _g_VOICBQ
+                                    191 	.globl _g_VOICAQ
+                                    192 	.globl _g_QUEBAK
+                                    193 	.globl _g_QUETAB
+                                    194 	.globl _g_ASPCT2
+                                    195 	.globl _g_ASPCT1
+                                    196 	.globl _g_HEADER
+                                    197 	.globl _g_HIGH
+                                    198 	.globl _g_LOW
+                                    199 	.globl _g_CS240
+                                    200 	.globl _g_CS120
+                                    201 	.globl _g_REPCNT
+                                    202 	.globl _g_SCNCNT
+                                    203 	.globl _g_FRCNEW
+                                    204 	.globl _g_QUEUES
+                                    205 	.globl _g_MINUPD
+                                    206 	.globl _g_MAXUPD
+                                    207 	.globl _g_TRGFLG
+                                    208 	.globl _g_STATFL
+                                    209 	.globl _g_RG7SAV
+                                    210 	.globl _g_RG6SAV
+                                    211 	.globl _g_RG5SAV
+                                    212 	.globl _g_RG4SAV
+                                    213 	.globl _g_RG3SAV
+                                    214 	.globl _g_RG2SAV
+                                    215 	.globl _g_RG1SAV
+                                    216 	.globl _g_RG0SAV
+                                    217 	.globl _g_CNSDFG
+                                    218 	.globl _g_USRTAB
+                                    219 	.globl _g_CLPRIM
+                                    220 	.globl _g_WRPRIM
+                                    221 	.globl _g_RDPRIM
+                                    222 	.globl _Document_Close
+                                    223 	.globl _Document_Reset
+                                    224 	.globl _Document_Init
+                                    225 	.globl _Document_Begin
+                                    226 	.globl _Document_End
+                                    227 	.globl _Document_Read
+                                    228 	.globl _Document_Get
+                                    229 	.globl _Document_Put
+                                    230 	.globl _Document_Insert
+                                    231 	.globl _Document_Delete
+                                    232 ;--------------------------------------------------------
+                                    233 ; special function registers
+                                    234 ;--------------------------------------------------------
+                         000000A0   235 _g_PSG_RegPort	=	0x00a0
+                         000000A1   236 _g_PSG_DataPort	=	0x00a1
+                         000000A2   237 _g_PSG_StatPort	=	0x00a2
+                         00000010   238 _g_PSG_Ext_RegPort	=	0x0010
+                         00000011   239 _g_PSG_Ext_DataPort	=	0x0011
+                         00000012   240 _g_PSG_Ext_StatPort	=	0x0012
+                         00000090   241 _g_Printer_ControlPort	=	0x0090
+                         00000091   242 _g_Printer_DataPort	=	0x0091
+                         0000007C   243 _g_MSXMusic_IndexPort	=	0x007c
+                         0000007D   244 _g_MSXMusic_DataPort	=	0x007d
+                         00000098   245 _g_VDP_DataPort	=	0x0098
+                         00000099   246 _g_VDP_RegPort	=	0x0099
+                         00000099   247 _g_VDP_AddrPort	=	0x0099
+                         00000099   248 _g_VDP_StatPort	=	0x0099
+                         0000009A   249 _g_VDP_PalPort	=	0x009a
+                         0000009B   250 _g_VDP_IRegPort	=	0x009b
+                         000000A8   251 _g_PortPrimarySlot	=	0x00a8
+                         000000A9   252 _g_PortReadKeyboard	=	0x00a9
+                         000000AA   253 _g_PortAccessKeyboard	=	0x00aa
+                         000000AB   254 _g_PortControl	=	0x00ab
+                         000000B4   255 _g_RTC_AddrPort	=	0x00b4
+                         000000B5   256 _g_RTC_DataPort	=	0x00b5
+                         000000C0   257 _g_MSXAudio_IndexPort	=	0x00c0
+                         000000C1   258 _g_MSXAudio_DataPort	=	0x00c1
+                         000000C2   259 _g_MSXAudio_IndexPort2	=	0x00c2
+                         000000C3   260 _g_MSXAudio_DataPort2	=	0x00c3
+                         000000D8   261 _g_Kanji_Level1LowPort	=	0x00d8
+                         000000D9   262 _g_Kanji_Level1HighPort	=	0x00d9
+                         000000DA   263 _g_Kanji_Level2LowPort	=	0x00da
+                         000000DB   264 _g_Kanji_Level2HighPort	=	0x00db
+                         000000E6   265 _g_TimerLowPort	=	0x00e6
+                         000000E7   266 _g_TimerHighPort	=	0x00e7
+                                    267 ;--------------------------------------------------------
+                                    268 ; ram data
+                                    269 ;--------------------------------------------------------
+                                    270 	.area _DATA
+                         0000F3AE   271 _g_LINL40	=	0xf3ae
+                         0000F3AF   272 _g_LINL32	=	0xf3af
+                         0000F3B0   273 _g_LINLEN	=	0xf3b0
+                         0000F3B1   274 _g_CRTCNT	=	0xf3b1
+                         0000F3B2   275 _g_CLMLST	=	0xf3b2
+                         0000F3B3   276 _g_TXTNAM	=	0xf3b3
+                         0000F3B5   277 _g_TXTCOL	=	0xf3b5
+                         0000F3B7   278 _g_TXTCGP	=	0xf3b7
+                         0000F3B9   279 _g_TXTATR	=	0xf3b9
+                         0000F3BB   280 _g_TXTPAT	=	0xf3bb
+                         0000F3BD   281 _g_T32NAM	=	0xf3bd
+                         0000F3BF   282 _g_T32COL	=	0xf3bf
+                         0000F3C1   283 _g_T32CGP	=	0xf3c1
+                         0000F3C3   284 _g_T32ATR	=	0xf3c3
+                         0000F3C5   285 _g_T32PAT	=	0xf3c5
+                         0000F3C7   286 _g_GRPNAM	=	0xf3c7
+                         0000F3C9   287 _g_GRPCOL	=	0xf3c9
+                         0000F3CB   288 _g_GRPCGP	=	0xf3cb
+                         0000F3CD   289 _g_GRPATR	=	0xf3cd
+                         0000F3CF   290 _g_GRPPAT	=	0xf3cf
+                         0000F3D1   291 _g_MLTNAM	=	0xf3d1
+                         0000F3D3   292 _g_MLTCOL	=	0xf3d3
+                         0000F3D5   293 _g_MLTCGP	=	0xf3d5
+                         0000F3D7   294 _g_MLTATR	=	0xf3d7
+                         0000F3D9   295 _g_MLTPAT	=	0xf3d9
+                         0000F3DB   296 _g_CLIKSW	=	0xf3db
+                         0000F3DC   297 _g_CSRY	=	0xf3dc
+                         0000F3DD   298 _g_CSRX	=	0xf3dd
+                         0000F3E9   299 _g_FORCLR	=	0xf3e9
+                         0000F3EA   300 _g_BAKCLR	=	0xf3ea
+                         0000F3EB   301 _g_BDRCLR	=	0xf3eb
+                         0000F3F2   302 _g_ATRBYT	=	0xf3f2
+                         0000F3F8   303 _g_PUTPNT	=	0xf3f8
+                         0000F3FA   304 _g_GETPNT	=	0xf3fa
+                         0000F87F   305 _g_FNKSTR	=	0xf87f
+                         0000F92A   306 _g_CLOC	=	0xf92a
+                         0000F92C   307 _g_CMASK	=	0xf92c
+                         0000FB02   308 _g_LOGOPR	=	0xfb02
+                         0000FCB7   309 _g_GRPACX	=	0xfcb7
+                         0000FCB9   310 _g_GRPACY	=	0xfcb9
+                         0000FFFF   311 _g_SLTSL	=	0xffff
+                         00000006   312 _DOS_TPAUpperAddr	=	0x0006
+    00000000                        313 _s_Segments:
+    00000000                        314 	.ds 8192
+    00002000                        315 _s_Count:
+    00002000                        316 	.ds 2
+    00002002                        317 _s_GapStart:
+    00002002                        318 	.ds 4
+    00002006                        319 _s_GapEnd:
+    00002006                        320 	.ds 4
+    0000200A                        321 _s_SavedPage:
+    0000200A                        322 	.ds 1
+    0000200B                        323 _s_SavedSlot:
+    0000200B                        324 	.ds 1
+    0000200C                        325 _s_Slot:
+    0000200C                        326 	.ds 1
+    0000200D                        327 _s_Mapped:
+    0000200D                        328 	.ds 2
+    0000200F                        329 _s_Copy:
+    0000200F                        330 	.ds 128
+    0000208F                        331 _g_DocumentCapacity::
+    0000208F                        332 	.ds 4
+    00002093                        333 _g_DocumentLength::
+    00002093                        334 	.ds 4
+                                    335 ;--------------------------------------------------------
+                                    336 ; ram data
+                                    337 ;--------------------------------------------------------
+                                    338 	.area _INITIALIZED
+                                    339 ;--------------------------------------------------------
+                                    340 ; absolute ram data
+                                    341 ;--------------------------------------------------------
+                                    342 	.area _DABS (ABS)
+                                    343 	.area _DABS (ABS)
+                                    344 ;--------------------------------------------------------
+                                    345 ; global & static initialisations
+                                    346 ;--------------------------------------------------------
+                                    347 	.area _HOME
+                                    348 	.area _GSINIT
+                                    349 	.area _GSFINAL
+                                    350 	.area _GSINIT
+                                    351 ;--------------------------------------------------------
+                                    352 ; Home
+                                    353 ;--------------------------------------------------------
+                                    354 	.area _HOME
+                                    355 	.area _HOME
+                                    356 ;--------------------------------------------------------
+                                    357 ; code
+                                    358 ;--------------------------------------------------------
+                                    359 	.area _CODE
+                                    360 ;./document.c:23: static bool Document_MemorySafe() __NAKED
+                                    361 ;	---------------------------------
+                                    362 ; Function Document_MemorySafe
+                                    363 ; ---------------------------------
+    00000000                        364 _Document_MemorySafe:
+                                    365 ;./document.c:33: __endasm;
+    00000000 21r00r00         [10]  366 	ld hl, #s__HEAP
+    00000003 7C               [ 4]  367 	ld a, h
+    00000004 FE 80            [ 7]  368 	cp #0x80
+    00000006 3E 00            [ 7]  369 	ld a, #0
+    00000008 D0               [11]  370 	ret nc
+    00000009 3C               [ 4]  371 	inc a
+    0000000A C9               [10]  372 	ret
+                                    373 ;./document.c:34: }
+                                    374 ;./document.c:36: static void Document_SelectSlot(u8 slot) __NAKED
+                                    375 ;	---------------------------------
+                                    376 ; Function Document_SelectSlot
+                                    377 ; ---------------------------------
+    0000000B                        378 _Document_SelectSlot:
+                                    379 ;./document.c:46: __endasm;
+    0000000B DD E5            [15]  380 	push ix
+    0000000D 26 80            [ 7]  381 	ld h, #0x80
+    0000000F CD 24 00         [17]  382 	call 0x0024
+    00000012 FB               [ 4]  383 	ei
+    00000013 DD E1            [14]  384 	pop ix
+    00000015 C9               [10]  385 	ret
+                                    386 ;./document.c:47: }
+                                    387 ;./document.c:49: static u8* Document_Page() { return (u8*)0x8000; }
+                                    388 ;	---------------------------------
+                                    389 ; Function Document_Page
+                                    390 ; ---------------------------------
+    00000016                        391 _Document_Page:
+    00000016 11 00 80         [10]  392 	ld	de, #0x8000
+    00000019 C9               [10]  393 	ret
+                         0000F380   394 _g_RDPRIM	=	0xf380
+                         0000F385   395 _g_WRPRIM	=	0xf385
+                         0000F38C   396 _g_CLPRIM	=	0xf38c
+                         0000F39A   397 _g_USRTAB	=	0xf39a
+                         0000F3DE   398 _g_CNSDFG	=	0xf3de
+                         0000F3DF   399 _g_RG0SAV	=	0xf3df
+                         0000F3E0   400 _g_RG1SAV	=	0xf3e0
+                         0000F3E1   401 _g_RG2SAV	=	0xf3e1
+                         0000F3E2   402 _g_RG3SAV	=	0xf3e2
+                         0000F3E3   403 _g_RG4SAV	=	0xf3e3
+                         0000F3E4   404 _g_RG5SAV	=	0xf3e4
+                         0000F3E5   405 _g_RG6SAV	=	0xf3e5
+                         0000F3E6   406 _g_RG7SAV	=	0xf3e6
+                         0000F3E7   407 _g_STATFL	=	0xf3e7
+                         0000F3E8   408 _g_TRGFLG	=	0xf3e8
+                         0000F3EC   409 _g_MAXUPD	=	0xf3ec
+                         0000F3EF   410 _g_MINUPD	=	0xf3ef
+                         0000F3F3   411 _g_QUEUES	=	0xf3f3
+                         0000F3F5   412 _g_FRCNEW	=	0xf3f5
+                         0000F3F6   413 _g_SCNCNT	=	0xf3f6
+                         0000F3F7   414 _g_REPCNT	=	0xf3f7
+                         0000F3FC   415 _g_CS120	=	0xf3fc
+                         0000F401   416 _g_CS240	=	0xf401
+                         0000F406   417 _g_LOW	=	0xf406
+                         0000F408   418 _g_HIGH	=	0xf408
+                         0000F40A   419 _g_HEADER	=	0xf40a
+                         0000F40B   420 _g_ASPCT1	=	0xf40b
+                         0000F40D   421 _g_ASPCT2	=	0xf40d
+                         0000F959   422 _g_QUETAB	=	0xf959
+                         0000F971   423 _g_QUEBAK	=	0xf971
+                         0000F975   424 _g_VOICAQ	=	0xf975
+                         0000F9F5   425 _g_VOICBQ	=	0xf9f5
+                         0000FA75   426 _g_VOICCQ	=	0xfa75
+                         0000FAF5   427 _g_RS2IQ	=	0xfaf5
+                         0000FAF5   428 _g_DPPAGE	=	0xfaf5
+                         0000FAF6   429 _g_ACPAGE	=	0xfaf6
+                         0000FAF7   430 _g_AVCSAV	=	0xfaf7
+                         0000FAF8   431 _g_EXBRSA	=	0xfaf8
+                         0000FAF9   432 _g_CHRCNT	=	0xfaf9
+                         0000FAFA   433 _g_ROMA	=	0xfafa
+                         0000FAFC   434 _g_MODE	=	0xfafc
+                         0000FAFD   435 _g_NORUSE	=	0xfafd
+                         0000FAFE   436 _g_XSAVE	=	0xfafe
+                         0000FB00   437 _g_YSAVE	=	0xfb00
+                         0000FB03   438 _g_RSTMP	=	0xfb03
+                         0000FB03   439 _g_TOCNT	=	0xfb03
+                         0000FB04   440 _g_RSFCB	=	0xfb04
+                         0000FB06   441 _g_RSIQLN	=	0xfb06
+                         0000FB07   442 _g_MEXBIh	=	0xfb07
+                         0000FB0C   443 _g_OLDSTT	=	0xfb0c
+                         0000FB0C   444 _g_OLDINT	=	0xfb0c
+                         0000FB16   445 _g_DEVNUM	=	0xfb16
+                         0000FB17   446 _g_DATCNT	=	0xfb17
+                         0000FB1A   447 _g_ERRORS	=	0xfb1a
+                         0000FB1B   448 _g_FLAGS	=	0xfb1b
+                         0000FB1C   449 _g_ESTBLS	=	0xfb1c
+                         0000FB1D   450 _g_COMMSK	=	0xfb1d
+                         0000FB1E   451 _g_LSTCOM	=	0xfb1e
+                         0000FB1F   452 _g_LSTMOD	=	0xfb1f
+                         0000FB35   453 _g_PRSCNT	=	0xfb35
+                         0000FB36   454 _g_SAVSP	=	0xfb36
+                         0000FB38   455 _g_VOICEN	=	0xfb38
+                         0000FB39   456 _g_SAVVOL	=	0xfb39
+                         0000FB3B   457 _g_MCLLEN	=	0xfb3b
+                         0000FB3C   458 _g_MCLPTR	=	0xfb3c
+                         0000FB3E   459 _g_QUEUEN	=	0xfb3e
+                         0000FB3F   460 _g_MUSICF	=	0xfb3f
+                         0000FB40   461 _g_PLYCNT	=	0xfb40
+                         0000FB41   462 _g_VCBA	=	0xfb41
+                         0000FB66   463 _g_VCBB	=	0xfb66
+                         0000FB8B   464 _g_VCBC	=	0xfb8b
+                         0000FBB0   465 _g_ENSTOP	=	0xfbb0
+                         0000FBB1   466 _g_BASROM	=	0xfbb1
+                         0000FBB2   467 _g_LINTTB	=	0xfbb2
+                         0000FBCA   468 _g_FSTPOS	=	0xfbca
+                         0000FBCC   469 _g_CODSAV	=	0xfbcc
+                         0000FBCD   470 _g_FNKSWI	=	0xfbcd
+                         0000FBCE   471 _g_FNKFLG	=	0xfbce
+                         0000FBD8   472 _g_ONGSBF	=	0xfbd8
+                         0000FBD9   473 _g_CLIKFL	=	0xfbd9
+                         0000FBDA   474 _g_OLDKEY	=	0xfbda
+                         0000FBE5   475 _g_NEWKEY	=	0xfbe5
+                         0000FBF0   476 _g_KEYBUF	=	0xfbf0
+                         0000FC18   477 _g_LINWRK	=	0xfc18
+                         0000FC40   478 _g_PATWRK	=	0xfc40
+                         0000FC48   479 _g_BOTTOM	=	0xfc48
+                         0000FC4A   480 _g_HIMEM	=	0xfc4a
+                         0000FC4C   481 _g_TRPTBL	=	0xfc4c
+                         0000FC9A   482 _g_RTYCNT	=	0xfc9a
+                         0000FC9B   483 _g_INTFLG	=	0xfc9b
+                         0000FC9C   484 _g_PADY	=	0xfc9c
+                         0000FC9D   485 _g_PADX	=	0xfc9d
+                         0000FC9E   486 _g_JIFFY	=	0xfc9e
+                         0000FCA0   487 _g_INTVAL	=	0xfca0
+                         0000FCA2   488 _g_INTCNT	=	0xfca2
+                         0000FCA4   489 _g_LOWLIM	=	0xfca4
+                         0000FCA5   490 _g_WINWID	=	0xfca5
+                         0000FCA6   491 _g_GRPHED	=	0xfca6
+                         0000FCA7   492 _g_ESCCNT	=	0xfca7
+                         0000FCA8   493 _g_INSFLG	=	0xfca8
+                         0000FCA9   494 _g_CSRSW	=	0xfca9
+                         0000FCAA   495 _g_CSTYLE	=	0xfcaa
+                         0000FCAB   496 _g_CAPST	=	0xfcab
+                         0000FCAC   497 _g_KANAST	=	0xfcac
+                         0000FCAD   498 _g_KANAMD	=	0xfcad
+                         0000FCAE   499 _g_FLBMEM	=	0xfcae
+                         0000FCAF   500 _g_SCRMOD	=	0xfcaf
+                         0000FCB0   501 _g_OLDSCR	=	0xfcb0
+                         0000FCB1   502 _g_CASPRV	=	0xfcb1
+                         0000FCB2   503 _g_BRDATR	=	0xfcb2
+                         0000FCB3   504 _g_GXPOS	=	0xfcb3
+                         0000FCB5   505 _g_GYPOS	=	0xfcb5
+                         0000FCBB   506 _g_DRWFLG	=	0xfcbb
+                         0000FCBC   507 _g_DRWSCL	=	0xfcbc
+                         0000FCBD   508 _g_DRWANG	=	0xfcbd
+                         0000FCC1   509 _g_MNROM	=	0xfcc1
+                         0000FCC1   510 _g_EXPTBL	=	0xfcc1
+                         0000FCC5   511 _g_SLTTBL	=	0xfcc5
+                         0000FCC9   512 _g_SLTATR	=	0xfcc9
+                         0000FD09   513 _g_SLTWRK	=	0xfd09
+                         0000FD89   514 _g_PROCNM	=	0xfd89
+                         0000FFE7   515 _g_RG08SAV	=	0xffe7
+                         0000FFE8   516 _g_RG09SAV	=	0xffe8
+                         0000FFE9   517 _g_RG10SAV	=	0xffe9
+                         0000FFEA   518 _g_RG11SAV	=	0xffea
+                         0000FFEB   519 _g_RG12SAV	=	0xffeb
+                         0000FFEC   520 _g_RG13SAV	=	0xffec
+                         0000FFED   521 _g_RG14SAV	=	0xffed
+                         0000FFEE   522 _g_RG15SAV	=	0xffee
+                         0000FFEF   523 _g_RG16SAV	=	0xffef
+                         0000FFF0   524 _g_RG17SAV	=	0xfff0
+                         0000FFF1   525 _g_RG18SAV	=	0xfff1
+                         0000FFF2   526 _g_RG19SAV	=	0xfff2
+                         0000FFF3   527 _g_RG20SAV	=	0xfff3
+                         0000FFF4   528 _g_RG21SAV	=	0xfff4
+                         0000FFF5   529 _g_RG22SAV	=	0xfff5
+                         0000FFF6   530 _g_RG23SAV	=	0xfff6
+                         0000FFF7   531 _g_MINROM	=	0xfff7
+                         0000FFF8   532 _g_SVFFF8	=	0xfff8
+                         0000FFFA   533 _g_RG25SAV	=	0xfffa
+                         0000FFFB   534 _g_RG26SAV	=	0xfffb
+                         0000FFFC   535 _g_RG27SAV	=	0xfffc
+                         0000FFFD   536 _g_SVFFFD	=	0xfffd
+                         00000004   537 _g_CGTABL	=	0x0004
+                         00000006   538 _g_VDP_DR	=	0x0006
+                         00000007   539 _g_VDP_DW	=	0x0007
+                         0000002B   540 _g_BASRVN	=	0x002b
+                         0000002B   541 _g_ROMVersion	=	0x002b
+                         0000002D   542 _g_MSXVER	=	0x002d
+                         0000002E   543 _g_MSXMID	=	0x002e
+                         00000034   544 _g_CHAR_16	=	0x0034
+    0000001A                        545 ___str_0:
+    0000001A 0A                     546 	.db 0x0a
+    0000001B 0D                     547 	.db 0x0d
+    0000001C 24                     548 	.ascii "$"
+    0000001D 00                     549 	.db 0x00
+                         00000000   550 _g_SUBRID	=	0x0000
+                         00000002   551 _g_STRSRC	=	0x0002
+                         0000F30F   552 _g_KANJTABLE	=	0xf30f
+                         0000F323   553 _g_DISKVE	=	0xf323
+                         0000F325   554 _g_BREAKV	=	0xf325
+                         0000F341   555 _g_RAMAD0	=	0xf341
+                         0000F342   556 _g_RAMAD1	=	0xf342
+                         0000F343   557 _g_RAMAD2	=	0xf343
+                         0000F344   558 _g_RAMAD3	=	0xf344
+                         0000F348   559 _g_MASTER	=	0xf348
+                         0000F37D   560 _g_BDOS	=	0xf37d
+                                    561 ;./document.c:57: bool Document_Close()
+                                    562 ;	---------------------------------
+                                    563 ; Function Document_Close
+                                    564 ; ---------------------------------
+    0000001E                        565 _Document_Close::
+                                    566 ;./document.c:59: bool ok = TRUE;
+    0000001E 0E 01            [ 7]  567 	ld	c, #0x01
+                                    568 ;./document.c:60: while (s_Count)
+    00000020                        569 00103$:
+    00000020 3Ar01r20         [13]  570 	ld	a, (_s_Count+1)
+    00000023 21r00r20         [10]  571 	ld	hl, #_s_Count
+    00000026 B6               [ 7]  572 	or	a, (hl)
+    00000027 28 1C            [12]  573 	jr	z, 00105$
+                                    574 ;./document.c:62: --s_Count;
+    00000029 2Ar00r20         [16]  575 	ld	hl, (_s_Count)
+    0000002C 2B               [ 6]  576 	dec	hl
+                                    577 ;./document.c:63: if (!DOSMapper_FreeStruct(&s_Segments[s_Count]))
+    0000002D 22r00r20         [16]  578 	ld	(_s_Count), hl
+    00000030 29               [11]  579 	add	hl, hl
+    00000031 11r00r00         [10]  580 	ld	de, #_s_Segments
+    00000034 19               [11]  581 	add	hl, de
+                                    582 ;E:\msxworks\MSXgl\engine/src/dos_mapper.h:140: inline bool DOSMapper_FreeStruct(DOS_Segment* seg) { return DOSMapper_Free(seg->Number, seg->Slot); }
+    00000035 5D               [ 4]  583 	ld	e, l
+    00000036 54               [ 4]  584 	ld	d, h
+    00000037 23               [ 6]  585 	inc	hl
+    00000038 6E               [ 7]  586 	ld	l, (hl)
+    00000039 1A               [ 7]  587 	ld	a, (de)
+    0000003A C5               [11]  588 	push	bc
+    0000003B CDr00r00         [17]  589 	call	_DOSMapper_Free
+    0000003E C1               [10]  590 	pop	bc
+                                    591 ;./document.c:63: if (!DOSMapper_FreeStruct(&s_Segments[s_Count]))
+                                    592 ;./document.c:64: ok = FALSE;
+    0000003F B7               [ 4]  593 	or	a, a
+    00000040 20 DE            [12]  594 	jr	nz, 00103$
+    00000042 4F               [ 4]  595 	ld	c, a
+    00000043 18 DB            [12]  596 	jr	00103$
+    00000045                        597 00105$:
+                                    598 ;./document.c:66: g_DocumentCapacity = g_DocumentLength = 0;
+    00000045 AF               [ 4]  599 	xor	a, a
+    00000046 32r93r20         [13]  600 	ld	(_g_DocumentLength+0), a
+    00000049 32r94r20         [13]  601 	ld	(_g_DocumentLength+1), a
+    0000004C 32r95r20         [13]  602 	ld	(_g_DocumentLength+2), a
+    0000004F 32r96r20         [13]  603 	ld	(_g_DocumentLength+3), a
+    00000052 AF               [ 4]  604 	xor	a, a
+    00000053 32r8Fr20         [13]  605 	ld	(_g_DocumentCapacity+0), a
+    00000056 32r90r20         [13]  606 	ld	(_g_DocumentCapacity+1), a
+    00000059 32r91r20         [13]  607 	ld	(_g_DocumentCapacity+2), a
+    0000005C 32r92r20         [13]  608 	ld	(_g_DocumentCapacity+3), a
+                                    609 ;./document.c:67: return ok;
+    0000005F 79               [ 4]  610 	ld	a, c
+                                    611 ;./document.c:68: }
+    00000060 C9               [10]  612 	ret
+                                    613 ;./document.c:70: void Document_Reset()
+                                    614 ;	---------------------------------
+                                    615 ; Function Document_Reset
+                                    616 ; ---------------------------------
+    00000061                        617 _Document_Reset::
+                                    618 ;./document.c:72: g_DocumentLength = s_GapStart = 0;
+    00000061 AF               [ 4]  619 	xor	a, a
+    00000062 32r02r20         [13]  620 	ld	(_s_GapStart+0), a
+    00000065 32r03r20         [13]  621 	ld	(_s_GapStart+1), a
+    00000068 32r04r20         [13]  622 	ld	(_s_GapStart+2), a
+    0000006B 32r05r20         [13]  623 	ld	(_s_GapStart+3), a
+    0000006E AF               [ 4]  624 	xor	a, a
+    0000006F 32r93r20         [13]  625 	ld	(_g_DocumentLength+0), a
+    00000072 32r94r20         [13]  626 	ld	(_g_DocumentLength+1), a
+    00000075 32r95r20         [13]  627 	ld	(_g_DocumentLength+2), a
+    00000078 32r96r20         [13]  628 	ld	(_g_DocumentLength+3), a
+                                    629 ;./document.c:73: s_GapEnd = g_DocumentCapacity;
+    0000007B 11r06r20         [10]  630 	ld	de, #_s_GapEnd
+    0000007E 21r8Fr20         [10]  631 	ld	hl, #_g_DocumentCapacity
+    00000081 01 04 00         [10]  632 	ld	bc, #4
+    00000084 ED B0            [21]  633 	ldir
+                                    634 ;./document.c:74: }
+    00000086 C9               [10]  635 	ret
+                                    636 ;./document.c:76: bool Document_Init()
+                                    637 ;	---------------------------------
+                                    638 ; Function Document_Init
+                                    639 ; ---------------------------------
+    00000087                        640 _Document_Init::
+    00000087 CDr00r00         [17]  641 	call	___sdcc_enter_ix
+    0000008A F5               [11]  642 	push	af
+                                    643 ;./document.c:78: s_Count = 0;
+    0000008B 21 00 00         [10]  644 	ld	hl, #0x0000
+    0000008E 22r00r20         [16]  645 	ld	(_s_Count), hl
+                                    646 ;./document.c:79: g_DocumentCapacity = 0;
+    00000091 AF               [ 4]  647 	xor	a, a
+    00000092 32r8Fr20         [13]  648 	ld	(_g_DocumentCapacity+0), a
+    00000095 32r90r20         [13]  649 	ld	(_g_DocumentCapacity+1), a
+    00000098 32r91r20         [13]  650 	ld	(_g_DocumentCapacity+2), a
+    0000009B 32r92r20         [13]  651 	ld	(_g_DocumentCapacity+3), a
+                                    652 ;./document.c:80: if (!Document_MemorySafe())
+    0000009E CDr00r00         [17]  653 	call	_Document_MemorySafe
+                                    654 ;./document.c:81: return FALSE;
+    000000A1 B7               [ 4]  655 	or	a,a
+    000000A2 CAr2Br01         [10]  656 	jp	z, 00113$
+                                    657 ;./document.c:82: const DOS_VarTable* tab = DOSMapper_GetVarTable();
+    000000A5 ED 4Br00r00      [20]  658 	ld	bc, (_g_DOS_VarTable)
+                                    659 ;./document.c:83: while (tab->Slot)
+    000000A9                        660 00109$:
+    000000A9 59               [ 4]  661 	ld	e, c
+    000000AA 50               [ 4]  662 	ld	d, b
+    000000AB 1A               [ 7]  663 	ld	a, (de)
+    000000AC B7               [ 4]  664 	or	a, a
+    000000AD 28 6B            [12]  665 	jr	z, 00111$
+                                    666 ;./document.c:85: u16 free = tab->FreeSeg;
+    000000AF 69               [ 4]  667 	ld	l, c
+    000000B0 60               [ 4]  668 	ld	h, b
+    000000B1 23               [ 6]  669 	inc	hl
+    000000B2 23               [ 6]  670 	inc	hl
+    000000B3 7E               [ 7]  671 	ld	a, (hl)
+    000000B4 DD 77 FE         [19]  672 	ld	-2 (ix), a
+    000000B7 DD 36 FF 00      [19]  673 	ld	-1 (ix), #0x00
+                                    674 ;./document.c:86: while (free--)
+    000000BB                        675 00106$:
+    000000BB E1               [10]  676 	pop	hl
+    000000BC E5               [11]  677 	push	hl
+    000000BD DD 7E FE         [19]  678 	ld	a, -2 (ix)
+    000000C0 C6 FF            [ 7]  679 	add	a, #0xff
+    000000C2 DD 77 FE         [19]  680 	ld	-2 (ix), a
+    000000C5 DD 7E FF         [19]  681 	ld	a, -1 (ix)
+    000000C8 CE FF            [ 7]  682 	adc	a, #0xff
+    000000CA DD 77 FF         [19]  683 	ld	-1 (ix), a
+    000000CD 7C               [ 4]  684 	ld	a, h
+    000000CE B5               [ 4]  685 	or	a, l
+    000000CF 28 41            [12]  686 	jr	z, 00108$
+                                    687 ;./document.c:88: if ((s_Count == MAX_SEGMENTS)
+    000000D1 2Ar00r20         [16]  688 	ld	hl, (_s_Count)
+    000000D4 7D               [ 4]  689 	ld	a, l
+    000000D5 B7               [ 4]  690 	or	a, a
+    000000D6 20 05            [12]  691 	jr	nz, 00163$
+    000000D8 7C               [ 4]  692 	ld	a, h
+    000000D9 D6 10            [ 7]  693 	sub	a, #0x10
+    000000DB 28 18            [12]  694 	jr	z, 00103$
+    000000DD                        695 00163$:
+                                    696 ;./document.c:89: || !DOSMapper_Alloc(DOS_ALLOC_USER, tab->Slot, &s_Segments[s_Count]))
+    000000DD 2Ar00r20         [16]  697 	ld	hl, (_s_Count)
+    000000E0 29               [11]  698 	add	hl, hl
+    000000E1 D5               [11]  699 	push	de
+    000000E2 11r00r00         [10]  700 	ld	de, #_s_Segments
+    000000E5 19               [11]  701 	add	hl, de
+    000000E6 D1               [10]  702 	pop	de
+    000000E7 1A               [ 7]  703 	ld	a, (de)
+    000000E8 C5               [11]  704 	push	bc
+    000000E9 D5               [11]  705 	push	de
+    000000EA E5               [11]  706 	push	hl
+    000000EB 6F               [ 4]  707 	ld	l, a
+    000000EC AF               [ 4]  708 	xor	a, a
+    000000ED CDr00r00         [17]  709 	call	_DOSMapper_Alloc
+    000000F0 D1               [10]  710 	pop	de
+    000000F1 C1               [10]  711 	pop	bc
+    000000F2 B7               [ 4]  712 	or	a, a
+    000000F3 20 03            [12]  713 	jr	nz, 00104$
+    000000F5                        714 00103$:
+                                    715 ;./document.c:90: return FALSE;
+    000000F5 AF               [ 4]  716 	xor	a, a
+    000000F6 18 33            [12]  717 	jr	00113$
+    000000F8                        718 00104$:
+                                    719 ;./document.c:91: ++s_Count;
+    000000F8 2Ar00r20         [16]  720 	ld	hl, (_s_Count)
+    000000FB 23               [ 6]  721 	inc	hl
+    000000FC 22r00r20         [16]  722 	ld	(_s_Count), hl
+                                    723 ;./document.c:92: g_DocumentCapacity += SEGMENT_SIZE;
+    000000FF 21r8Fr20         [10]  724 	ld	hl, #_g_DocumentCapacity
+    00000102 23               [ 6]  725 	inc	hl
+    00000103 7E               [ 7]  726 	ld	a, (hl)
+    00000104 C6 40            [ 7]  727 	add	a, #0x40
+    00000106 77               [ 7]  728 	ld	(hl), a
+    00000107 23               [ 6]  729 	inc	hl
+    00000108 7E               [ 7]  730 	ld	a, (hl)
+    00000109 CE 00            [ 7]  731 	adc	a, #0x00
+    0000010B 77               [ 7]  732 	ld	(hl), a
+    0000010C 30 AD            [12]  733 	jr	nc, 00106$
+    0000010E 23               [ 6]  734 	inc	hl
+    0000010F 34               [11]  735 	inc	(hl)
+    00000110 18 A9            [12]  736 	jr	00106$
+    00000112                        737 00108$:
+                                    738 ;./document.c:94: ++tab;
+    00000112 21 08 00         [10]  739 	ld	hl, #0x0008
+    00000115 09               [11]  740 	add	hl, bc
+    00000116 4D               [ 4]  741 	ld	c, l
+    00000117 44               [ 4]  742 	ld	b, h
+    00000118 18 8F            [12]  743 	jr	00109$
+    0000011A                        744 00111$:
+                                    745 ;./document.c:96: Document_Reset();
+    0000011A CDr61r00         [17]  746 	call	_Document_Reset
+                                    747 ;./document.c:97: return s_Count != 0;
+    0000011D 3Ar01r20         [13]  748 	ld	a, (_s_Count+1)
+    00000120 21r00r20         [10]  749 	ld	hl, #_s_Count
+    00000123 B6               [ 7]  750 	or	a, (hl)
+    00000124 D6 01            [ 7]  751 	sub	a, #0x01
+    00000126 3E 00            [ 7]  752 	ld	a, #0x00
+    00000128 17               [ 4]  753 	rla
+    00000129 EE 01            [ 7]  754 	xor	a, #0x01
+    0000012B                        755 00113$:
+                                    756 ;./document.c:98: }
+    0000012B C1               [10]  757 	pop	bc
+    0000012C DD E1            [14]  758 	pop	ix
+    0000012E C9               [10]  759 	ret
+                                    760 ;./document.c:100: void Document_Begin()
+                                    761 ;	---------------------------------
+                                    762 ; Function Document_Begin
+                                    763 ; ---------------------------------
+    0000012F                        764 _Document_Begin::
+                                    765 ;./document.c:102: s_SavedPage = DOSMapper_GetPage2();
+    0000012F CDr00r00         [17]  766 	call	_DOSMapper_GetPage2
+    00000132 32r0Ar20         [13]  767 	ld	(#_s_SavedPage), a
+                                    768 ;./document.c:103: s_SavedSlot = s_Slot = Sys_GetPageSlot(2);
+    00000135 3E 02            [ 7]  769 	ld	a, #0x02
+    00000137 CDr00r00         [17]  770 	call	_Sys_GetPageSlot
+    0000013A 32r0Cr20         [13]  771 	ld	(#_s_Slot), a
+    0000013D 32r0Br20         [13]  772 	ld	(#_s_SavedSlot), a
+                                    773 ;./document.c:104: s_Mapped = MAX_SEGMENTS;
+    00000140 21 00 10         [10]  774 	ld	hl, #0x1000
+    00000143 22r0Dr20         [16]  775 	ld	(_s_Mapped), hl
+                                    776 ;./document.c:105: }
+    00000146 C9               [10]  777 	ret
+                                    778 ;./document.c:107: void Document_End()
+                                    779 ;	---------------------------------
+                                    780 ; Function Document_End
+                                    781 ; ---------------------------------
+    00000147                        782 _Document_End::
+                                    783 ;./document.c:109: DOSMapper_SetPage2(s_SavedPage);
+    00000147 3Ar0Ar20         [13]  784 	ld	a, (_s_SavedPage)
+    0000014A CDr00r00         [17]  785 	call	_DOSMapper_SetPage2
+                                    786 ;./document.c:110: if (s_Slot != s_SavedSlot)
+    0000014D 3Ar0Cr20         [13]  787 	ld	a, (_s_Slot)
+    00000150 21r0Br20         [10]  788 	ld	hl, #_s_SavedSlot
+    00000153 96               [ 7]  789 	sub	a, (hl)
+    00000154 C8               [11]  790 	ret	z
+                                    791 ;./document.c:111: Document_SelectSlot(s_SavedSlot);
+    00000155 3Ar0Br20         [13]  792 	ld	a, (_s_SavedSlot+0)
+                                    793 ;./document.c:112: }
+    00000158 C3r0Br00         [10]  794 	jp	_Document_SelectSlot
+                                    795 ;./document.c:114: static u8* Address(u32 pos)
+                                    796 ;	---------------------------------
+                                    797 ; Function Address
+                                    798 ; ---------------------------------
+    0000015B                        799 _Address:
+    0000015B DD E5            [15]  800 	push	ix
+    0000015D DD 21 00 00      [14]  801 	ld	ix,	#0
+    00000161 DD 39            [15]  802 	add	ix, sp
+    00000163 F5               [11]  803 	push	af
+    00000164 D5               [11]  804 	push	de
+    00000165 DD 75 FE         [19]  805 	ld	-2 (ix), l
+    00000168 DD 74 FF         [19]  806 	ld	-1 (ix), h
+                                    807 ;./document.c:116: u16 index = pos >> 14;
+    0000016B DD 5E FD         [19]  808 	ld	e, -3 (ix)
+    0000016E DD 56 FE         [19]  809 	ld	d, -2 (ix)
+    00000171 DD 4E FF         [19]  810 	ld	c, -1 (ix)
+    00000174 06 06            [ 7]  811 	ld	b, #0x06
+    00000176                        812 00123$:
+    00000176 CB 39            [ 8]  813 	srl	c
+    00000178 CB 1A            [ 8]  814 	rr	d
+    0000017A CB 1B            [ 8]  815 	rr	e
+    0000017C 10 F8            [13]  816 	djnz	00123$
+                                    817 ;./document.c:117: if (index != s_Mapped)
+    0000017E 2Ar0Dr20         [16]  818 	ld	hl, (_s_Mapped)
+    00000181 AF               [ 4]  819 	xor	a, a
+    00000182 ED 52            [15]  820 	sbc	hl, de
+    00000184 28 27            [12]  821 	jr	z, 00104$
+                                    822 ;./document.c:119: DOSMapper_SetPage2(s_Segments[index].Number);
+    00000186 01r00r00         [10]  823 	ld	bc, #_s_Segments+0
+    00000189 6B               [ 4]  824 	ld	l, e
+    0000018A 62               [ 4]  825 	ld	h, d
+    0000018B 29               [11]  826 	add	hl, hl
+    0000018C 09               [11]  827 	add	hl, bc
+    0000018D 7E               [ 7]  828 	ld	a, (hl)
+    0000018E E5               [11]  829 	push	hl
+    0000018F D5               [11]  830 	push	de
+    00000190 CDr00r00         [17]  831 	call	_DOSMapper_SetPage2
+    00000193 D1               [10]  832 	pop	de
+    00000194 E1               [10]  833 	pop	hl
+                                    834 ;./document.c:120: if (s_Slot != s_Segments[index].Slot)
+    00000195 23               [ 6]  835 	inc	hl
+    00000196 4E               [ 7]  836 	ld	c, (hl)
+    00000197 3Ar0Cr20         [13]  837 	ld	a, (_s_Slot)
+    0000019A 91               [ 4]  838 	sub	a, c
+    0000019B 28 0C            [12]  839 	jr	z, 00102$
+                                    840 ;./document.c:122: s_Slot = s_Segments[index].Slot;
+    0000019D 21r0Cr20         [10]  841 	ld	hl, #_s_Slot
+    000001A0 71               [ 7]  842 	ld	(hl), c
+                                    843 ;./document.c:123: Document_SelectSlot(s_Slot);
+    000001A1 D5               [11]  844 	push	de
+    000001A2 3Ar0Cr20         [13]  845 	ld	a, (_s_Slot)
+    000001A5 CDr0Br00         [17]  846 	call	_Document_SelectSlot
+    000001A8 D1               [10]  847 	pop	de
+    000001A9                        848 00102$:
+                                    849 ;./document.c:125: s_Mapped = index;
+    000001A9 ED 53r0Dr20      [20]  850 	ld	(_s_Mapped), de
+    000001AD                        851 00104$:
+                                    852 ;./document.c:127: return Document_Page() + (u16)(pos & (SEGMENT_SIZE - 1));
+    000001AD CDr16r00         [17]  853 	call	_Document_Page
+    000001B0 DD 6E FC         [19]  854 	ld	l, -4 (ix)
+    000001B3 DD 7E FD         [19]  855 	ld	a, -3 (ix)
+    000001B6 E6 3F            [ 7]  856 	and	a, #0x3f
+    000001B8 67               [ 4]  857 	ld	h, a
+    000001B9 19               [11]  858 	add	hl, de
+    000001BA EB               [ 4]  859 	ex	de, hl
+                                    860 ;./document.c:128: }
+    000001BB DD F9            [10]  861 	ld	sp, ix
+    000001BD DD E1            [14]  862 	pop	ix
+    000001BF C9               [10]  863 	ret
+                                    864 ;./document.c:130: static u16 BankCount(u32 pos, u16 count)
+                                    865 ;	---------------------------------
+                                    866 ; Function BankCount
+                                    867 ; ---------------------------------
+    000001C0                        868 _BankCount:
+    000001C0 DD E5            [15]  869 	push	ix
+    000001C2 DD 21 00 00      [14]  870 	ld	ix,	#0
+    000001C6 DD 39            [15]  871 	add	ix, sp
+                                    872 ;./document.c:132: u16 available = (u16)(SEGMENT_SIZE - (pos & (SEGMENT_SIZE - 1)));
+    000001C8 7A               [ 4]  873 	ld	a, d
+    000001C9 E6 3F            [ 7]  874 	and	a, #0x3f
+    000001CB 57               [ 4]  875 	ld	d, a
+    000001CC 21 00 40         [10]  876 	ld	hl, #0x4000
+    000001CF BF               [ 4]  877 	cp	a, a
+    000001D0 ED 52            [15]  878 	sbc	hl, de
+                                    879 ;./document.c:133: return count < available ? count : available;
+    000001D2 DD 7E 04         [19]  880 	ld	a, 4 (ix)
+    000001D5 95               [ 4]  881 	sub	a, l
+    000001D6 DD 7E 05         [19]  882 	ld	a, 5 (ix)
+    000001D9 9C               [ 4]  883 	sbc	a, h
+    000001DA 30 08            [12]  884 	jr	nc, 00103$
+    000001DC DD 5E 04         [19]  885 	ld	e, 4 (ix)
+    000001DF DD 56 05         [19]  886 	ld	d, 5 (ix)
+    000001E2 18 01            [12]  887 	jr	00104$
+    000001E4                        888 00103$:
+    000001E4 EB               [ 4]  889 	ex	de, hl
+    000001E5                        890 00104$:
+                                    891 ;./document.c:134: }
+    000001E5 DD E1            [14]  892 	pop	ix
+    000001E7 E1               [10]  893 	pop	hl
+    000001E8 F1               [10]  894 	pop	af
+    000001E9 E9               [ 4]  895 	jp	(hl)
+                                    896 ;./document.c:136: void Document_Read(u32 pos, c8* dest, u16 count)
+                                    897 ;	---------------------------------
+                                    898 ; Function Document_Read
+                                    899 ; ---------------------------------
+    000001EA                        900 _Document_Read::
+    000001EA DD E5            [15]  901 	push	ix
+    000001EC DD 21 00 00      [14]  902 	ld	ix,	#0
+    000001F0 DD 39            [15]  903 	add	ix, sp
+    000001F2 FD 21 F2 FF      [14]  904 	ld	iy, #-14
+    000001F6 FD 39            [15]  905 	add	iy, sp
+    000001F8 FD F9            [10]  906 	ld	sp, iy
+    000001FA DD 73 F6         [19]  907 	ld	-10 (ix), e
+    000001FD DD 72 F7         [19]  908 	ld	-9 (ix), d
+    00000200 DD 75 F8         [19]  909 	ld	-8 (ix), l
+    00000203 DD 74 F9         [19]  910 	ld	-7 (ix), h
+                                    911 ;./document.c:138: while (count)
+    00000206                        912 00107$:
+    00000206 DD 7E 07         [19]  913 	ld	a, 7 (ix)
+    00000209 DD B6 06         [19]  914 	or	a, 6 (ix)
+    0000020C CAr8Ar03         [10]  915 	jp	z, 00113$
+                                    916 ;./document.c:140: u32 physical = pos;
+    0000020F DD 5E F6         [19]  917 	ld	e, -10 (ix)
+    00000212 DD 56 F7         [19]  918 	ld	d, -9 (ix)
+    00000215 DD 4E F8         [19]  919 	ld	c, -8 (ix)
+    00000218 DD 46 F9         [19]  920 	ld	b, -7 (ix)
+                                    921 ;./document.c:141: u16 size = count;
+    0000021B DD 7E 06         [19]  922 	ld	a, 6 (ix)
+    0000021E DD 77 FA         [19]  923 	ld	-6 (ix), a
+    00000221 DD 7E 07         [19]  924 	ld	a, 7 (ix)
+    00000224 DD 77 FB         [19]  925 	ld	-5 (ix), a
+                                    926 ;./document.c:142: if (pos >= s_GapStart)
+    00000227 21r02r20         [10]  927 	ld	hl, #_s_GapStart
+    0000022A DD 7E F6         [19]  928 	ld	a, -10 (ix)
+    0000022D 96               [ 7]  929 	sub	a, (hl)
+    0000022E DD 7E F7         [19]  930 	ld	a, -9 (ix)
+    00000231 23               [ 6]  931 	inc	hl
+    00000232 9E               [ 7]  932 	sbc	a, (hl)
+    00000233 DD 7E F8         [19]  933 	ld	a, -8 (ix)
+    00000236 23               [ 6]  934 	inc	hl
+    00000237 9E               [ 7]  935 	sbc	a, (hl)
+    00000238 DD 7E F9         [19]  936 	ld	a, -7 (ix)
+    0000023B 23               [ 6]  937 	inc	hl
+    0000023C 9E               [ 7]  938 	sbc	a, (hl)
+    0000023D 38 30            [12]  939 	jr	c, 00104$
+                                    940 ;./document.c:143: physical += s_GapEnd - s_GapStart;
+    0000023F 21r02r20         [10]  941 	ld	hl, #_s_GapStart
+    00000242 3Ar06r20         [13]  942 	ld	a, (_s_GapEnd+0)
+    00000245 96               [ 7]  943 	sub	a, (hl)
+    00000246 23               [ 6]  944 	inc	hl
+    00000247 5F               [ 4]  945 	ld	e, a
+    00000248 3Ar07r20         [13]  946 	ld	a, (_s_GapEnd+1)
+    0000024B 9E               [ 7]  947 	sbc	a, (hl)
+    0000024C 23               [ 6]  948 	inc	hl
+    0000024D 57               [ 4]  949 	ld	d, a
+    0000024E 3Ar08r20         [13]  950 	ld	a, (_s_GapEnd+2)
+    00000251 9E               [ 7]  951 	sbc	a, (hl)
+    00000252 23               [ 6]  952 	inc	hl
+    00000253 4F               [ 4]  953 	ld	c, a
+    00000254 3Ar09r20         [13]  954 	ld	a, (_s_GapEnd+3)
+    00000257 9E               [ 7]  955 	sbc	a, (hl)
+    00000258 47               [ 4]  956 	ld	b, a
+    00000259 7B               [ 4]  957 	ld	a, e
+    0000025A DD 86 F6         [19]  958 	add	a, -10 (ix)
+    0000025D 5F               [ 4]  959 	ld	e, a
+    0000025E 7A               [ 4]  960 	ld	a, d
+    0000025F DD 8E F7         [19]  961 	adc	a, -9 (ix)
+    00000262 57               [ 4]  962 	ld	d, a
+    00000263 79               [ 4]  963 	ld	a, c
+    00000264 DD 8E F8         [19]  964 	adc	a, -8 (ix)
+    00000267 4F               [ 4]  965 	ld	c, a
+    00000268 78               [ 4]  966 	ld	a, b
+    00000269 DD 8E F9         [19]  967 	adc	a, -7 (ix)
+    0000026C 47               [ 4]  968 	ld	b, a
+    0000026D 18 6E            [12]  969 	jr	00105$
+    0000026F                        970 00104$:
+                                    971 ;./document.c:144: else if (s_GapStart - pos < size)
+    0000026F 3Ar02r20         [13]  972 	ld	a, (_s_GapStart+0)
+    00000272 DD 96 F6         [19]  973 	sub	a, -10 (ix)
+    00000275 DD 77 F2         [19]  974 	ld	-14 (ix), a
+    00000278 3Ar03r20         [13]  975 	ld	a, (_s_GapStart+1)
+    0000027B DD 9E F7         [19]  976 	sbc	a, -9 (ix)
+    0000027E DD 77 F3         [19]  977 	ld	-13 (ix), a
+    00000281 3Ar04r20         [13]  978 	ld	a, (_s_GapStart+2)
+    00000284 DD 9E F8         [19]  979 	sbc	a, -8 (ix)
+    00000287 DD 77 F4         [19]  980 	ld	-12 (ix), a
+    0000028A 3Ar05r20         [13]  981 	ld	a, (_s_GapStart+3)
+    0000028D DD 9E F9         [19]  982 	sbc	a, -7 (ix)
+    00000290 DD 77 F5         [19]  983 	ld	-11 (ix), a
+    00000293 DD 7E FA         [19]  984 	ld	a, -6 (ix)
+    00000296 DD 77 FC         [19]  985 	ld	-4 (ix), a
+    00000299 DD 7E FB         [19]  986 	ld	a, -5 (ix)
+    0000029C DD 77 FD         [19]  987 	ld	-3 (ix), a
+    0000029F AF               [ 4]  988 	xor	a, a
+    000002A0 DD 77 FE         [19]  989 	ld	-2 (ix), a
+    000002A3 DD 77 FF         [19]  990 	ld	-1 (ix), a
+    000002A6 DD 7E F2         [19]  991 	ld	a, -14 (ix)
+    000002A9 DD 96 FC         [19]  992 	sub	a, -4 (ix)
+    000002AC DD 7E F3         [19]  993 	ld	a, -13 (ix)
+    000002AF DD 9E FD         [19]  994 	sbc	a, -3 (ix)
+    000002B2 DD 7E F4         [19]  995 	ld	a, -12 (ix)
+    000002B5 DD 9E FE         [19]  996 	sbc	a, -2 (ix)
+    000002B8 DD 7E F5         [19]  997 	ld	a, -11 (ix)
+    000002BB DD 9E FF         [19]  998 	sbc	a, -1 (ix)
+    000002BE 30 1D            [12]  999 	jr	nc, 00105$
+                                   1000 ;./document.c:145: size = (u16)(s_GapStart - pos);
+    000002C0 2Ar02r20         [16] 1001 	ld	hl, (_s_GapStart)
+    000002C3 DD 75 FE         [19] 1002 	ld	-2 (ix), l
+    000002C6 DD 74 FF         [19] 1003 	ld	-1 (ix), h
+    000002C9 DD 6E F6         [19] 1004 	ld	l, -10 (ix)
+    000002CC DD 66 F7         [19] 1005 	ld	h, -9 (ix)
+    000002CF DD 7E FE         [19] 1006 	ld	a, -2 (ix)
+    000002D2 95               [ 4] 1007 	sub	a, l
+    000002D3 DD 77 FA         [19] 1008 	ld	-6 (ix), a
+    000002D6 DD 7E FF         [19] 1009 	ld	a, -1 (ix)
+    000002D9 9C               [ 4] 1010 	sbc	a, h
+    000002DA DD 77 FB         [19] 1011 	ld	-5 (ix), a
+    000002DD                       1012 00105$:
+                                   1013 ;./document.c:146: size = BankCount(physical, size);
+    000002DD C5               [11] 1014 	push	bc
+    000002DE D5               [11] 1015 	push	de
+    000002DF DD 6E FA         [19] 1016 	ld	l, -6 (ix)
+    000002E2 DD 66 FB         [19] 1017 	ld	h, -5 (ix)
+    000002E5 E5               [11] 1018 	push	hl
+    000002E6 69               [ 4] 1019 	ld	l, c
+    000002E7 60               [ 4] 1020 	ld	h, b
+    000002E8 CDrC0r01         [17] 1021 	call	_BankCount
+    000002EB DD 73 F4         [19] 1022 	ld	-12 (ix), e
+    000002EE DD 72 F5         [19] 1023 	ld	-11 (ix), d
+    000002F1 D1               [10] 1024 	pop	de
+                                   1025 ;./document.c:147: const u8* src = Address(physical);
+    000002F2 E1               [10] 1026 	pop	hl
+    000002F3 CDr5Br01         [17] 1027 	call	_Address
+    000002F6 DD 73 FA         [19] 1028 	ld	-6 (ix), e
+    000002F9 DD 72 FB         [19] 1029 	ld	-5 (ix), d
+                                   1030 ;./document.c:148: for (u16 i = 0; i < size; ++i)
+    000002FC DD 7E 04         [19] 1031 	ld	a, 4 (ix)
+    000002FF DD 77 FC         [19] 1032 	ld	-4 (ix), a
+    00000302 DD 7E 05         [19] 1033 	ld	a, 5 (ix)
+    00000305 DD 77 FD         [19] 1034 	ld	-3 (ix), a
+    00000308 AF               [ 4] 1035 	xor	a, a
+    00000309 DD 77 FE         [19] 1036 	ld	-2 (ix), a
+    0000030C DD 77 FF         [19] 1037 	ld	-1 (ix), a
+    0000030F                       1038 00111$:
+    0000030F DD 7E FE         [19] 1039 	ld	a, -2 (ix)
+    00000312 DD 96 F4         [19] 1040 	sub	a, -12 (ix)
+    00000315 DD 7E FF         [19] 1041 	ld	a, -1 (ix)
+    00000318 DD 9E F5         [19] 1042 	sbc	a, -11 (ix)
+    0000031B 30 28            [12] 1043 	jr	nc, 00127$
+                                   1044 ;./document.c:149: *dest++ = *src++;
+    0000031D DD 6E FA         [19] 1045 	ld	l, -6 (ix)
+    00000320 DD 66 FB         [19] 1046 	ld	h, -5 (ix)
+    00000323 7E               [ 7] 1047 	ld	a, (hl)
+    00000324 DD 34 FA         [23] 1048 	inc	-6 (ix)
+    00000327 20 03            [12] 1049 	jr	nz, 00164$
+    00000329 DD 34 FB         [23] 1050 	inc	-5 (ix)
+    0000032C                       1051 00164$:
+    0000032C DD 6E FC         [19] 1052 	ld	l, -4 (ix)
+    0000032F DD 66 FD         [19] 1053 	ld	h, -3 (ix)
+    00000332 77               [ 7] 1054 	ld	(hl), a
+    00000333 DD 34 FC         [23] 1055 	inc	-4 (ix)
+    00000336 20 03            [12] 1056 	jr	nz, 00165$
+    00000338 DD 34 FD         [23] 1057 	inc	-3 (ix)
+    0000033B                       1058 00165$:
+                                   1059 ;./document.c:148: for (u16 i = 0; i < size; ++i)
+    0000033B DD 34 FE         [23] 1060 	inc	-2 (ix)
+    0000033E 20 CF            [12] 1061 	jr	nz, 00111$
+    00000340 DD 34 FF         [23] 1062 	inc	-1 (ix)
+    00000343 18 CA            [12] 1063 	jr	00111$
+    00000345                       1064 00127$:
+    00000345 DD 7E FC         [19] 1065 	ld	a, -4 (ix)
+    00000348 DD 77 04         [19] 1066 	ld	4 (ix), a
+    0000034B DD 7E FD         [19] 1067 	ld	a, -3 (ix)
+    0000034E DD 77 05         [19] 1068 	ld	5 (ix), a
+                                   1069 ;./document.c:150: pos += size;
+    00000351 DD 7E F4         [19] 1070 	ld	a, -12 (ix)
+    00000354 DD 4E F5         [19] 1071 	ld	c, -11 (ix)
+    00000357 11 00 00         [10] 1072 	ld	de, #0x0000
+    0000035A DD 86 F6         [19] 1073 	add	a, -10 (ix)
+    0000035D DD 77 F6         [19] 1074 	ld	-10 (ix), a
+    00000360 79               [ 4] 1075 	ld	a, c
+    00000361 DD 8E F7         [19] 1076 	adc	a, -9 (ix)
+    00000364 DD 77 F7         [19] 1077 	ld	-9 (ix), a
+    00000367 7B               [ 4] 1078 	ld	a, e
+    00000368 DD 8E F8         [19] 1079 	adc	a, -8 (ix)
+    0000036B DD 77 F8         [19] 1080 	ld	-8 (ix), a
+    0000036E 7A               [ 4] 1081 	ld	a, d
+    0000036F DD 8E F9         [19] 1082 	adc	a, -7 (ix)
+    00000372 DD 77 F9         [19] 1083 	ld	-7 (ix), a
+                                   1084 ;./document.c:151: count -= size;
+    00000375 DD 7E 06         [19] 1085 	ld	a, 6 (ix)
+    00000378 DD 96 F4         [19] 1086 	sub	a, -12 (ix)
+    0000037B DD 77 06         [19] 1087 	ld	6 (ix), a
+    0000037E DD 7E 07         [19] 1088 	ld	a, 7 (ix)
+    00000381 DD 9E F5         [19] 1089 	sbc	a, -11 (ix)
+    00000384 DD 77 07         [19] 1090 	ld	7 (ix), a
+    00000387 C3r06r02         [10] 1091 	jp	00107$
+    0000038A                       1092 00113$:
+                                   1093 ;./document.c:153: }
+    0000038A DD F9            [10] 1094 	ld	sp, ix
+    0000038C DD E1            [14] 1095 	pop	ix
+    0000038E E1               [10] 1096 	pop	hl
+    0000038F F1               [10] 1097 	pop	af
+    00000390 F1               [10] 1098 	pop	af
+    00000391 E9               [ 4] 1099 	jp	(hl)
+                                   1100 ;./document.c:155: u8 Document_Get(u32 pos)
+                                   1101 ;	---------------------------------
+                                   1102 ; Function Document_Get
+                                   1103 ; ---------------------------------
+    00000392                       1104 _Document_Get::
+    00000392 DD E5            [15] 1105 	push	ix
+    00000394 DD 21 00 00      [14] 1106 	ld	ix,	#0
+    00000398 DD 39            [15] 1107 	add	ix, sp
+    0000039A F5               [11] 1108 	push	af
+    0000039B F5               [11] 1109 	push	af
+    0000039C 4D               [ 4] 1110 	ld	c, l
+    0000039D 44               [ 4] 1111 	ld	b, h
+                                   1112 ;./document.c:157: if (pos >= s_GapStart)
+    0000039E 21r02r20         [10] 1113 	ld	hl, #_s_GapStart
+    000003A1 7B               [ 4] 1114 	ld	a, e
+    000003A2 96               [ 7] 1115 	sub	a, (hl)
+    000003A3 23               [ 6] 1116 	inc	hl
+    000003A4 7A               [ 4] 1117 	ld	a, d
+    000003A5 9E               [ 7] 1118 	sbc	a, (hl)
+    000003A6 23               [ 6] 1119 	inc	hl
+    000003A7 79               [ 4] 1120 	ld	a, c
+    000003A8 9E               [ 7] 1121 	sbc	a, (hl)
+    000003A9 23               [ 6] 1122 	inc	hl
+    000003AA 78               [ 4] 1123 	ld	a, b
+    000003AB 9E               [ 7] 1124 	sbc	a, (hl)
+    000003AC 38 36            [12] 1125 	jr	c, 00102$
+                                   1126 ;./document.c:158: pos += s_GapEnd - s_GapStart;
+    000003AE 21r02r20         [10] 1127 	ld	hl, #_s_GapStart
+    000003B1 3Ar06r20         [13] 1128 	ld	a, (_s_GapEnd+0)
+    000003B4 96               [ 7] 1129 	sub	a, (hl)
+    000003B5 DD 77 FC         [19] 1130 	ld	-4 (ix), a
+    000003B8 23               [ 6] 1131 	inc	hl
+    000003B9 3Ar07r20         [13] 1132 	ld	a, (_s_GapEnd+1)
+    000003BC 9E               [ 7] 1133 	sbc	a, (hl)
+    000003BD DD 77 FD         [19] 1134 	ld	-3 (ix), a
+    000003C0 23               [ 6] 1135 	inc	hl
+    000003C1 3Ar08r20         [13] 1136 	ld	a, (_s_GapEnd+2)
+    000003C4 9E               [ 7] 1137 	sbc	a, (hl)
+    000003C5 DD 77 FE         [19] 1138 	ld	-2 (ix), a
+    000003C8 23               [ 6] 1139 	inc	hl
+    000003C9 3Ar09r20         [13] 1140 	ld	a, (_s_GapEnd+3)
+    000003CC 9E               [ 7] 1141 	sbc	a, (hl)
+    000003CD DD 77 FF         [19] 1142 	ld	-1 (ix), a
+    000003D0 7B               [ 4] 1143 	ld	a, e
+    000003D1 DD 86 FC         [19] 1144 	add	a, -4 (ix)
+    000003D4 5F               [ 4] 1145 	ld	e, a
+    000003D5 7A               [ 4] 1146 	ld	a, d
+    000003D6 DD 8E FD         [19] 1147 	adc	a, -3 (ix)
+    000003D9 57               [ 4] 1148 	ld	d, a
+    000003DA 79               [ 4] 1149 	ld	a, c
+    000003DB DD 8E FE         [19] 1150 	adc	a, -2 (ix)
+    000003DE 4F               [ 4] 1151 	ld	c, a
+    000003DF 78               [ 4] 1152 	ld	a, b
+    000003E0 DD 8E FF         [19] 1153 	adc	a, -1 (ix)
+    000003E3 47               [ 4] 1154 	ld	b, a
+    000003E4                       1155 00102$:
+                                   1156 ;./document.c:159: return *Address(pos);
+    000003E4 69               [ 4] 1157 	ld	l, c
+    000003E5 60               [ 4] 1158 	ld	h, b
+    000003E6 CDr5Br01         [17] 1159 	call	_Address
+    000003E9 1A               [ 7] 1160 	ld	a, (de)
+                                   1161 ;./document.c:160: }
+    000003EA DD F9            [10] 1162 	ld	sp, ix
+    000003EC DD E1            [14] 1163 	pop	ix
+    000003EE C9               [10] 1164 	ret
+                                   1165 ;./document.c:162: void Document_Put(u32 pos, u8 chr)
+                                   1166 ;	---------------------------------
+                                   1167 ; Function Document_Put
+                                   1168 ; ---------------------------------
+    000003EF                       1169 _Document_Put::
+    000003EF DD E5            [15] 1170 	push	ix
+    000003F1 DD 21 00 00      [14] 1171 	ld	ix,	#0
+    000003F5 DD 39            [15] 1172 	add	ix, sp
+    000003F7 F5               [11] 1173 	push	af
+    000003F8 F5               [11] 1174 	push	af
+    000003F9 4D               [ 4] 1175 	ld	c, l
+    000003FA 44               [ 4] 1176 	ld	b, h
+                                   1177 ;./document.c:164: if (pos >= s_GapStart)
+    000003FB 21r02r20         [10] 1178 	ld	hl, #_s_GapStart
+    000003FE 7B               [ 4] 1179 	ld	a, e
+    000003FF 96               [ 7] 1180 	sub	a, (hl)
+    00000400 23               [ 6] 1181 	inc	hl
+    00000401 7A               [ 4] 1182 	ld	a, d
+    00000402 9E               [ 7] 1183 	sbc	a, (hl)
+    00000403 23               [ 6] 1184 	inc	hl
+    00000404 79               [ 4] 1185 	ld	a, c
+    00000405 9E               [ 7] 1186 	sbc	a, (hl)
+    00000406 23               [ 6] 1187 	inc	hl
+    00000407 78               [ 4] 1188 	ld	a, b
+    00000408 9E               [ 7] 1189 	sbc	a, (hl)
+    00000409 38 36            [12] 1190 	jr	c, 00102$
+                                   1191 ;./document.c:165: pos += s_GapEnd - s_GapStart;
+    0000040B 21r02r20         [10] 1192 	ld	hl, #_s_GapStart
+    0000040E 3Ar06r20         [13] 1193 	ld	a, (_s_GapEnd+0)
+    00000411 96               [ 7] 1194 	sub	a, (hl)
+    00000412 DD 77 FC         [19] 1195 	ld	-4 (ix), a
+    00000415 23               [ 6] 1196 	inc	hl
+    00000416 3Ar07r20         [13] 1197 	ld	a, (_s_GapEnd+1)
+    00000419 9E               [ 7] 1198 	sbc	a, (hl)
+    0000041A DD 77 FD         [19] 1199 	ld	-3 (ix), a
+    0000041D 23               [ 6] 1200 	inc	hl
+    0000041E 3Ar08r20         [13] 1201 	ld	a, (_s_GapEnd+2)
+    00000421 9E               [ 7] 1202 	sbc	a, (hl)
+    00000422 DD 77 FE         [19] 1203 	ld	-2 (ix), a
+    00000425 23               [ 6] 1204 	inc	hl
+    00000426 3Ar09r20         [13] 1205 	ld	a, (_s_GapEnd+3)
+    00000429 9E               [ 7] 1206 	sbc	a, (hl)
+    0000042A DD 77 FF         [19] 1207 	ld	-1 (ix), a
+    0000042D 7B               [ 4] 1208 	ld	a, e
+    0000042E DD 86 FC         [19] 1209 	add	a, -4 (ix)
+    00000431 5F               [ 4] 1210 	ld	e, a
+    00000432 7A               [ 4] 1211 	ld	a, d
+    00000433 DD 8E FD         [19] 1212 	adc	a, -3 (ix)
+    00000436 57               [ 4] 1213 	ld	d, a
+    00000437 79               [ 4] 1214 	ld	a, c
+    00000438 DD 8E FE         [19] 1215 	adc	a, -2 (ix)
+    0000043B 4F               [ 4] 1216 	ld	c, a
+    0000043C 78               [ 4] 1217 	ld	a, b
+    0000043D DD 8E FF         [19] 1218 	adc	a, -1 (ix)
+    00000440 47               [ 4] 1219 	ld	b, a
+    00000441                       1220 00102$:
+                                   1221 ;./document.c:166: *Address(pos) = chr;
+    00000441 69               [ 4] 1222 	ld	l, c
+    00000442 60               [ 4] 1223 	ld	h, b
+    00000443 CDr5Br01         [17] 1224 	call	_Address
+    00000446 DD 7E 04         [19] 1225 	ld	a, 4 (ix)
+    00000449 12               [ 7] 1226 	ld	(de), a
+                                   1227 ;./document.c:167: }
+    0000044A DD F9            [10] 1228 	ld	sp, ix
+    0000044C DD E1            [14] 1229 	pop	ix
+    0000044E E1               [10] 1230 	pop	hl
+    0000044F 33               [ 6] 1231 	inc	sp
+    00000450 E9               [ 4] 1232 	jp	(hl)
+                                   1233 ;./document.c:169: static void ReadPhysical(u32 pos, u16 count)
+                                   1234 ;	---------------------------------
+                                   1235 ; Function ReadPhysical
+                                   1236 ; ---------------------------------
+    00000451                       1237 _ReadPhysical:
+    00000451 DD E5            [15] 1238 	push	ix
+    00000453 DD 21 00 00      [14] 1239 	ld	ix,	#0
+    00000457 DD 39            [15] 1240 	add	ix, sp
+    00000459 FD 21 F8 FF      [14] 1241 	ld	iy, #-8
+    0000045D FD 39            [15] 1242 	add	iy, sp
+    0000045F FD F9            [10] 1243 	ld	sp, iy
+    00000461 DD 73 FA         [19] 1244 	ld	-6 (ix), e
+    00000464 DD 72 FB         [19] 1245 	ld	-5 (ix), d
+    00000467 DD 75 FC         [19] 1246 	ld	-4 (ix), l
+    0000046A DD 74 FD         [19] 1247 	ld	-3 (ix), h
+                                   1248 ;./document.c:171: u16 done = 0;
+    0000046D 01 00 00         [10] 1249 	ld	bc, #0x0000
+                                   1250 ;./document.c:172: while (done < count)
+    00000470                       1251 00102$:
+    00000470 79               [ 4] 1252 	ld	a, c
+    00000471 DD 96 04         [19] 1253 	sub	a, 4 (ix)
+    00000474 78               [ 4] 1254 	ld	a, b
+    00000475 DD 9E 05         [19] 1255 	sbc	a, 5 (ix)
+    00000478 D2r08r05         [10] 1256 	jp	nc, 00108$
+                                   1257 ;./document.c:174: u16 size = BankCount(pos, count - done);
+    0000047B DD 6E 04         [19] 1258 	ld	l, 4 (ix)
+    0000047E DD 66 05         [19] 1259 	ld	h, 5 (ix)
+    00000481 BF               [ 4] 1260 	cp	a, a
+    00000482 ED 42            [15] 1261 	sbc	hl, bc
+    00000484 C5               [11] 1262 	push	bc
+    00000485 E5               [11] 1263 	push	hl
+    00000486 DD 5E FA         [19] 1264 	ld	e, -6 (ix)
+    00000489 DD 56 FB         [19] 1265 	ld	d, -5 (ix)
+    0000048C DD 6E FC         [19] 1266 	ld	l, -4 (ix)
+    0000048F DD 66 FD         [19] 1267 	ld	h, -3 (ix)
+    00000492 CDrC0r01         [17] 1268 	call	_BankCount
+    00000495 DD 73 F8         [19] 1269 	ld	-8 (ix), e
+    00000498 DD 72 F9         [19] 1270 	ld	-7 (ix), d
+                                   1271 ;./document.c:175: const u8* src = Address(pos);
+    0000049B DD 5E FA         [19] 1272 	ld	e, -6 (ix)
+    0000049E DD 56 FB         [19] 1273 	ld	d, -5 (ix)
+    000004A1 DD 6E FC         [19] 1274 	ld	l, -4 (ix)
+    000004A4 DD 66 FD         [19] 1275 	ld	h, -3 (ix)
+    000004A7 CDr5Br01         [17] 1276 	call	_Address
+    000004AA C1               [10] 1277 	pop	bc
+                                   1278 ;./document.c:176: for (u16 i = 0; i < size; ++i)
+    000004AB AF               [ 4] 1279 	xor	a, a
+    000004AC DD 77 FE         [19] 1280 	ld	-2 (ix), a
+    000004AF DD 77 FF         [19] 1281 	ld	-1 (ix), a
+    000004B2                       1282 00106$:
+    000004B2 DD 7E FE         [19] 1283 	ld	a, -2 (ix)
+    000004B5 DD 96 F8         [19] 1284 	sub	a, -8 (ix)
+    000004B8 DD 7E FF         [19] 1285 	ld	a, -1 (ix)
+    000004BB DD 9E F9         [19] 1286 	sbc	a, -7 (ix)
+    000004BE 30 1A            [12] 1287 	jr	nc, 00101$
+                                   1288 ;./document.c:177: s_Copy[done + i] = *src++;
+    000004C0 DD 6E FE         [19] 1289 	ld	l, -2 (ix)
+    000004C3 DD 66 FF         [19] 1290 	ld	h, -1 (ix)
+    000004C6 09               [11] 1291 	add	hl, bc
+    000004C7 D5               [11] 1292 	push	de
+    000004C8 11r0Fr20         [10] 1293 	ld	de, #_s_Copy
+    000004CB 19               [11] 1294 	add	hl, de
+    000004CC D1               [10] 1295 	pop	de
+    000004CD 1A               [ 7] 1296 	ld	a, (de)
+    000004CE 13               [ 6] 1297 	inc	de
+    000004CF 77               [ 7] 1298 	ld	(hl), a
+                                   1299 ;./document.c:176: for (u16 i = 0; i < size; ++i)
+    000004D0 DD 34 FE         [23] 1300 	inc	-2 (ix)
+    000004D3 20 DD            [12] 1301 	jr	nz, 00106$
+    000004D5 DD 34 FF         [23] 1302 	inc	-1 (ix)
+    000004D8 18 D8            [12] 1303 	jr	00106$
+    000004DA                       1304 00101$:
+                                   1305 ;./document.c:178: pos += size;
+    000004DA D1               [10] 1306 	pop	de
+    000004DB D5               [11] 1307 	push	de
+    000004DC 21 00 00         [10] 1308 	ld	hl, #0x0000
+    000004DF 7B               [ 4] 1309 	ld	a, e
+    000004E0 DD 86 FA         [19] 1310 	add	a, -6 (ix)
+    000004E3 DD 77 FA         [19] 1311 	ld	-6 (ix), a
+    000004E6 7A               [ 4] 1312 	ld	a, d
+    000004E7 DD 8E FB         [19] 1313 	adc	a, -5 (ix)
+    000004EA DD 77 FB         [19] 1314 	ld	-5 (ix), a
+    000004ED 7D               [ 4] 1315 	ld	a, l
+    000004EE DD 8E FC         [19] 1316 	adc	a, -4 (ix)
+    000004F1 DD 77 FC         [19] 1317 	ld	-4 (ix), a
+    000004F4 7C               [ 4] 1318 	ld	a, h
+    000004F5 DD 8E FD         [19] 1319 	adc	a, -3 (ix)
+    000004F8 DD 77 FD         [19] 1320 	ld	-3 (ix), a
+                                   1321 ;./document.c:179: done += size;
+    000004FB DD 7E F8         [19] 1322 	ld	a, -8 (ix)
+    000004FE 81               [ 4] 1323 	add	a, c
+    000004FF 4F               [ 4] 1324 	ld	c, a
+    00000500 DD 7E F9         [19] 1325 	ld	a, -7 (ix)
+    00000503 88               [ 4] 1326 	adc	a, b
+    00000504 47               [ 4] 1327 	ld	b, a
+    00000505 C3r70r04         [10] 1328 	jp	00102$
+    00000508                       1329 00108$:
+                                   1330 ;./document.c:181: }
+    00000508 DD F9            [10] 1331 	ld	sp, ix
+    0000050A DD E1            [14] 1332 	pop	ix
+    0000050C E1               [10] 1333 	pop	hl
+    0000050D F1               [10] 1334 	pop	af
+    0000050E E9               [ 4] 1335 	jp	(hl)
+                                   1336 ;./document.c:183: static void WritePhysical(u32 pos, u16 count)
+                                   1337 ;	---------------------------------
+                                   1338 ; Function WritePhysical
+                                   1339 ; ---------------------------------
+    0000050F                       1340 _WritePhysical:
+    0000050F DD E5            [15] 1341 	push	ix
+    00000511 DD 21 00 00      [14] 1342 	ld	ix,	#0
+    00000515 DD 39            [15] 1343 	add	ix, sp
+    00000517 FD 21 F8 FF      [14] 1344 	ld	iy, #-8
+    0000051B FD 39            [15] 1345 	add	iy, sp
+    0000051D FD F9            [10] 1346 	ld	sp, iy
+    0000051F DD 73 FA         [19] 1347 	ld	-6 (ix), e
+    00000522 DD 72 FB         [19] 1348 	ld	-5 (ix), d
+    00000525 DD 75 FC         [19] 1349 	ld	-4 (ix), l
+    00000528 DD 74 FD         [19] 1350 	ld	-3 (ix), h
+                                   1351 ;./document.c:185: u16 done = 0;
+    0000052B 01 00 00         [10] 1352 	ld	bc, #0x0000
+                                   1353 ;./document.c:186: while (done < count)
+    0000052E                       1354 00102$:
+    0000052E 79               [ 4] 1355 	ld	a, c
+    0000052F DD 96 04         [19] 1356 	sub	a, 4 (ix)
+    00000532 78               [ 4] 1357 	ld	a, b
+    00000533 DD 9E 05         [19] 1358 	sbc	a, 5 (ix)
+    00000536 D2rC6r05         [10] 1359 	jp	nc, 00108$
+                                   1360 ;./document.c:188: u16 size = BankCount(pos, count - done);
+    00000539 DD 6E 04         [19] 1361 	ld	l, 4 (ix)
+    0000053C DD 66 05         [19] 1362 	ld	h, 5 (ix)
+    0000053F BF               [ 4] 1363 	cp	a, a
+    00000540 ED 42            [15] 1364 	sbc	hl, bc
+    00000542 C5               [11] 1365 	push	bc
+    00000543 E5               [11] 1366 	push	hl
+    00000544 DD 5E FA         [19] 1367 	ld	e, -6 (ix)
+    00000547 DD 56 FB         [19] 1368 	ld	d, -5 (ix)
+    0000054A DD 6E FC         [19] 1369 	ld	l, -4 (ix)
+    0000054D DD 66 FD         [19] 1370 	ld	h, -3 (ix)
+    00000550 CDrC0r01         [17] 1371 	call	_BankCount
+    00000553 DD 73 F8         [19] 1372 	ld	-8 (ix), e
+    00000556 DD 72 F9         [19] 1373 	ld	-7 (ix), d
+                                   1374 ;./document.c:189: u8* dest = Address(pos);
+    00000559 DD 5E FA         [19] 1375 	ld	e, -6 (ix)
+    0000055C DD 56 FB         [19] 1376 	ld	d, -5 (ix)
+    0000055F DD 6E FC         [19] 1377 	ld	l, -4 (ix)
+    00000562 DD 66 FD         [19] 1378 	ld	h, -3 (ix)
+    00000565 CDr5Br01         [17] 1379 	call	_Address
+    00000568 C1               [10] 1380 	pop	bc
+                                   1381 ;./document.c:190: for (u16 i = 0; i < size; ++i)
+    00000569 AF               [ 4] 1382 	xor	a, a
+    0000056A DD 77 FE         [19] 1383 	ld	-2 (ix), a
+    0000056D DD 77 FF         [19] 1384 	ld	-1 (ix), a
+    00000570                       1385 00106$:
+    00000570 DD 7E FE         [19] 1386 	ld	a, -2 (ix)
+    00000573 DD 96 F8         [19] 1387 	sub	a, -8 (ix)
+    00000576 DD 7E FF         [19] 1388 	ld	a, -1 (ix)
+    00000579 DD 9E F9         [19] 1389 	sbc	a, -7 (ix)
+    0000057C 30 1A            [12] 1390 	jr	nc, 00101$
+                                   1391 ;./document.c:191: *dest++ = s_Copy[done + i];
+    0000057E DD 6E FE         [19] 1392 	ld	l, -2 (ix)
+    00000581 DD 66 FF         [19] 1393 	ld	h, -1 (ix)
+    00000584 09               [11] 1394 	add	hl, bc
+    00000585 D5               [11] 1395 	push	de
+    00000586 11r0Fr20         [10] 1396 	ld	de, #_s_Copy
+    00000589 19               [11] 1397 	add	hl, de
+    0000058A D1               [10] 1398 	pop	de
+    0000058B 7E               [ 7] 1399 	ld	a, (hl)
+    0000058C 12               [ 7] 1400 	ld	(de), a
+    0000058D 13               [ 6] 1401 	inc	de
+                                   1402 ;./document.c:190: for (u16 i = 0; i < size; ++i)
+    0000058E DD 34 FE         [23] 1403 	inc	-2 (ix)
+    00000591 20 DD            [12] 1404 	jr	nz, 00106$
+    00000593 DD 34 FF         [23] 1405 	inc	-1 (ix)
+    00000596 18 D8            [12] 1406 	jr	00106$
+    00000598                       1407 00101$:
+                                   1408 ;./document.c:192: pos += size;
+    00000598 D1               [10] 1409 	pop	de
+    00000599 D5               [11] 1410 	push	de
+    0000059A 21 00 00         [10] 1411 	ld	hl, #0x0000
+    0000059D 7B               [ 4] 1412 	ld	a, e
+    0000059E DD 86 FA         [19] 1413 	add	a, -6 (ix)
+    000005A1 DD 77 FA         [19] 1414 	ld	-6 (ix), a
+    000005A4 7A               [ 4] 1415 	ld	a, d
+    000005A5 DD 8E FB         [19] 1416 	adc	a, -5 (ix)
+    000005A8 DD 77 FB         [19] 1417 	ld	-5 (ix), a
+    000005AB 7D               [ 4] 1418 	ld	a, l
+    000005AC DD 8E FC         [19] 1419 	adc	a, -4 (ix)
+    000005AF DD 77 FC         [19] 1420 	ld	-4 (ix), a
+    000005B2 7C               [ 4] 1421 	ld	a, h
+    000005B3 DD 8E FD         [19] 1422 	adc	a, -3 (ix)
+    000005B6 DD 77 FD         [19] 1423 	ld	-3 (ix), a
+                                   1424 ;./document.c:193: done += size;
+    000005B9 DD 7E F8         [19] 1425 	ld	a, -8 (ix)
+    000005BC 81               [ 4] 1426 	add	a, c
+    000005BD 4F               [ 4] 1427 	ld	c, a
+    000005BE DD 7E F9         [19] 1428 	ld	a, -7 (ix)
+    000005C1 88               [ 4] 1429 	adc	a, b
+    000005C2 47               [ 4] 1430 	ld	b, a
+    000005C3 C3r2Er05         [10] 1431 	jp	00102$
+    000005C6                       1432 00108$:
+                                   1433 ;./document.c:195: }
+    000005C6 DD F9            [10] 1434 	ld	sp, ix
+    000005C8 DD E1            [14] 1435 	pop	ix
+    000005CA E1               [10] 1436 	pop	hl
+    000005CB F1               [10] 1437 	pop	af
+    000005CC E9               [ 4] 1438 	jp	(hl)
+                                   1439 ;./document.c:197: static void MoveGap(u32 pos)
+                                   1440 ;	---------------------------------
+                                   1441 ; Function MoveGap
+                                   1442 ; ---------------------------------
+    000005CD                       1443 _MoveGap:
+    000005CD DD E5            [15] 1444 	push	ix
+    000005CF DD 21 00 00      [14] 1445 	ld	ix,	#0
+    000005D3 DD 39            [15] 1446 	add	ix, sp
+    000005D5 FD 21 F6 FF      [14] 1447 	ld	iy, #-10
+    000005D9 FD 39            [15] 1448 	add	iy, sp
+    000005DB FD F9            [10] 1449 	ld	sp, iy
+    000005DD DD 73 FC         [19] 1450 	ld	-4 (ix), e
+    000005E0 DD 72 FD         [19] 1451 	ld	-3 (ix), d
+    000005E3 DD 75 FE         [19] 1452 	ld	-2 (ix), l
+    000005E6 DD 74 FF         [19] 1453 	ld	-1 (ix), h
+                                   1454 ;./document.c:199: while (s_GapStart > pos)
+    000005E9                       1455 00101$:
+    000005E9 DD 7E FC         [19] 1456 	ld	a, -4 (ix)
+    000005EC FD 21r02r20      [14] 1457 	ld	iy, #_s_GapStart
+    000005F0 FD 96 00         [19] 1458 	sub	a, 0 (iy)
+    000005F3 DD 7E FD         [19] 1459 	ld	a, -3 (ix)
+    000005F6 FD 9E 01         [19] 1460 	sbc	a, 1 (iy)
+    000005F9 DD 7E FE         [19] 1461 	ld	a, -2 (ix)
+    000005FC FD 9E 02         [19] 1462 	sbc	a, 2 (iy)
+    000005FF DD 7E FF         [19] 1463 	ld	a, -1 (ix)
+    00000602 FD 9E 03         [19] 1464 	sbc	a, 3 (iy)
+    00000605 D2rC3r06         [10] 1465 	jp	nc, 00104$
+                                   1466 ;./document.c:201: u32 distance = s_GapStart - pos;
+    00000608 3Ar02r20         [13] 1467 	ld	a, (_s_GapStart+0)
+    0000060B DD 96 FC         [19] 1468 	sub	a, -4 (ix)
+    0000060E 4F               [ 4] 1469 	ld	c, a
+    0000060F 3Ar03r20         [13] 1470 	ld	a, (_s_GapStart+1)
+    00000612 DD 9E FD         [19] 1471 	sbc	a, -3 (ix)
+    00000615 47               [ 4] 1472 	ld	b, a
+    00000616 3Ar04r20         [13] 1473 	ld	a, (_s_GapStart+2)
+    00000619 DD 9E FE         [19] 1474 	sbc	a, -2 (ix)
+    0000061C 5F               [ 4] 1475 	ld	e, a
+    0000061D 3Ar05r20         [13] 1476 	ld	a, (_s_GapStart+3)
+    00000620 DD 9E FF         [19] 1477 	sbc	a, -1 (ix)
+    00000623 57               [ 4] 1478 	ld	d, a
+                                   1479 ;./document.c:202: u16 count = distance > COPY_SIZE ? COPY_SIZE : (u16)distance;
+    00000624 3E 80            [ 7] 1480 	ld	a, #0x80
+    00000626 B9               [ 4] 1481 	cp	a, c
+    00000627 3E 00            [ 7] 1482 	ld	a, #0x00
+    00000629 98               [ 4] 1483 	sbc	a, b
+    0000062A 21 00 00         [10] 1484 	ld	hl, #0x0000
+    0000062D ED 52            [15] 1485 	sbc	hl, de
+    0000062F 30 03            [12] 1486 	jr	nc, 00109$
+    00000631 01 80 00         [10] 1487 	ld	bc, #0x0080
+    00000634                       1488 00109$:
+    00000634 D1               [10] 1489 	pop	de
+    00000635 C5               [11] 1490 	push	bc
+                                   1491 ;./document.c:203: ReadPhysical(s_GapStart - count, count);
+    00000636 DD 7E F6         [19] 1492 	ld	a, -10 (ix)
+    00000639 DD 77 F8         [19] 1493 	ld	-8 (ix), a
+    0000063C AF               [ 4] 1494 	xor	a, a
+    0000063D DD 77 F9         [19] 1495 	ld	-7 (ix), a
+    00000640 DD 77 FA         [19] 1496 	ld	-6 (ix), a
+    00000643 DD 77 FB         [19] 1497 	ld	-5 (ix), a
+    00000646 3Ar02r20         [13] 1498 	ld	a, (_s_GapStart+0)
+    00000649 DD 96 F8         [19] 1499 	sub	a, -8 (ix)
+    0000064C 5F               [ 4] 1500 	ld	e, a
+    0000064D 3Ar03r20         [13] 1501 	ld	a, (_s_GapStart+1)
+    00000650 DD 9E F9         [19] 1502 	sbc	a, -7 (ix)
+    00000653 57               [ 4] 1503 	ld	d, a
+    00000654 3Ar04r20         [13] 1504 	ld	a, (_s_GapStart+2)
+    00000657 DD 9E FA         [19] 1505 	sbc	a, -6 (ix)
+    0000065A 4F               [ 4] 1506 	ld	c, a
+    0000065B 3Ar05r20         [13] 1507 	ld	a, (_s_GapStart+3)
+    0000065E DD 9E FB         [19] 1508 	sbc	a, -5 (ix)
+    00000661 E1               [10] 1509 	pop	hl
+    00000662 E5               [11] 1510 	push	hl
+    00000663 E5               [11] 1511 	push	hl
+    00000664 69               [ 4] 1512 	ld	l, c
+    00000665 67               [ 4] 1513 	ld	h, a
+    00000666 CDr51r04         [17] 1514 	call	_ReadPhysical
+                                   1515 ;./document.c:204: WritePhysical(s_GapEnd - count, count);
+    00000669 3Ar06r20         [13] 1516 	ld	a, (_s_GapEnd+0)
+    0000066C DD 96 F8         [19] 1517 	sub	a, -8 (ix)
+    0000066F 5F               [ 4] 1518 	ld	e, a
+    00000670 3Ar07r20         [13] 1519 	ld	a, (_s_GapEnd+1)
+    00000673 DD 9E F9         [19] 1520 	sbc	a, -7 (ix)
+    00000676 57               [ 4] 1521 	ld	d, a
+    00000677 3Ar08r20         [13] 1522 	ld	a, (_s_GapEnd+2)
+    0000067A DD 9E FA         [19] 1523 	sbc	a, -6 (ix)
+    0000067D 4F               [ 4] 1524 	ld	c, a
+    0000067E 3Ar09r20         [13] 1525 	ld	a, (_s_GapEnd+3)
+    00000681 DD 9E FB         [19] 1526 	sbc	a, -5 (ix)
+    00000684 E1               [10] 1527 	pop	hl
+    00000685 E5               [11] 1528 	push	hl
+    00000686 E5               [11] 1529 	push	hl
+    00000687 69               [ 4] 1530 	ld	l, c
+    00000688 67               [ 4] 1531 	ld	h, a
+    00000689 CDr0Fr05         [17] 1532 	call	_WritePhysical
+                                   1533 ;./document.c:205: s_GapStart -= count;
+    0000068C 21r02r20         [10] 1534 	ld	hl, #_s_GapStart
+    0000068F 7E               [ 7] 1535 	ld	a, (hl)
+    00000690 DD 96 F8         [19] 1536 	sub	a, -8 (ix)
+    00000693 77               [ 7] 1537 	ld	(hl), a
+    00000694 23               [ 6] 1538 	inc	hl
+    00000695 7E               [ 7] 1539 	ld	a, (hl)
+    00000696 DD 9E F9         [19] 1540 	sbc	a, -7 (ix)
+    00000699 77               [ 7] 1541 	ld	(hl), a
+    0000069A 23               [ 6] 1542 	inc	hl
+    0000069B 7E               [ 7] 1543 	ld	a, (hl)
+    0000069C DD 9E FA         [19] 1544 	sbc	a, -6 (ix)
+    0000069F 77               [ 7] 1545 	ld	(hl), a
+    000006A0 23               [ 6] 1546 	inc	hl
+    000006A1 7E               [ 7] 1547 	ld	a, (hl)
+    000006A2 DD 9E FB         [19] 1548 	sbc	a, -5 (ix)
+    000006A5 77               [ 7] 1549 	ld	(hl), a
+                                   1550 ;./document.c:206: s_GapEnd -= count;
+    000006A6 21r06r20         [10] 1551 	ld	hl, #_s_GapEnd
+    000006A9 7E               [ 7] 1552 	ld	a, (hl)
+    000006AA DD 96 F8         [19] 1553 	sub	a, -8 (ix)
+    000006AD 77               [ 7] 1554 	ld	(hl), a
+    000006AE 23               [ 6] 1555 	inc	hl
+    000006AF 7E               [ 7] 1556 	ld	a, (hl)
+    000006B0 DD 9E F9         [19] 1557 	sbc	a, -7 (ix)
+    000006B3 77               [ 7] 1558 	ld	(hl), a
+    000006B4 23               [ 6] 1559 	inc	hl
+    000006B5 7E               [ 7] 1560 	ld	a, (hl)
+    000006B6 DD 9E FA         [19] 1561 	sbc	a, -6 (ix)
+    000006B9 77               [ 7] 1562 	ld	(hl), a
+    000006BA 23               [ 6] 1563 	inc	hl
+    000006BB 7E               [ 7] 1564 	ld	a, (hl)
+    000006BC DD 9E FB         [19] 1565 	sbc	a, -5 (ix)
+    000006BF 77               [ 7] 1566 	ld	(hl), a
+    000006C0 C3rE9r05         [10] 1567 	jp	00101$
+                                   1568 ;./document.c:208: while (s_GapStart < pos)
+    000006C3                       1569 00104$:
+    000006C3 3Ar02r20         [13] 1570 	ld	a, (_s_GapStart+0)
+    000006C6 DD 96 FC         [19] 1571 	sub	a, -4 (ix)
+    000006C9 3Ar03r20         [13] 1572 	ld	a, (_s_GapStart+1)
+    000006CC DD 9E FD         [19] 1573 	sbc	a, -3 (ix)
+    000006CF 3Ar04r20         [13] 1574 	ld	a, (_s_GapStart+2)
+    000006D2 DD 9E FE         [19] 1575 	sbc	a, -2 (ix)
+    000006D5 3Ar05r20         [13] 1576 	ld	a, (_s_GapStart+3)
+    000006D8 DD 9E FF         [19] 1577 	sbc	a, -1 (ix)
+    000006DB D2r63r07         [10] 1578 	jp	nc, 00107$
+                                   1579 ;./document.c:210: u32 distance = pos - s_GapStart;
+    000006DE 21r02r20         [10] 1580 	ld	hl, #_s_GapStart
+    000006E1 DD 7E FC         [19] 1581 	ld	a, -4 (ix)
+    000006E4 96               [ 7] 1582 	sub	a, (hl)
+    000006E5 DD 77 F8         [19] 1583 	ld	-8 (ix), a
+    000006E8 DD 7E FD         [19] 1584 	ld	a, -3 (ix)
+    000006EB 23               [ 6] 1585 	inc	hl
+    000006EC 9E               [ 7] 1586 	sbc	a, (hl)
+    000006ED DD 77 F9         [19] 1587 	ld	-7 (ix), a
+    000006F0 DD 7E FE         [19] 1588 	ld	a, -2 (ix)
+    000006F3 23               [ 6] 1589 	inc	hl
+    000006F4 9E               [ 7] 1590 	sbc	a, (hl)
+    000006F5 DD 77 FA         [19] 1591 	ld	-6 (ix), a
+    000006F8 DD 7E FF         [19] 1592 	ld	a, -1 (ix)
+    000006FB 23               [ 6] 1593 	inc	hl
+    000006FC 9E               [ 7] 1594 	sbc	a, (hl)
+    000006FD DD 77 FB         [19] 1595 	ld	-5 (ix), a
+                                   1596 ;./document.c:211: u16 count = distance > COPY_SIZE ? COPY_SIZE : (u16)distance;
+    00000700 3E 80            [ 7] 1597 	ld	a, #0x80
+    00000702 DD BE F8         [19] 1598 	cp	a, -8 (ix)
+    00000705 3E 00            [ 7] 1599 	ld	a, #0x00
+    00000707 DD 9E F9         [19] 1600 	sbc	a, -7 (ix)
+    0000070A 3E 00            [ 7] 1601 	ld	a, #0x00
+    0000070C DD 9E FA         [19] 1602 	sbc	a, -6 (ix)
+    0000070F 3E 00            [ 7] 1603 	ld	a, #0x00
+    00000711 DD 9E FB         [19] 1604 	sbc	a, -5 (ix)
+    00000714 30 05            [12] 1605 	jr	nc, 00111$
+    00000716 01 80 00         [10] 1606 	ld	bc, #0x0080
+    00000719 18 04            [12] 1607 	jr	00112$
+    0000071B                       1608 00111$:
+    0000071B E1               [10] 1609 	pop	hl
+    0000071C C1               [10] 1610 	pop	bc
+    0000071D C5               [11] 1611 	push	bc
+    0000071E E5               [11] 1612 	push	hl
+    0000071F                       1613 00112$:
+                                   1614 ;./document.c:212: ReadPhysical(s_GapEnd, count);
+    0000071F C5               [11] 1615 	push	bc
+    00000720 C5               [11] 1616 	push	bc
+    00000721 ED 5Br06r20      [20] 1617 	ld	de, (_s_GapEnd)
+    00000725 2Ar08r20         [16] 1618 	ld	hl, (_s_GapEnd + 2)
+    00000728 CDr51r04         [17] 1619 	call	_ReadPhysical
+    0000072B C1               [10] 1620 	pop	bc
+                                   1621 ;./document.c:213: WritePhysical(s_GapStart, count);
+    0000072C C5               [11] 1622 	push	bc
+    0000072D C5               [11] 1623 	push	bc
+    0000072E ED 5Br02r20      [20] 1624 	ld	de, (_s_GapStart)
+    00000732 2Ar04r20         [16] 1625 	ld	hl, (_s_GapStart + 2)
+    00000735 CDr0Fr05         [17] 1626 	call	_WritePhysical
+    00000738 C1               [10] 1627 	pop	bc
+                                   1628 ;./document.c:214: s_GapStart += count;
+    00000739 11 00 00         [10] 1629 	ld	de, #0x0000
+    0000073C 79               [ 4] 1630 	ld	a, c
+    0000073D 21r02r20         [10] 1631 	ld	hl, #_s_GapStart
+    00000740 86               [ 7] 1632 	add	a, (hl)
+    00000741 77               [ 7] 1633 	ld	(hl), a
+    00000742 23               [ 6] 1634 	inc	hl
+    00000743 78               [ 4] 1635 	ld	a, b
+    00000744 8E               [ 7] 1636 	adc	a, (hl)
+    00000745 77               [ 7] 1637 	ld	(hl), a
+    00000746 23               [ 6] 1638 	inc	hl
+    00000747 7B               [ 4] 1639 	ld	a, e
+    00000748 8E               [ 7] 1640 	adc	a, (hl)
+    00000749 77               [ 7] 1641 	ld	(hl), a
+    0000074A 23               [ 6] 1642 	inc	hl
+    0000074B 7A               [ 4] 1643 	ld	a, d
+    0000074C 8E               [ 7] 1644 	adc	a, (hl)
+    0000074D 77               [ 7] 1645 	ld	(hl), a
+                                   1646 ;./document.c:215: s_GapEnd += count;
+    0000074E 79               [ 4] 1647 	ld	a, c
+    0000074F 21r06r20         [10] 1648 	ld	hl, #_s_GapEnd
+    00000752 86               [ 7] 1649 	add	a, (hl)
+    00000753 77               [ 7] 1650 	ld	(hl), a
+    00000754 23               [ 6] 1651 	inc	hl
+    00000755 78               [ 4] 1652 	ld	a, b
+    00000756 8E               [ 7] 1653 	adc	a, (hl)
+    00000757 77               [ 7] 1654 	ld	(hl), a
+    00000758 23               [ 6] 1655 	inc	hl
+    00000759 7B               [ 4] 1656 	ld	a, e
+    0000075A 8E               [ 7] 1657 	adc	a, (hl)
+    0000075B 77               [ 7] 1658 	ld	(hl), a
+    0000075C 23               [ 6] 1659 	inc	hl
+    0000075D 7A               [ 4] 1660 	ld	a, d
+    0000075E 8E               [ 7] 1661 	adc	a, (hl)
+    0000075F 77               [ 7] 1662 	ld	(hl), a
+    00000760 C3rC3r06         [10] 1663 	jp	00104$
+    00000763                       1664 00107$:
+                                   1665 ;./document.c:217: }
+    00000763 DD F9            [10] 1666 	ld	sp, ix
+    00000765 DD E1            [14] 1667 	pop	ix
+    00000767 C9               [10] 1668 	ret
+                                   1669 ;./document.c:219: bool Document_Insert(u32 pos, u8 chr, u16 count)
+                                   1670 ;	---------------------------------
+                                   1671 ; Function Document_Insert
+                                   1672 ; ---------------------------------
+    00000768                       1673 _Document_Insert::
+    00000768 DD E5            [15] 1674 	push	ix
+    0000076A DD 21 00 00      [14] 1675 	ld	ix,	#0
+    0000076E DD 39            [15] 1676 	add	ix, sp
+    00000770 FD 21 F8 FF      [14] 1677 	ld	iy, #-8
+    00000774 FD 39            [15] 1678 	add	iy, sp
+    00000776 FD F9            [10] 1679 	ld	sp, iy
+    00000778 4D               [ 4] 1680 	ld	c, l
+    00000779 44               [ 4] 1681 	ld	b, h
+                                   1682 ;./document.c:221: if (count > g_DocumentCapacity - g_DocumentLength)
+    0000077A 21r93r20         [10] 1683 	ld	hl, #_g_DocumentLength
+    0000077D 3Ar8Fr20         [13] 1684 	ld	a, (_g_DocumentCapacity+0)
+    00000780 96               [ 7] 1685 	sub	a, (hl)
+    00000781 DD 77 F8         [19] 1686 	ld	-8 (ix), a
+    00000784 23               [ 6] 1687 	inc	hl
+    00000785 3Ar90r20         [13] 1688 	ld	a, (_g_DocumentCapacity+1)
+    00000788 9E               [ 7] 1689 	sbc	a, (hl)
+    00000789 DD 77 F9         [19] 1690 	ld	-7 (ix), a
+    0000078C 23               [ 6] 1691 	inc	hl
+    0000078D 3Ar91r20         [13] 1692 	ld	a, (_g_DocumentCapacity+2)
+    00000790 9E               [ 7] 1693 	sbc	a, (hl)
+    00000791 DD 77 FA         [19] 1694 	ld	-6 (ix), a
+    00000794 23               [ 6] 1695 	inc	hl
+    00000795 3Ar92r20         [13] 1696 	ld	a, (_g_DocumentCapacity+3)
+    00000798 9E               [ 7] 1697 	sbc	a, (hl)
+    00000799 DD 77 FB         [19] 1698 	ld	-5 (ix), a
+    0000079C DD 7E 05         [19] 1699 	ld	a, 5 (ix)
+    0000079F DD 77 FC         [19] 1700 	ld	-4 (ix), a
+    000007A2 DD 7E 06         [19] 1701 	ld	a, 6 (ix)
+    000007A5 DD 77 FD         [19] 1702 	ld	-3 (ix), a
+    000007A8 AF               [ 4] 1703 	xor	a, a
+    000007A9 DD 77 FE         [19] 1704 	ld	-2 (ix), a
+    000007AC DD 77 FF         [19] 1705 	ld	-1 (ix), a
+    000007AF DD 7E F8         [19] 1706 	ld	a, -8 (ix)
+    000007B2 DD 96 FC         [19] 1707 	sub	a, -4 (ix)
+    000007B5 DD 7E F9         [19] 1708 	ld	a, -7 (ix)
+    000007B8 DD 9E FD         [19] 1709 	sbc	a, -3 (ix)
+    000007BB DD 7E FA         [19] 1710 	ld	a, -6 (ix)
+    000007BE DD 9E FE         [19] 1711 	sbc	a, -2 (ix)
+    000007C1 DD 7E FB         [19] 1712 	ld	a, -5 (ix)
+    000007C4 DD 9E FF         [19] 1713 	sbc	a, -1 (ix)
+    000007C7 30 04            [12] 1714 	jr	nc, 00102$
+                                   1715 ;./document.c:222: return FALSE;
+    000007C9 AF               [ 4] 1716 	xor	a, a
+    000007CA C3r54r08         [10] 1717 	jp	00110$
+    000007CD                       1718 00102$:
+                                   1719 ;./document.c:223: MoveGap(pos);
+    000007CD 69               [ 4] 1720 	ld	l, c
+    000007CE 60               [ 4] 1721 	ld	h, b
+    000007CF CDrCDr05         [17] 1722 	call	_MoveGap
+                                   1723 ;./document.c:224: while (count)
+    000007D2                       1724 00104$:
+    000007D2 DD 7E 06         [19] 1725 	ld	a, 6 (ix)
+    000007D5 DD B6 05         [19] 1726 	or	a, 5 (ix)
+    000007D8 28 78            [12] 1727 	jr	z, 00106$
+                                   1728 ;./document.c:226: u16 size = BankCount(s_GapStart, count);
+    000007DA DD 6E 05         [19] 1729 	ld	l, 5 (ix)
+    000007DD DD 66 06         [19] 1730 	ld	h, 6 (ix)
+    000007E0 E5               [11] 1731 	push	hl
+    000007E1 ED 5Br02r20      [20] 1732 	ld	de, (_s_GapStart)
+    000007E5 2Ar04r20         [16] 1733 	ld	hl, (_s_GapStart + 2)
+    000007E8 CDrC0r01         [17] 1734 	call	_BankCount
+    000007EB DD 73 FE         [19] 1735 	ld	-2 (ix), e
+    000007EE DD 72 FF         [19] 1736 	ld	-1 (ix), d
+                                   1737 ;./document.c:227: u8* dest = Address(s_GapStart);
+    000007F1 ED 5Br02r20      [20] 1738 	ld	de, (_s_GapStart)
+    000007F5 2Ar04r20         [16] 1739 	ld	hl, (_s_GapStart + 2)
+    000007F8 CDr5Br01         [17] 1740 	call	_Address
+                                   1741 ;./document.c:228: for (u16 i = 0; i < size; ++i)
+    000007FB 01 00 00         [10] 1742 	ld	bc, #0x0000
+    000007FE                       1743 00108$:
+    000007FE 79               [ 4] 1744 	ld	a, c
+    000007FF DD 96 FE         [19] 1745 	sub	a, -2 (ix)
+    00000802 78               [ 4] 1746 	ld	a, b
+    00000803 DD 9E FF         [19] 1747 	sbc	a, -1 (ix)
+    00000806 30 08            [12] 1748 	jr	nc, 00103$
+                                   1749 ;./document.c:229: *dest++ = chr;
+    00000808 DD 7E 04         [19] 1750 	ld	a, 4 (ix)
+    0000080B 12               [ 7] 1751 	ld	(de), a
+    0000080C 13               [ 6] 1752 	inc	de
+                                   1753 ;./document.c:228: for (u16 i = 0; i < size; ++i)
+    0000080D 03               [ 6] 1754 	inc	bc
+    0000080E 18 EE            [12] 1755 	jr	00108$
+    00000810                       1756 00103$:
+                                   1757 ;./document.c:230: s_GapStart += size;
+    00000810 DD 4E FE         [19] 1758 	ld	c, -2 (ix)
+    00000813 DD 46 FF         [19] 1759 	ld	b, -1 (ix)
+    00000816 11 00 00         [10] 1760 	ld	de, #0x0000
+    00000819 79               [ 4] 1761 	ld	a, c
+    0000081A 21r02r20         [10] 1762 	ld	hl, #_s_GapStart
+    0000081D 86               [ 7] 1763 	add	a, (hl)
+    0000081E 77               [ 7] 1764 	ld	(hl), a
+    0000081F 23               [ 6] 1765 	inc	hl
+    00000820 78               [ 4] 1766 	ld	a, b
+    00000821 8E               [ 7] 1767 	adc	a, (hl)
+    00000822 77               [ 7] 1768 	ld	(hl), a
+    00000823 23               [ 6] 1769 	inc	hl
+    00000824 7B               [ 4] 1770 	ld	a, e
+    00000825 8E               [ 7] 1771 	adc	a, (hl)
+    00000826 77               [ 7] 1772 	ld	(hl), a
+    00000827 23               [ 6] 1773 	inc	hl
+    00000828 7A               [ 4] 1774 	ld	a, d
+    00000829 8E               [ 7] 1775 	adc	a, (hl)
+    0000082A 77               [ 7] 1776 	ld	(hl), a
+                                   1777 ;./document.c:231: g_DocumentLength += size;
+    0000082B 79               [ 4] 1778 	ld	a, c
+    0000082C 21r93r20         [10] 1779 	ld	hl, #_g_DocumentLength
+    0000082F 86               [ 7] 1780 	add	a, (hl)
+    00000830 77               [ 7] 1781 	ld	(hl), a
+    00000831 23               [ 6] 1782 	inc	hl
+    00000832 78               [ 4] 1783 	ld	a, b
+    00000833 8E               [ 7] 1784 	adc	a, (hl)
+    00000834 77               [ 7] 1785 	ld	(hl), a
+    00000835 23               [ 6] 1786 	inc	hl
+    00000836 7B               [ 4] 1787 	ld	a, e
+    00000837 8E               [ 7] 1788 	adc	a, (hl)
+    00000838 77               [ 7] 1789 	ld	(hl), a
+    00000839 23               [ 6] 1790 	inc	hl
+    0000083A 7A               [ 4] 1791 	ld	a, d
+    0000083B 8E               [ 7] 1792 	adc	a, (hl)
+    0000083C 77               [ 7] 1793 	ld	(hl), a
+                                   1794 ;./document.c:232: count -= size;
+    0000083D DD 7E 05         [19] 1795 	ld	a, 5 (ix)
+    00000840 DD 96 FE         [19] 1796 	sub	a, -2 (ix)
+    00000843 DD 77 05         [19] 1797 	ld	5 (ix), a
+    00000846 DD 7E 06         [19] 1798 	ld	a, 6 (ix)
+    00000849 DD 9E FF         [19] 1799 	sbc	a, -1 (ix)
+    0000084C DD 77 06         [19] 1800 	ld	6 (ix), a
+    0000084F C3rD2r07         [10] 1801 	jp	00104$
+    00000852                       1802 00106$:
+                                   1803 ;./document.c:234: return TRUE;
+    00000852 3E 01            [ 7] 1804 	ld	a, #0x01
+    00000854                       1805 00110$:
+                                   1806 ;./document.c:235: }
+    00000854 DD F9            [10] 1807 	ld	sp, ix
+    00000856 DD E1            [14] 1808 	pop	ix
+    00000858 E1               [10] 1809 	pop	hl
+    00000859 C1               [10] 1810 	pop	bc
+    0000085A 33               [ 6] 1811 	inc	sp
+    0000085B E9               [ 4] 1812 	jp	(hl)
+                                   1813 ;./document.c:237: void Document_Delete(u32 pos)
+                                   1814 ;	---------------------------------
+                                   1815 ; Function Document_Delete
+                                   1816 ; ---------------------------------
+    0000085C                       1817 _Document_Delete::
+    0000085C 4D               [ 4] 1818 	ld	c, l
+    0000085D 44               [ 4] 1819 	ld	b, h
+                                   1820 ;./document.c:239: if (pos == g_DocumentLength)
+    0000085E 2Ar93r20         [16] 1821 	ld	hl, (_g_DocumentLength)
+    00000861 AF               [ 4] 1822 	xor	a, a
+    00000862 ED 52            [15] 1823 	sbc	hl, de
+    00000864 20 07            [12] 1824 	jr	nz, 00102$
+    00000866 2Ar95r20         [16] 1825 	ld	hl, (_g_DocumentLength + 2)
+    00000869 AF               [ 4] 1826 	xor	a, a
+    0000086A ED 42            [15] 1827 	sbc	hl, bc
+    0000086C C8               [11] 1828 	ret	z
+                                   1829 ;./document.c:240: return;
+    0000086D                       1830 00102$:
+                                   1831 ;./document.c:241: MoveGap(pos);
+    0000086D 69               [ 4] 1832 	ld	l, c
+    0000086E 60               [ 4] 1833 	ld	h, b
+    0000086F CDrCDr05         [17] 1834 	call	_MoveGap
+                                   1835 ;./document.c:242: ++s_GapEnd;
+    00000872 FD 21r06r20      [14] 1836 	ld	iy, #_s_GapEnd
+    00000876 FD 34 00         [23] 1837 	inc	0 (iy)
+    00000879 20 0D            [12] 1838 	jr	nz, 00115$
+    0000087B FD 34 01         [23] 1839 	inc	1 (iy)
+    0000087E 20 08            [12] 1840 	jr	nz, 00115$
+    00000880 FD 34 02         [23] 1841 	inc	2 (iy)
+    00000883 20 03            [12] 1842 	jr	nz, 00115$
+    00000885 FD 34 03         [23] 1843 	inc	3 (iy)
+    00000888                       1844 00115$:
+                                   1845 ;./document.c:243: --g_DocumentLength;
+    00000888 21r93r20         [10] 1846 	ld	hl, #_g_DocumentLength
+    0000088B 7E               [ 7] 1847 	ld	a, (hl)
+    0000088C C6 FF            [ 7] 1848 	add	a, #0xff
+    0000088E 77               [ 7] 1849 	ld	(hl), a
+    0000088F 23               [ 6] 1850 	inc	hl
+    00000890 7E               [ 7] 1851 	ld	a, (hl)
+    00000891 CE FF            [ 7] 1852 	adc	a, #0xff
+    00000893 77               [ 7] 1853 	ld	(hl), a
+    00000894 23               [ 6] 1854 	inc	hl
+    00000895 7E               [ 7] 1855 	ld	a, (hl)
+    00000896 CE FF            [ 7] 1856 	adc	a, #0xff
+    00000898 77               [ 7] 1857 	ld	(hl), a
+    00000899 23               [ 6] 1858 	inc	hl
+    0000089A 7E               [ 7] 1859 	ld	a, (hl)
+    0000089B CE FF            [ 7] 1860 	adc	a, #0xff
+    0000089D 77               [ 7] 1861 	ld	(hl), a
+                                   1862 ;./document.c:244: }
+    0000089E C9               [10] 1863 	ret
+                                   1864 	.area _CODE
+                                   1865 	.area _INITIALIZER
+                                   1866 	.area _CABS (ABS)

@@ -1,0 +1,15 @@
+-mjwx
+-i E:\msxworks\msxworks/out/msxworks.ihx
+-b _CODE = 0x0100
+-b _DATA = 0x0000
+-k E:\msxworks\MSXgl\tools/sdcc/lib/z80
+-k E:\msxworks\MSXgl\tools/sdcc/bin\..\lib\z80
+-l E:\msxworks\msxworks/out/msxgl.lib
+-l z80
+E:\msxworks\msxworks/out/crt0_dos.rel
+E:\msxworks\msxworks/out/msxworks.rel
+E:\msxworks\msxworks/out/screen.rel
+E:\msxworks\msxworks/out/document.rel
+E:\msxworks\msxworks/out/editor.rel
+
+-e

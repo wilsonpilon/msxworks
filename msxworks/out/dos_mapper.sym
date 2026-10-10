@@ -1,0 +1,50 @@
+ASxxxx Assembler V05.50.4+NoICE+SDCCmods-WIP-R14  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                               Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+  0 _DOSMapper_Alloc                                                0000002B GR
+  0 _DOSMapper_Free                                                 00000045 GR
+  0 _DOSMapper_GetPage                                              000000A7 GR
+  0 _DOSMapper_GetPage0                                             000000B5 GR
+  0 _DOSMapper_GetPage1                                             000000BD GR
+  0 _DOSMapper_GetPage2                                             000000C5 GR
+  0 _DOSMapper_GetPage3                                             000000CD GR
+  0 _DOSMapper_Init                                                 00000000 GR
+  0 _DOSMapper_ReadByte                                             00000059 GR
+  0 _DOSMapper_SetPage                                              00000080 GR
+  0 _DOSMapper_SetPage0                                             0000008F GR
+  0 _DOSMapper_SetPage1                                             00000097 GR
+  0 _DOSMapper_SetPage2                                             0000009F GR
+  0 _DOSMapper_WriteByte                                            00000068 GR
+    ___sdcc_call_hl                                                 ******** GX
+    ___sdcc_call_iy                                                 ******** GX
+  7 __xinit__g_DOS_JumpTable                                        00000002 R
+  7 __xinit__g_DOS_VarTable                                         00000000 R
+  2 _g_DOS_JumpTable                                                00000002 GR
+  2 _g_DOS_VarTable                                                 00000000 GR
+    _g_EXTBIO                                                   =   0000FFCA G
+    _g_HOKVLD                                                   =   0000FB20 G
+  0 alloc_error                                                     00000043 R
+  0 init_extbios                                                    00000008 R
+
+
+ASxxxx Assembler V05.50.4+NoICE+SDCCmods-WIP-R14  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                               Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size       D5   flags    0
+   1 _DATA                                      size        0   flags    0
+   2 _INITIALIZED                               size        4   flags    0
+   3 _DABS                                      size        0   flags    8
+   4 _HOME                                      size        0   flags    0
+   5 _GSINIT                                    size        0   flags    0
+   6 _GSFINAL                                   size        0   flags    0
+   7 _INITIALIZER                               size        4   flags    0
+   8 _CABS                                      size        0   flags    8
+
