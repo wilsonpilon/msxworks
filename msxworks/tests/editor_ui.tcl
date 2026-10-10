@@ -94,6 +94,14 @@ set steps {
     {check {[text 9 23 4] eq "0002" && [text 20 23 4] eq "0001"} "Ctrl Right crosses newline to next word"}
     {tap 8 0x80}
     {check {[text 20 23 4] eq "0003"} "Ctrl Right stops at document end"}
+    {tap 5 0x10}
+    {check {[text 0 1 2] eq "ab" && [text 0 2 2] eq "  " && [text 9 23 4] eq "0001" && [text 20 23 4] eq "0003"} "Ctrl W deletes the word to the left"}
+    {chars "\rcd"}
+    {tap 8 0x10}
+    {tap 2 0x40}
+    {check {[text 0 2 2] eq "  " && [text 9 23 4] eq "0002" && [text 20 23 4] eq "0001"} "Ctrl A deletes the word to the right"}
+    {chars "cd"}
+    {check {[text 0 1 2] eq "ab" && [text 0 2 2] eq "cd"} "Word deletions leave the remaining document intact"}
     {tap 8 0x02}
     {check {[text 9 23 4] eq "0001" && [text 20 23 4] eq "0001"} "Ctrl Home moves to document start"}
     {tap 7 0x10}
@@ -123,6 +131,15 @@ set steps {
     {check {[text 23 9 9] eq "MSX-Works"} "About opens"}
     {tap 7 0x04}
     {check {[text 0 1 4] eq "abZd"} "Closing About restores document"}
+    {tap 7 0x40}
+    {tap 8 0x40}
+    {tap 7 0x80}
+    {check {[string trim [text 8 3 30]] eq "EDITOR KEYS (1/2)" && [string trim [text 8 9 60]] eq "Ctrl+W              Delete word to the left"} "HELP Keys opens the first key list page"}
+    {tap 8 0x40}
+    {check {[string trim [text 8 3 30]] eq "EDITOR AND MENU KEYS (2/2)"} "Down opens the next Keys help page"}
+    {tap 8 0x80}
+    {check {[string trim [text 8 3 30]] eq "EDITOR KEYS (1/2)"} "Right returns to the previous Keys help page"}
+    {tap 7 0x04}
     {tap 7 0x40}
     {tap 8 0x80}
     {tap 8 0x80}
@@ -179,6 +196,12 @@ set steps {
     {keymatrixdown 6 0x02}
     {tap 8 0x02}
     {check {[text 9 23 4] eq "0001" && [text 20 23 4] eq "0001" && [text 0 1 3] eq "abZ"} "Ctrl Home scrolls back to document start"}
+    {tap 8 0x40}
+    {check {[text 9 23 4] eq "0002" && [text 20 23 4] eq "0001"} "Cursor moves down one visual row"}
+    {tap 4 0x01}
+    {check {[text 0 1 3] eq "qqq" && [text 9 23 4] eq "0001" && [text 20 23 4] eq "0081"} "Ctrl K scrolls down one row without moving the cursor"}
+    {tap 4 0x10}
+    {check {[text 0 1 3] eq "abZ" && [text 9 23 4] eq "0001" && [text 20 23 4] eq "0081"} "Ctrl O scrolls up one row without moving the cursor"}
     {tap 7 0x10}
     {check {[text 9 23 4] eq "0026" && [text 20 23 4] eq "0002"} "Ctrl STOP scrolls to document end"}
     {keymatrixup 6 0x02}

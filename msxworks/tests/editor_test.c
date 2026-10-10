@@ -174,6 +174,14 @@ int main(void)
 	assert(Editor_Input(EDITOR_TEXT_END) && s_Cursor == s_Length);
 	assert(Editor_Input(EDITOR_TEXT_START) && s_Cursor == 0);
 	assert(!g_EditorModified);
+
+	Editor_Init();
+	Type("one two three");
+	TestCursor(8);
+	assert(Editor_Input(EDITOR_DELETE_WORD_RIGHT) && s_Cursor == 8);
+	ExpectText("one two ");
+	assert(Editor_Input(EDITOR_DELETE_WORD_LEFT) && s_Cursor == 4);
+	ExpectText("one ");
 	Editor_Init();
 
 	Type("abc");
@@ -305,7 +313,8 @@ int main(void)
 	u32 random = 91;
 	const u16 keys[] = { 'x', ' ', ASCII_RET, ASCII_BS, 127, ASCII_LEFT,
 		ASCII_RIGHT, ASCII_UP, ASCII_DOWN, ASCII_HOME, ASCII_CLS,
-		EDITOR_WORD_LEFT, EDITOR_WORD_RIGHT, EDITOR_TEXT_START, EDITOR_TEXT_END };
+		EDITOR_WORD_LEFT, EDITOR_WORD_RIGHT, EDITOR_TEXT_START, EDITOR_TEXT_END,
+		EDITOR_DELETE_WORD_LEFT, EDITOR_DELETE_WORD_RIGHT };
 	for (u16 step = 0; step < 500; ++step)
 	{
 		random = random * 1664525UL + 1013904223UL;

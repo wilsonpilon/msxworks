@@ -7,7 +7,8 @@
 //   blink (alternate) colors and the report, then opens an untitled text editor.
 // - Menus: SELECT opens/closes, arrows navigate, Enter activates, ESC closes.
 // - Editor: typing, Enter, Tab, Backspace, Delete, arrows, Home and Insert.
-//   Ctrl+Left/Right moves by words; STOP moves to the logical line's end.
+//   Ctrl+Left/Right moves by words; Ctrl+W/A deletes words; Ctrl+O/K scrolls
+//   one row; STOP moves to the logical line's end.
 //   Ctrl+Home/STOP moves to the beginning/end of the whole document.
 //   Text-layout toggles visual word wrap; View lists future application modes.
 //   Text uses the free DOS2 mapper segments; disk I/O is not yet added.
@@ -455,6 +456,7 @@ enum MenuAction
 {
 	MENU_EXIT,
 	MENU_ABOUT,
+	MENU_KEYS,
 	MENU_UNAVAILABLE,
 	MENU_WRAP,
 	MENU_INSERT,
@@ -487,7 +489,11 @@ const MenuItem g_ViewItems[] =
 	{ "Database", MENU_UNAVAILABLE },
 };
 const MenuItem g_OptionItems[] = { { "Insert / Over", MENU_INSERT } };
-const MenuItem g_HelpItems[] = { { "About", MENU_ABOUT } };
+const MenuItem g_HelpItems[] =
+{
+	{ "About", MENU_ABOUT },
+	{ "Keys", MENU_KEYS },
+};
 const Menu g_Menus[] =
 {
 	{ "File", 1, 12, g_FileItems, sizeof(g_FileItems) / sizeof(MenuItem) },
@@ -505,6 +511,9 @@ const Menu g_Menus[] =
 
 u8 g_KeyRow7;
 u8 g_KeyRow8;
+u8 g_KeyRow4;
+u8 g_KeyRow2;
+u8 g_KeyRow5;
 
 //-----------------------------------------------------------------------------
 // The BIOS interrupt also selects keyboard rows through the PPI.
@@ -545,6 +554,9 @@ void ReleaseMenuKeys()
 {
 	do
 	{
+		g_KeyRow2 = ReadMenuRow(2);
+		g_KeyRow5 = ReadMenuRow(5);
+		g_KeyRow4 = ReadMenuRow(4);
 		g_KeyRow7 = ReadMenuRow(7);
 		g_KeyRow8 = ReadMenuRow(8);
 		PollKey();
@@ -563,10 +575,19 @@ u16 WaitInput(bool menu)
 	{
 		u8 row7 = ReadMenuRow(7);
 		u8 row8 = ReadMenuRow(8);
+		u8 row4 = ReadMenuRow(4);
+		u8 row2 = ReadMenuRow(2);
+		u8 row5 = ReadMenuRow(5);
 		u8 pushed7 = g_KeyRow7 & ~row7;
 		u8 pushed8 = g_KeyRow8 & ~row8;
+		u8 pushed4 = g_KeyRow4 & ~row4;
+		u8 pushed2 = g_KeyRow2 & ~row2;
+		u8 pushed5 = g_KeyRow5 & ~row5;
 		g_KeyRow7 = row7;
 		g_KeyRow8 = row8;
+		g_KeyRow4 = row4;
+		g_KeyRow2 = row2;
+		g_KeyRow5 = row5;
 		u8 chr = PollKey();
 
 		if (pushed7 & KEY_FLAG(KEY_SELECT)) return UI_SELECT;
@@ -582,6 +603,17 @@ u16 WaitInput(bool menu)
 		else
 		{
 			bool ctrl = IS_KEY_PRESSED(ReadMenuRow(KEY_ROW(KEY_CTRL)), KEY_CTRL);
+			if (ctrl && ((pushed2 & KEY_FLAG(KEY_A)) || (pushed5 & KEY_FLAG(KEY_W))))
+			{
+				ClearKeyBuffer();
+				return (pushed2 & KEY_FLAG(KEY_A))
+					? EDITOR_DELETE_WORD_RIGHT : EDITOR_DELETE_WORD_LEFT;
+			}
+			if (ctrl && (pushed4 & (KEY_FLAG(KEY_O) | KEY_FLAG(KEY_K))))
+			{
+				ClearKeyBuffer();
+				return (pushed4 & KEY_FLAG(KEY_O)) ? EDITOR_SCROLL_UP : EDITOR_SCROLL_DOWN;
+			}
 			if (pushed7 & KEY_FLAG(KEY_STOP))
 			{
 				ClearKeyBuffer();
@@ -658,6 +690,68 @@ void ShowMessage(const c8* title, const c8* message, const c8* detail)
 }
 
 //-----------------------------------------------------------------------------
+void ShowKeys()
+{
+	#define KEYS_X		5
+	#define KEYS_Y		1
+	#define KEYS_WIDTH	70
+	#define KEYS_HEIGHT	22
+	static const c8* page1[] =
+	{
+		"Left / Right        Move one character",
+		"Up / Down           Move one visual line",
+		"Ctrl+Left / Right   Move to previous / next word",
+		"Ctrl+O / Ctrl+K     Scroll up / down one line",
+		"Ctrl+W              Delete word to the left",
+		"Ctrl+A              Delete word to the right",
+		"Home                Move to start of logical line",
+		"STOP                Move to end of logical line",
+		"Ctrl+Home / Ctrl+STOP  Move to start / end of document",
+		"Enter               Insert a line break",
+		"Tab                 Insert spaces to next 8-column stop",
+		"Backspace / Delete  Delete previous / next character",
+		"Insert              Toggle Insert / Over mode",
+	};
+	static const c8* page2[] =
+	{
+		"SELECT              Open or close the menu bar",
+		"Left / Right        Select a menu",
+		"Up / Down           Select a menu item",
+		"Enter               Activate the selected menu item",
+		"Esc                 Close a menu or help window",
+		"Enter / Esc         Close an information message",
+		"Left / Right        Choose Cancel / Discard at exit prompt",
+		"Enter               Confirm the selected exit choice",
+		"Esc / SELECT        Cancel the exit prompt",
+		"Down                Show the next Keys help page",
+		"Right               Return to the previous Keys help page",
+	};
+	u8 page = 0;
+	Editor_Invalidate();
+	for (;;)
+	{
+		Scr_DrawWindow(KEYS_X, KEYS_Y, KEYS_WIDTH, KEYS_HEIGHT, "Help - Keys");
+		Scr_PrintAt(KEYS_X + 3, KEYS_Y + 2,
+			page ? "EDITOR AND MENU KEYS (2/2)" : "EDITOR KEYS (1/2)");
+		Scr_DrawSeparator(KEYS_X, KEYS_Y + 3, KEYS_WIDTH);
+		const c8** lines = page ? page2 : page1;
+		u8 count = page ? sizeof(page2) / sizeof(page2[0]) : sizeof(page1) / sizeof(page1[0]);
+		for (u8 i = 0; i < count; ++i)
+			Scr_PrintAt(KEYS_X + 3, KEYS_Y + 4 + i, lines[i]);
+		Scr_PrintAt(KEYS_X + 3, KEYS_Y + KEYS_HEIGHT - 2,
+			"Down: next page   Right: previous page   Esc: close");
+		u8 key = WaitInput(TRUE);
+		if (key == KEY_ESC)
+			break;
+		if ((key == KEY_DOWN) && (page == 0))
+			page = 1;
+		else if ((key == KEY_RIGHT) && page)
+			page = 0;
+	}
+	ReleaseMenuKeys();
+}
+
+//-----------------------------------------------------------------------------
 bool ConfirmExit()
 {
 	if (!g_EditorModified)
@@ -687,6 +781,9 @@ void RunMenus()
 	bool open = FALSE;
 	u8 menuIndex = 0;
 	u8 itemIndex = 0;
+	g_KeyRow2 = ReadMenuRow(2);
+	g_KeyRow5 = ReadMenuRow(5);
+	g_KeyRow4 = ReadMenuRow(4);
 	g_KeyRow7 = ReadMenuRow(7);
 	g_KeyRow8 = ReadMenuRow(8);
 	if (!Document_Init())
@@ -697,6 +794,9 @@ void RunMenus()
 	Editor_Init();
 	DrawDesktop();
 	ReleaseMenuKeys();
+	g_KeyRow2 = ReadMenuRow(2);
+	g_KeyRow5 = ReadMenuRow(5);
+	g_KeyRow4 = ReadMenuRow(4);
 	g_KeyRow7 = ReadMenuRow(7);
 	g_KeyRow8 = ReadMenuRow(8);
 
@@ -757,6 +857,11 @@ void RunMenus()
 			case MENU_ABOUT:
 				DrawDesktop();
 				ShowMessage(g_HelpItems[0].Label, APP_NAME, "Version " APP_VERSION);
+				open = FALSE;
+				break;
+			case MENU_KEYS:
+				DrawDesktop();
+				ShowKeys();
 				open = FALSE;
 				break;
 			case MENU_UNAVAILABLE:

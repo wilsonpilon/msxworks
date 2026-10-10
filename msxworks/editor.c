@@ -83,7 +83,7 @@ static u32 LineEnd(u32 pos)
 	return pos;
 }
 
-static void UpdateLineCache(u32 pos, u16 count, bool insert, bool newline)
+static void UpdateLineCache(u32 pos, u32 count, bool insert, bool newline)
 {
 	for (u8 i = 0; i < LINE_CACHE_SIZE; ++i)
 	{
@@ -506,6 +506,28 @@ static void MoveVertical(bool down)
 	SetCursor(pos > end ? end : pos);
 }
 
+static void ScrollViewport(bool down)
+{
+	u32 row, start, next;
+	CursorRow(&row, &start);
+	if (down)
+	{
+		if (!NextRow(s_ViewStart, &next) || (row < s_TopRow + 1)
+			|| (row >= s_TopRow + EDITOR_ROWS + 1))
+			return;
+		s_ViewStart = next;
+		++s_TopRow;
+	}
+	else
+	{
+		if (!s_TopRow || (row >= s_TopRow + EDITOR_ROWS - 1))
+			return;
+		s_ViewStart = PreviousRow(s_ViewStart);
+		--s_TopRow;
+	}
+	Editor_Invalidate();
+}
+
 static bool IsWordChar(u8 chr)
 {
 	return ((chr >= 'a') && (chr <= 'z'))
@@ -514,11 +536,51 @@ static bool IsWordChar(u8 chr)
 		|| (chr == '_') || (chr >= 128);
 }
 
+static void DeleteWord(bool left)
+{
+	u32 start = s_Cursor;
+	u32 end = s_Cursor;
+	if (left)
+	{
+		while (start && !IsWordChar(Document_Get(start - 1))) --start;
+		while (start && IsWordChar(Document_Get(start - 1))) --start;
+	}
+	else
+	{
+		while ((end < s_Length) && !IsWordChar(Document_Get(end))) ++end;
+		while ((end < s_Length) && IsWordChar(Document_Get(end))) ++end;
+	}
+	if (start == end)
+		return;
+	bool newline = FALSE;
+	for (u32 pos = start; pos < end; ++pos)
+		if (Document_Get(pos) == '\n')
+			newline = TRUE;
+	if (left)
+		SetCursor(start);
+	PrepareEdit();
+	MarkChanged(newline);
+	UpdateLineCache(start, end - start, FALSE, newline);
+	Document_DeleteRange(start, end - start);
+	g_EditorModified = TRUE;
+}
+
 static bool Input(u16 key)
 {
 	if ((key == ASCII_UP) || (key == ASCII_DOWN))
 	{
 		MoveVertical(key == ASCII_DOWN);
+		return TRUE;
+	}
+	if ((key == EDITOR_SCROLL_UP) || (key == EDITOR_SCROLL_DOWN))
+	{
+		ScrollViewport(key == EDITOR_SCROLL_DOWN);
+		return TRUE;
+	}
+	if ((key == EDITOR_DELETE_WORD_LEFT) || (key == EDITOR_DELETE_WORD_RIGHT))
+	{
+		s_VerticalMove = FALSE;
+		DeleteWord(key == EDITOR_DELETE_WORD_LEFT);
 		return TRUE;
 	}
 	s_VerticalMove = FALSE;

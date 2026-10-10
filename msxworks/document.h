@@ -19,3 +19,4 @@ void Document_Read(u32 pos, c8* dest, u16 count);
 void Document_Put(u32 pos, u8 chr);
 bool Document_Insert(u32 pos, u8 chr, u16 count);
 void Document_Delete(u32 pos);
+void Document_DeleteRange(u32 pos, u32 count);

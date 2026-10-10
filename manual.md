@@ -61,6 +61,7 @@ Pressione **SELECT** para abrir ou fechar os menus. Use as setas esquerda/direit
 | **View → Database** | Exibe aviso de indisponibilidade e mantém o editor. |
 | **Options → Insert / Over** | Alterna inserção e sobrescrita. |
 | **HELP → About** | Mostra informações do programa. |
+| **HELP → Keys** | Lista os atalhos em duas telas. Use ↓ para avançar, → para voltar e Esc para sair. |
 
 ### Word Wrap
 
@@ -76,6 +77,10 @@ Os números de linha e coluna continuam representando a linha lógica do texto, 
 |---|---|
 | **← / →** | Move um caractere para a esquerda/direita. |
 | **↑ / ↓** | Move para a linha visual anterior/seguinte, procurando manter a coluna. |
+| **Ctrl + O** | Rola a janela uma linha para cima, sem mover o cursor. |
+| **Ctrl + K** | Rola a janela uma linha para baixo, sem mover o cursor. |
+| **Ctrl + W** | Apaga a palavra à esquerda; também remove os separadores imediatamente anteriores. |
+| **Ctrl + A** | Apaga a próxima palavra à direita; também remove os separadores entre o cursor e ela. |
 | **Ctrl + ←** | Vai ao começo da palavra anterior ou da palavra atual, conforme a posição. |
 | **Ctrl + →** | Avança até a próxima palavra, ou até o fim do documento. |
 | **Home** | Vai ao começo da linha lógica atual. |
@@ -103,6 +108,8 @@ A navegação por palavras considera letras, números e `_` como parte das palav
 | **← / →**, na confirmação de saída | Alterna Cancel / Discard. |
 | **Enter**, na confirmação de saída | Confirma a escolha. |
 | **Esc / SELECT**, na confirmação de saída | Cancela a saída. |
+
+O item **HELP → Keys** também mostra estes atalhos em duas telas. Use **↓** para avançar, **→** para voltar à tela anterior e **Esc** para fechar a ajuda.
 
 Não há atalhos de abertura, gravação, busca ou operações de bloco nesta versão.
 

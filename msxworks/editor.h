@@ -6,6 +6,10 @@
 #define EDITOR_WORD_RIGHT 0x202
 #define EDITOR_TEXT_START 0x203
 #define EDITOR_TEXT_END 0x204
+#define EDITOR_SCROLL_UP 0x205
+#define EDITOR_SCROLL_DOWN 0x206
+#define EDITOR_DELETE_WORD_LEFT 0x207
+#define EDITOR_DELETE_WORD_RIGHT 0x208
 
 extern bool g_EditorModified;
 extern bool g_EditorInsert;

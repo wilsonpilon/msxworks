@@ -236,9 +236,16 @@ bool Document_Insert(u32 pos, u8 chr, u16 count)
 
 void Document_Delete(u32 pos)
 {
-	if (pos == g_DocumentLength)
+	Document_DeleteRange(pos, 1);
+}
+
+void Document_DeleteRange(u32 pos, u32 count)
+{
+	if (!count || (pos >= g_DocumentLength))
 		return;
+	if (count > g_DocumentLength - pos)
+		count = g_DocumentLength - pos;
 	MoveGap(pos);
-	++s_GapEnd;
-	--g_DocumentLength;
+	s_GapEnd += count;
+	g_DocumentLength -= count;
 }
